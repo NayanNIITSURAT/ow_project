@@ -55,7 +55,9 @@ class Body extends StatelessWidget {
           child: Row(
             children: [
               ProfileAvatar(
-                avatar: total > 0 || total > 0==null? items.first.images[0] : null,
+                avatar: total > 0 || total > 0 == null
+                    ? items.first.images[0]
+                    : null,
                 size: 80,
               ),
               SizedBox(width: 25),
@@ -109,7 +111,7 @@ class Body extends StatelessWidget {
         SizedBox(
           height: 10,
         ),
-        total > 0 || total==null
+        total > 0 || total == null
             ? ListingGridView(
                 listings: liveData.items,
                 load: () => liveData.getListings(hashtag: liveData.tagData.tag),

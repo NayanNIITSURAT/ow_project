@@ -61,12 +61,11 @@ class _AddListingScreenState extends State<AddListingScreen> {
           var res = await listing.addListing(NewListing(
             images: _assetList,
             caption: caption,
-          )
-          );
+          ));
           if (res['status']) {
             user.newListing = res['data'];
-Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>NavScreen()));
-
+            Navigator.pushReplacement(
+                context, MaterialPageRoute(builder: (context) => NavScreen()));
           } else
             throw res['message'];
         } else
@@ -118,12 +117,13 @@ Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>NavScre
                                                 size: 45,
                                               ),
                                               decoration: BoxDecoration(
-                                                color:Color(0xffEDF2F7).withOpacity(0.5),
+                                                color: Color(0xffEDF2F7)
+                                                    .withOpacity(0.5),
                                                 border: Border.all(
                                                   width: 2.5,
-                                                  color:Colors.blue.withOpacity(0.05)!,
+                                                  color: Colors.blue
+                                                      .withOpacity(0.05)!,
                                                 ),
-                                               
                                               ),
                                             ),
                                           )
@@ -157,7 +157,6 @@ Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>NavScre
                             ),
                             Button(
                               width: MediaQuery.of(context).size.width,
-
                               text: "Add Post",
                               paddingHori: 130,
                               press: () => createListing(),
@@ -261,8 +260,7 @@ class _EditListingState extends State<EditListing> {
             bottom: 5,
           ),
           decoration: BoxDecoration(
-            color:Color(0xffEDF2F7).withOpacity(0.5),
-
+            color: Color(0xffEDF2F7).withOpacity(0.5),
           ),
           child: TextField(
             decoration: InputDecoration(

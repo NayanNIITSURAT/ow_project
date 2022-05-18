@@ -49,10 +49,13 @@ class _ListingsScreenState extends State<ListingsScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          'Posts',
-          style: Theme.of(context).textTheme.headline6,
-        ),
+        iconTheme: IconThemeData(color: Colors.black),
+        title: Text('My Posts',
+            style: TextStyle(
+                fontWeight: FontWeight.w500, fontSize: 20, color: Colors.black)
+            // Theme.of(context).textTheme.headline6,
+            ),
+        centerTitle: true,
       ),
       body: Column(
         children: [

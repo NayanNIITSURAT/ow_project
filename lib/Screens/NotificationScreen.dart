@@ -25,13 +25,14 @@ class NotificationScreen extends StatelessWidget {
       // backgroundColor: Colors.grey.shade50,
       appBar: AppBar(
         backgroundColor: Palette.primaryColorLight,
+        iconTheme: IconThemeData(color: Colors.black),
         centerTitle: true,
         title: Text(
           'Notifications',
           style: Theme.of(context)
               .textTheme
               .headline6!
-              .copyWith(fontWeight: FontWeight.normal),
+              .copyWith(fontWeight: FontWeight.w600, fontSize: 17),
         ),
       ),
       body: Column(

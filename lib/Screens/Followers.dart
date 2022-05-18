@@ -53,11 +53,13 @@ class _FollowersState extends State<Followers> {
                 ? CupertinoActivityIndicator()
                 : Text(
                     total.toString(),
+                    style: TextStyle(fontWeight: FontWeight.bold),
                     // style: TextStyle(color: Colors.black),
                   ),
             SizedBox(width: 7),
             Text(
               '$title',
+              style: TextStyle(fontWeight: FontWeight.bold),
               // style: TextStyle(color: Colors.black, fontSize: 15),
             ),
           ],
@@ -68,12 +70,7 @@ class _FollowersState extends State<Followers> {
         backgroundColor: Palette.primaryColorLight,
         elevation: 0,
         title: Text(args.user.username),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.search),
-            onPressed: () {},
-          )
-        ],
+        centerTitle: true,
       ),
       body: Column(
         children: [
@@ -102,6 +99,8 @@ class _FollowersState extends State<Followers> {
                   return Scaffold(
                     appBar: TabBar(
                       unselectedLabelColor: Colors.black45,
+                      indicatorColor: Colors.blue,
+                      indicatorSize: TabBarIndicatorSize.label,
                       labelColor: Colors.black,
                       enableFeedback: false,
                       tabs: [
@@ -179,10 +178,11 @@ class AccountList extends StatelessWidget {
         child: Column(
           children: [
             Input(
-              label: 'Search',
+              islable: false,
               // preWidget: processing ? CupertinoActivityIndicator() : null,
               padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
               icon: Icons.search,
+              hintText: "Search",
               width: double.infinity,
               elevate: false,
               onSaved: (val) => onInput(val ?? ''),

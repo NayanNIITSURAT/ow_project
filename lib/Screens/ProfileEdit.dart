@@ -77,7 +77,7 @@ class _ProfileEditState extends State<ProfileEdit> {
                   ),
                   Container(
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 30, vertical: 20),
+                        horizontal: 11, vertical: 20),
                     child: Column(
                       children: [
                         EditInput(
@@ -214,7 +214,7 @@ class EditInput extends StatelessWidget {
                     height: 5,
                   ),
                   Container(
-                    width: screenSize(context).width * 0.40,
+                    width: screenSize(context).width * 0.92,
                     height: 45,
                     margin: margin ?? EdgeInsets.symmetric(vertical: 8),
                     padding: padding ??
