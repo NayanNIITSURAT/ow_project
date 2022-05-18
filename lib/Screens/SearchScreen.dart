@@ -92,10 +92,11 @@ class SearchScreen extends StatelessWidget {
                       child: Divider(
                           thickness: 1, color: divider.withOpacity(0.5))),
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(15, 0, 15, 10),
+                    padding: const EdgeInsets.fromLTRB(15, 0, 15, 5),
                     child: Input(
                       islable: false,
                       icon: Icons.search,
+
                       hintText: "Search",
                       topPadding: 0,
                       containtpadding: EdgeInsets.fromLTRB(10, 8, 0, 8),

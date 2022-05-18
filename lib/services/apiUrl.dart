@@ -101,7 +101,7 @@ class AppUrlV3 {
 
 class Appurlv4{
   static const String v4baseurl = curURL + '/v4';
-  static const String notificationurl = v4baseurl + '/notificationUpdate';
-
-
+  static const String v4baseurl_plus_users = v4baseurl + '/users';
+  static const String notificationurl = v4baseurl_plus_users + '/notificationUpdate';
+  static const String privateacurl = v4baseurl_plus_users + '/privateAccUpdate';
 }

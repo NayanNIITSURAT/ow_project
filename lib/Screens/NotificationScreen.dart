@@ -149,7 +149,7 @@ class _NotificationListState extends State<NotificationList> {
 Widget title({required String text, required Color iconColor}) => Container(
       color: Colors.grey.shade100,
       padding: EdgeInsets.all(20),
-      margin: EdgeInsets.only(top: 5),
+      margin: EdgeInsets.only(top: 5,bottom: 5),
       width: double.infinity,
       child: Row(
         children: [

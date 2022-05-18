@@ -29,6 +29,20 @@ class NewUser {
   });
 }
 
+class ChangePassword {
+  String userId;
+  String oldPassword;
+  String newPassword;
+
+
+  ChangePassword({
+    required this. userId,
+    required this.oldPassword,
+    required this.newPassword,
+
+  });
+}
+
 class LoginUser {
   String username;
   String password;
@@ -185,6 +199,28 @@ Future<Map<String, dynamic>> forgotPass(String usernameOrEmail) async {
     headers: headers,
     body: jsonEncode(<String, String>{
       "usernameOrEmail": usernameOrEmail,
+    }),
+  );
+
+  if (response.statusCode == 200)
+    return jsonDecode(response.body);
+  else {
+    var data = jsonDecode(response.body);
+    throw HttpException(data['message']);
+  }
+}
+
+Future<Map<String, dynamic>> changepassword(
+    ChangePassword change) async {
+  headers.addAll({HttpHeaders.authorizationHeader: 'Bearer ${await getToken}'});
+  final response = await post(
+    Uri.parse("https://api.the-owlette.com/v4/users/changePassword"),
+
+    headers: headers,
+    body: jsonEncode(<String, String>{
+      "userId": change.userId,
+      "oldPassword": change.oldPassword,
+      "newPassword": change.newPassword,
     }),
   );
 

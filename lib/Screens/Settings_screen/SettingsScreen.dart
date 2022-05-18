@@ -241,39 +241,34 @@ class _SettingsScreenState extends State<SettingsScreen> {
   }
 
   callapi() async {
-    var onof="";
-    if(check)
-    {
-      onof="on";
-    }
-    else
-    {
-      onof="off";
+    var onof = "";
+    if (check) {
+      onof = "on";
+    } else {
+      onof = "off";
     }
 
-      Map<String, dynamic> getdatamodel = await getnofiticationdata(onof);
+    Map<String, dynamic> getdatamodel = await on_of_notification(onof);
     if (!getdatamodel['isError']) {
       var data = getdatamodel['response'];
-      var mesg=data['message'];
+      var mesg = data['message'];
       Toast(
-
         context,
-        message:mesg,
-        duration:  Duration(milliseconds: 100),
+        message: mesg,
+        duration: Duration(milliseconds: 100),
         type: ToastType.SUCCESS,
       ).showTop();
       setState(() {
         isload = false;
-
       });
-    }
-    else {
+    } else {
       var data = getdatamodel['response'];
-      var mesg=data['message'];
+      var mesg = data['message'];
+
       Toast(
         context,
-        message:mesg,
-        duration:  Duration(milliseconds: 100),
+        message: mesg,
+        duration: Duration(milliseconds: 100),
         type: ToastType.ERROR,
       ).showTop();
       setState(() {

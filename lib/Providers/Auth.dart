@@ -133,6 +133,35 @@ class AuthProvider with ChangeNotifier {
     }
   }
 
+  Future<Map<String, dynamic>> changePasswordData(ChangePassword change) async {
+    _resetStatus = Status.Requesting;
+    notifyListeners();
+    try {
+      var res = await changepassword(change);
+      var result = {
+        'status': true,
+        'message': res['message'],
+      };
+
+      _resetToken = res['token'];
+      _resetStatus = Status.RequestSent;
+      notifyListeners();
+
+      return result;
+    } catch (error) {
+      print("the error is $error .detail");
+
+      _resetStatus = Status.RequestNotSent;
+      notifyListeners();
+
+      return {
+        'status': false,
+        'message': error.toString(),
+        'data': error,
+      };
+    }
+  }
+
   Future<Map<String, dynamic>> forgotPassword(String email) async {
     _resetStatus = Status.Requesting;
     _resetId = email;

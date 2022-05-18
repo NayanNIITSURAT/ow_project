@@ -160,16 +160,46 @@ Future<String> pingServer() async {
     throw HttpException('Unable to ping server');
 }
 
-Future<Map<String, dynamic>> getnofiticationdata(String onof) async {
+Future<Map<String, dynamic>> on_of_notification(String onof) async {
   // late passbookmodel dataModel;
-
+  final userid=await getuserid;
   try {
     final headers = Global.jsonHeaders;
-    headers
-        .addAll({HttpHeaders.authorizationHeader: 'Bearer ${await getToken}'});
-
+    headers.addAll({HttpHeaders.authorizationHeader: 'Bearer ${await getToken}'});
     final response = await http.get(
-      Uri.parse('${Appurlv4.notificationurl}?userId=1&value=$onof'),
+      Uri.parse('${Appurlv4.notificationurl}?userId=$userid&value=$onof'),
+      headers: headers,
+    );
+    if (response.statusCode == 200) {
+      var jsonResponse = jsonDecode(response.body) as Map<String, dynamic>;
+      return <String, dynamic>{
+        'isError': false,
+        'response': jsonResponse,
+      };
+    } else {
+      print('Request failed with status: ${response.statusCode}.');
+      return <String, dynamic>{
+        'isError': true,
+        'response': response,
+      };
+    }
+  } catch (e) {
+    print(e.toString());
+    return <String, dynamic>{
+      'isError': true,
+      'response': "something went wrong",
+    };
+  }
+}
+
+
+Future<Map<String, dynamic>> on_off_private_ac(String onof) async {
+  final userid=await getuserid;
+  try {
+    final headers = Global.jsonHeaders;
+    headers.addAll({HttpHeaders.authorizationHeader: 'Bearer ${await getToken}'});
+    final response = await http.get(
+      Uri.parse('${Appurlv4.privateacurl}?userId=$userid&value=$onof'),
       headers: headers,
     );
     if (response.statusCode == 200) {
