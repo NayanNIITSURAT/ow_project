@@ -53,81 +53,104 @@ class SearchScreen extends StatelessWidget {
             );
 
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Palette.primaryColorLight,
-        centerTitle: true,
-        title: Text(
-          'Search',
-          style: Theme.of(context)
-              .textTheme
-              .headline6!
-              .copyWith(fontWeight: FontWeight.normal),
-        ),
-      ),
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.fromLTRB(15, 15, 15, 10),
-            child: Input(
-              islable: false,
-              rightIcon: Icons.search,
-              hintText: "Search",
-              topPadding: 0,
-              radius: 10,
-              preWidget: utility.searchStatus == Status.Processing
-                  ? CupertinoActivityIndicator()
-                  : null,
-              padding: const EdgeInsets.symmetric(vertical: 5),
-              containtpadding: EdgeInsets.fromLTRB(15, 8, 0, 8),
-              icon: Icons.search,
-              width: double.infinity,
-              elevate: false,
-              onSaved: (val) => onInput(val ?? ''),
-            ),
-          ),
-          Flexible(
-            child: DefaultTabController(
-              length: 3,
-              child: Scaffold(
-                appBar: TabBar(
-                  tabs: [
-                    tabHeaderWrapper(
-                      title: 'Acounts',
-                      total: utility.userSearchResult.totalItems,
-                      loading: utility.userStatus == Status.Processing,
-                    ),
-                    tabHeaderWrapper(
-                      title: 'Hashtags',
-                      total: utility.tagSearchResult.totalItems,
-                      loading: utility.hashTagStatus == Status.Processing,
-                    ),
-                    tabHeaderWrapper(
-                      title: 'Listings',
-                      total: utility.listingSearchResult.totalItems,
-                      loading: utility.listingStatus == Status.Processing,
-                    ),
-                  ],
-                ),
-                body: TabBarView(
-                  children: [
-                    AccountList(data: utility),
-                    HashtagList(utility: utility),
-                    Column(
-                      children: [
-                        ListingGridView(
-                          listings: utility.listings,
-                          load: () => utility.searchListings(),
-                          refresh: () => utility.searchListings(refresh: true),
-                          providerType: ListingProviderType.SEARCHLISTING,
+      body: DefaultTabController(
+        length: 3,
+        child: Column(
+          children: [
+            VxBox(
+              child: SafeArea(
+                bottom: false,
+                child: VStack([
+                  HStack(
+                    [
+                      IconButton(
+                        padding: EdgeInsets.only(left: 15),
+                        alignment: Alignment.centerLeft,
+                        icon: Icon(
+                          Icons.arrow_back,
+                          color: Vx.black,
+                          size: 26,
                         ),
-                      ],
+                        onPressed: context.pop,
+                      ),
+                      'Search'.text.size(20).make(),
+                      IconButton(
+                        padding: EdgeInsets.all(0),
+                        alignment: Alignment.centerRight,
+                        icon: Icon(
+                          Icons.more_vert_outlined,
+                          color: Vx.white,
+                          size: 26,
+                        ),
+                        onPressed: () {},
+                      )
+                    ],
+                    alignment: MainAxisAlignment.spaceBetween,
+                    axisSize: MainAxisSize.max,
+                  ),
+                  SizedBox(
+                      child: Divider(
+                          thickness: 1, color: divider.withOpacity(0.5))),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(15, 0, 15, 10),
+                    child: Input(
+                      islable: false,
+                      icon: Icons.search,
+                      hintText: "Search",
+                      topPadding: 0,
+                      containtpadding: EdgeInsets.fromLTRB(10, 8, 0, 8),
+                      width: double.infinity,
+                      onSaved: (val) => onInput(val ?? ''),
+                      radius: 10,
+                      rightIcon: Icons.search,
+                      bgColor: Colors.grey.shade100,
+                      elevate: false,
                     ),
-                  ],
-                ),
+                  ),
+                  TabBar(
+                    indicatorColor: Colors.blue,
+                    indicatorSize: TabBarIndicatorSize.label,
+                    tabs: [
+                      tabHeaderWrapper(
+                        title: 'Accounts',
+                        total: utility.userSearchResult.totalItems,
+                        loading: utility.userStatus == Status.Processing,
+                      ),
+                      tabHeaderWrapper(
+                        title: 'Hashtags',
+                        total: utility.tagSearchResult.totalItems,
+                        loading: utility.hashTagStatus == Status.Processing,
+                      ),
+                      tabHeaderWrapper(
+                        title: 'Listings',
+                        total: utility.listingSearchResult.totalItems,
+                        loading: utility.listingStatus == Status.Processing,
+                      ),
+                    ],
+                  ),
+                ]),
+              ),
+            ).bottomRounded(value: 25).color(Vx.white).outerShadowSm.make(),
+            Flexible(
+              child: TabBarView(
+                children: [
+                  AccountList(data: utility),
+                  HashtagList(utility: utility),
+                  Column(
+                    children: [
+                      ListingGridView(
+                        listings: utility.listings,
+                        load: () => utility.searchListings(),
+                        refresh: () => utility.searchListings(refresh: true),
+                        providerType: ListingProviderType.SEARCHLISTING,
+                      ),
+                    ],
+                  ),
+                ],
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
       // floatingActionButton: FloatingActionButton(
       //   onPressed: () {},
