@@ -97,3 +97,11 @@ class AppUrlV3 {
 
   // Utils Url
 }
+
+
+class Appurlv4{
+  static const String v4baseurl = curURL + '/v4';
+  static const String notificationurl = v4baseurl + '/notificationUpdate';
+
+
+}

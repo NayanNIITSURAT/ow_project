@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 import 'package:owlet/Preferences/UserPreferences.dart';
 import 'package:owlet/constants/constants.dart';
@@ -27,6 +28,11 @@ final headers = Global.jsonHeaders;
 Future<String> get getToken async {
   User user = await UserPreferences().getUser;
   return user.token;
+}
+
+Future<int> get getuserid async {
+  User user = await UserPreferences().getUser;
+  return user.id;
 }
 
 Future<Map<String, dynamic>> searchDb(String query, int page) async {
@@ -152,4 +158,38 @@ Future<String> pingServer() async {
     return response.body;
   else
     throw HttpException('Unable to ping server');
+}
+
+Future<Map<String, dynamic>> getnofiticationdata(String onof) async {
+  // late passbookmodel dataModel;
+
+  try {
+    final headers = Global.jsonHeaders;
+    headers
+        .addAll({HttpHeaders.authorizationHeader: 'Bearer ${await getToken}'});
+
+    final response = await http.get(
+      Uri.parse('${Appurlv4.notificationurl}?userId=1&value=$onof'),
+      headers: headers,
+    );
+    if (response.statusCode == 200) {
+      var jsonResponse = jsonDecode(response.body) as Map<String, dynamic>;
+      return <String, dynamic>{
+        'isError': false,
+        'response': jsonResponse,
+      };
+    } else {
+      print('Request failed with status: ${response.statusCode}.');
+      return <String, dynamic>{
+        'isError': true,
+        'response': response,
+      };
+    }
+  } catch (e) {
+    print(e.toString());
+    return <String, dynamic>{
+      'isError': true,
+      'response': "something went wrong",
+    };
+  }
 }

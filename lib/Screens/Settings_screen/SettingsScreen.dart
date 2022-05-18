@@ -1,13 +1,21 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:http/http.dart' as http;
+import 'package:owlet/Components/Toast.dart';
 import 'package:owlet/Providers/GlobalProvider.dart';
 import 'package:owlet/Screens/NavScreen.dart';
 import 'package:owlet/Screens/Register.dart';
 import 'package:owlet/Widgets/CustomAppBar.dart';
 import 'package:owlet/constants/images.dart';
+
 import '../../Components/bottomsheetbutton.dart';
+import '../../constants/constants.dart';
 import '../../constants/palettes.dart';
+import '../../services/utils.dart';
 import '../Login.dart';
 import 'AboutScreen.dart';
 import 'HelpScreen.dart';
@@ -27,7 +35,9 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
+  bool isload = false;
   bool check = false;
+
   @override
   Widget build(BuildContext context) {
     final globalProvider = GlobalProvider(context);
@@ -60,15 +70,32 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ListTile(
                 leading: Icon(Icons.notifications_none_outlined),
                 title: Text("Notifications"),
-                trailing: CupertinoSwitch(
-                    thumbColor: Colors.black54,
-                    value: check,
-                    activeColor: kPrimaryColor,
-                    onChanged: (value) {
-                      setState(() {
-                        check = value;
-                      });
-                    })),
+                trailing: Container(
+                  width: 100,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      isload == true
+                          ? SizedBox(
+                              height: 20, child: CupertinoActivityIndicator())
+                          : SizedBox.shrink(),
+                      Container(
+                        child: CupertinoSwitch(
+                            thumbColor: Colors.black54,
+                            value: check,
+                            activeColor: kPrimaryColor,
+                            onChanged: (value) {
+                              setState(() {
+                                isload = true;
+
+                                check = value;
+                              });
+                              callapi();
+                            }),
+                      ),
+                    ],
+                  ),
+                )),
             ListTile(
               leading: Icon(Icons.account_balance_wallet_outlined),
               title: Text("Wallet"),
@@ -203,7 +230,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         "Create New Account",
                         style: TextStyle(
                           color: Colors.red,
-                          fontWeight: FontWeight.bold,
+                          fontWeight: FontWeight.w500,
                         ),
                       ),
                     ),
@@ -212,4 +239,98 @@ class _SettingsScreenState extends State<SettingsScreen> {
               ),
             ));
   }
+
+  callapi() async {
+    var onof="";
+    if(check)
+    {
+      onof="on";
+    }
+    else
+    {
+      onof="off";
+    }
+
+      Map<String, dynamic> getdatamodel = await getnofiticationdata(onof);
+    if (!getdatamodel['isError']) {
+      var data = getdatamodel['response'];
+      var mesg=data['message'];
+      Toast(
+
+        context,
+        message:mesg,
+        duration:  Duration(milliseconds: 100),
+        type: ToastType.SUCCESS,
+      ).showTop();
+      setState(() {
+        isload = false;
+
+      });
+    }
+    else {
+      var data = getdatamodel['response'];
+      var mesg=data['message'];
+      Toast(
+        context,
+        message:mesg,
+        duration:  Duration(milliseconds: 100),
+        type: ToastType.ERROR,
+      ).showTop();
+      setState(() {
+        isload = false;
+      });
+      // throw HttpException(data['message']);
+    }
+  }
+
+
+
+
+
+
+  // new
+  // callapi() async {
+  //   var onof = "";
+  //   if (check) {
+  //     onof = "on";
+  //   } else {
+  //     onof = "off";
+  //   }
+  //   final userid=await getuserid;
+  //   final headers = Global.jsonHeaders;
+  //   headers
+  //       .addAll({HttpHeaders.authorizationHeader: 'Bearer ${await getToken}'});
+  //   final response = await http.get(
+  //     Uri.parse(
+  //         'https://api.the-owlette.com/v4/users/notificationUpdate?userId=$userid&value=$onof'),
+  //     headers: headers,
+  //   );
+  //   if (response.statusCode == 200) {
+  //     var data = jsonDecode(response.body);
+  //     var mesg = data['message'];
+  //
+  //     Toast(
+  //       context,
+  //       message: mesg,
+  //       duration: Duration(milliseconds: 100),
+  //       type: ToastType.SUCCESS,
+  //     ).showTop();
+  //     setState(() {
+  //       isload = false;
+  //     });
+  //   } else {
+  //     var data = jsonDecode(response.body);
+  //     var mesg = data['message'];
+  //     Toast(
+  //       context,
+  //       message: mesg,
+  //       duration: Duration(milliseconds: 100),
+  //       type: ToastType.ERROR,
+  //     ).showTop();
+  //     setState(() {
+  //       isload = false;
+  //     });
+  //     throw HttpException(data['message']);
+  //   }
+  // }
 }
