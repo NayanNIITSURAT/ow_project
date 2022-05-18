@@ -1,0 +1,27 @@
+import 'package:owlet/Providers/HashTagProvider.dart';
+
+List<HashTag> hashTags = [
+  HashTag(tag: 'phones', totalListings: 6733567),
+  HashTag(tag: 'fashion', totalListings: 2566778),
+  HashTag(tag: 'electronics', totalListings: 6733567),
+  HashTag(tag: 'cars', totalListings: 1657678),
+  HashTag(tag: 'developer', totalListings: 3566787),
+  HashTag(tag: 'website', totalListings: 86563),
+  HashTag(tag: 'food', totalListings: 5667),
+  HashTag(tag: 'solar', totalListings: 3245),
+  HashTag(tag: 'socialmedia', totalListings: 87),
+  HashTag(tag: 'jewery', totalListings: 246598),
+  HashTag(tag: 'internet', totalListings: 20865),
+  HashTag(tag: 'graphics', totalListings: 23456),
+  HashTag(tag: 'design', totalListings: 786543),
+  HashTag(tag: 'polo', totalListings: 3456754),
+  HashTag(tag: 'shirt', totalListings: 8967),
+  HashTag(tag: 'designers', totalListings: 24607),
+  HashTag(tag: 'wedding', totalListings: 33454),
+  HashTag(tag: 'tv', totalListings: 9076),
+  HashTag(tag: 'iphone', totalListings: 32455),
+  HashTag(tag: 'samsung', totalListings: 7845),
+  HashTag(tag: 'ps5', totalListings: 123465),
+  HashTag(tag: 'game', totalListings: 86545),
+  HashTag(tag: 'home', totalListings: 8745),
+];
