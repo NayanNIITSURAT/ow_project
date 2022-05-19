@@ -21,6 +21,7 @@ import '../helpers/helpers.dart';
 
 class ProfileEdit extends StatefulWidget {
   static const routeName = '/edit-profile';
+
   @override
   _ProfileEditState createState() => _ProfileEditState();
 }
@@ -107,6 +108,8 @@ class _ProfileEditState extends State<ProfileEdit> {
                         EditInput(
                           onChange: (val) => onChange('phone', val),
                           label: 'Phone',
+                          isMultiLine: false,
+                          keybordtype: TextInputType.number,
                           initialValue: profile.phone,
                         ),
                         SizedBox(
@@ -124,6 +127,7 @@ class _ProfileEditState extends State<ProfileEdit> {
                           onChange: (val) => onChange('bio', val),
                           label: 'Bio',
                           isMultiLine: true,
+                          keybordtype: TextInputType.multiline,
                           initialValue: profile.bio,
                         ),
                         SizedBox(
@@ -188,6 +192,7 @@ class EditInput extends StatelessWidget {
     this.margin,
     this.initialValue,
     this.isMultiLine: false,
+    this.keybordtype,
   });
   final Function(String)? onChange;
   final String? label;
@@ -196,6 +201,7 @@ class EditInput extends StatelessWidget {
   final EdgeInsets? margin;
   final EdgeInsets? padding;
 
+  final TextInputType? keybordtype;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -232,7 +238,7 @@ class EditInput extends StatelessWidget {
                               TextStyle(fontSize: 20, color: Colors.black45)),
 
                       scrollPadding: EdgeInsets.all(10),
-
+                      keyboardType: keybordtype,
                       onChanged: onChange,
                       // maxLengthEnforcement: ,
                       textInputAction: TextInputAction.next,
@@ -278,8 +284,7 @@ class EditInput extends StatelessWidget {
                       minLines: 5,
                       maxLines: 15,
                       maxLength: 200,
-
-                      keyboardType: TextInputType.multiline,
+                      keyboardType: keybordtype,
                       textInputAction: TextInputAction.newline,
                       initialValue: initialValue,
                     ),

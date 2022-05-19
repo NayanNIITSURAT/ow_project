@@ -41,7 +41,7 @@ class _ListingItemState extends State<ListingItem> {
 
     final product = widget.product;
     return Padding(
-      padding: const EdgeInsets.only(bottom: 8.0,top: 8.0),
+      padding: const EdgeInsets.fromLTRB(15.0, 15.0, 15.0, 0.0),
       child: SizedBox(
         width: screenSize(context).width * 0.95,
         child: Card(

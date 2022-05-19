@@ -12,6 +12,7 @@ import 'package:owlet/Widgets/PullToRefresh.dart';
 import 'package:owlet/constants/images.dart';
 import 'package:owlet/constants/palettes.dart';
 import 'package:owlet/modals/ProfileViewModal.dart';
+import 'package:owlet/models/Comment.dart';
 import 'package:owlet/models/User.dart';
 import 'package:provider/provider.dart';
 
@@ -69,7 +70,12 @@ class _FollowersState extends State<Followers> {
       appBar: AppBar(
         backgroundColor: Palette.primaryColorLight,
         elevation: 0,
-        title: Text(args.user.username),
+        iconTheme: IconThemeData(color: Colors.black),
+        title: Text(
+          args.user.username,
+          style: TextStyle(
+              fontSize: 20, fontWeight: FontWeight.w600, color: Colors.black),
+        ),
         centerTitle: true,
       ),
       body: Column(
@@ -174,17 +180,19 @@ class AccountList extends StatelessWidget {
         await loadData(userId, refresh: true, searchQuery: query);
 
     return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 5),
+        padding: const EdgeInsets.symmetric(horizontal: 15.0),
         child: Column(
           children: [
             Input(
               islable: false,
               // preWidget: processing ? CupertinoActivityIndicator() : null,
-              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
+              padding: const EdgeInsets.symmetric(vertical: 3),
               icon: Icons.search,
+              containtpadding: EdgeInsets.fromLTRB(10, 11, 0, 11),
               hintText: "Search",
               width: double.infinity,
               elevate: false,
+              rightIcon: Icons.search,
               onSaved: (val) => onInput(val ?? ''),
             ),
             if (processing && users.length < 1)

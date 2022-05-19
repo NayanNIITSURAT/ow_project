@@ -107,30 +107,30 @@ class ListingItemHeader extends StatelessWidget {
                   ),
                   Row(
                     children: [
-                      ImageBtn(
-                          size: 20,
-                          paddingLeft: 10,
-                          assetString: chat_icon,
-                          isSvg: true,
-                          color: Palette.primaryColor,
-                          onPressed: userData.isLoggedIn
-                              ? () {
-                                  userData.curChatUser = owner.chat;
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => ChatScreen(
-                                        onPageEnter: () => Chatable(
-                                          //chatableId: product.id,
-                                          type: ChatableType.LISTING,
-                                          listing: product,
-                                        ),
-                                      ),
-                                    ),
-                                  );
-                                }
-                              : () => Navigator.pushNamed(
-                                  context, LoginScreen.routeName)),
+                      // ImageBtn(
+                      //     size: 20,
+                      //     paddingLeft: 10,
+                      //     assetString: chat_icon,
+                      //     isSvg: true,
+                      //     color: Palette.primaryColor,
+                      //     onPressed: userData.isLoggedIn
+                      //         ? () {
+                      //             userData.curChatUser = owner.chat;
+                      //             Navigator.push(
+                      //               context,
+                      //               MaterialPageRoute(
+                      //                 builder: (context) => ChatScreen(
+                      //                   onPageEnter: () => Chatable(
+                      //                     //chatableId: product.id,
+                      //                     type: ChatableType.LISTING,
+                      //                     listing: product,
+                      //                   ),
+                      //                 ),
+                      //               ),
+                      //             );
+                      //           }
+                      //         : () => Navigator.pushNamed(
+                      //             context, LoginScreen.routeName)),
                       IconBtn(
                         size: 20,
                         paddingLeft: 15,

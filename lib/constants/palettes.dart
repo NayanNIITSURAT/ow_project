@@ -30,4 +30,6 @@ const walletcolor = Color(0xFFA0AEC0);
 const RadioColor = Color(0xFFDF410B);
 const divider = Color(0xFFCBD5E0);
 const icolor = Color(0xFFA0AEC0);
+const fieldcolor = Color(0xFFF7FAFC);
+const pagecommentcolor = Color(0xFFE90808);
 const kDefaultPadding = 20.0;

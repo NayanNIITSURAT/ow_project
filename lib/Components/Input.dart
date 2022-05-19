@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:owlet/helpers/helpers.dart';
 import 'package:velocity_x/velocity_x.dart';
 
+import '../constants/palettes.dart';
+
 class Input extends StatelessWidget {
   final IconData? icon;
   final IconData? rightIcon;
@@ -97,7 +99,7 @@ class Input extends StatelessWidget {
             padding:
                 padding ?? EdgeInsets.symmetric(vertical: 8, horizontal: 10),
             decoration: BoxDecoration(
-              color: bgColor ?? Colors.blue.shade50,
+              color: bgColor ?? fieldcolor,
               borderRadius: BorderRadius.circular(radius ?? 10),
               border: invalid ? Border.all(color: Colors.red, width: 1) : null,
               boxShadow: elevate

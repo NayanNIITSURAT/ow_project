@@ -10,7 +10,6 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import '../constants/palettes.dart';
 
-
 class ListingViewData {
   final List<Listing> listings;
   final Function() load;
@@ -145,71 +144,69 @@ class _ListingListViewState extends State<ListingListView> {
                         width: screenSize(context).width,
                         color: Palette.primaryBlueLightShade,
                         child: ScrollConfiguration(
-                          behavior: ScrollBehavior().copyWith(overscroll: false),
+                          behavior:
+                              ScrollBehavior().copyWith(overscroll: false),
                           child: SingleChildScrollView(
                             child: Column(
                               children: List.generate(
-
-
                                 data.listings.length + 1,
                                 (i) => i == 0
                                     ?
-                                // (userData.isLoggedIn &&
-                                //             !userData.profile.confirmed)
-                                //         ? HStack(
-                                //             [
-                                //               'Account pending confirmation...'
-                                //                   .text.size(13)
-                                //                   .overflow(TextOverflow.fade)
-                                //                   .color(Colors.black54)
-                                //
-                                //                   .make(),
-                                //               VxBox(
-                                //                 child: HStack([
-                                //                  Image.asset(security_shield,height: 20,),
-                                //                   10.widthBox,
-                                //                   'Confirm!'
-                                //                       .text
-                                //                       .semiBold
-                                //                       .color(Colors.white)
-                                //                       .make()
-                                //
-                                //                 ]),
-                                //               )
-                                //                   .padding(EdgeInsets.symmetric(
-                                //                       horizontal: 16,
-                                //                       vertical: 8)).margin(EdgeInsets.symmetric(
-                                //                       vertical: 10)).hexColor("#1FD6AA").roundedSM
-                                //                   .make()
-                                //                   .onInkTap(() {
-                                //                 Navigator.pushNamed(context,
-                                //                     ConfirmationScreen.routeName);
-                                //                 // Alert(
-                                //                 //     context: context,
-                                //                 //     title: "Email Verification",
-                                //                 //     content: Column(
-                                //                 //       children: <Widget>[
-                                //                 //         OtpForm(
-                                //                 //           onSubmit: (val) {},
-                                //                 //           otpLength: 6,
-                                //                 //         )
-                                //                 //       ],
-                                //                 //     ),
-                                //                 //     buttons: []).show();
-                                //               }),
-                                //             ],
-                                //             alignment:
-                                //                 MainAxisAlignment.spaceBetween,
-                                //           )
-                                //             .box
-                                //             .padding(EdgeInsets.symmetric(horizontal: 15,))
-                                //             .make()
-                                //             .wFull(context)
-                                //         :
+                                    // (userData.isLoggedIn &&
+                                    //             !userData.profile.confirmed)
+                                    //         ? HStack(
+                                    //             [
+                                    //               'Account pending confirmation...'
+                                    //                   .text.size(13)
+                                    //                   .overflow(TextOverflow.fade)
+                                    //                   .color(Colors.black54)
+                                    //
+                                    //                   .make(),
+                                    //               VxBox(
+                                    //                 child: HStack([
+                                    //                  Image.asset(security_shield,height: 20,),
+                                    //                   10.widthBox,
+                                    //                   'Confirm!'
+                                    //                       .text
+                                    //                       .semiBold
+                                    //                       .color(Colors.white)
+                                    //                       .make()
+                                    //
+                                    //                 ]),
+                                    //               )
+                                    //                   .padding(EdgeInsets.symmetric(
+                                    //                       horizontal: 16,
+                                    //                       vertical: 8)).margin(EdgeInsets.symmetric(
+                                    //                       vertical: 10)).hexColor("#1FD6AA").roundedSM
+                                    //                   .make()
+                                    //                   .onInkTap(() {
+                                    //                 Navigator.pushNamed(context,
+                                    //                     ConfirmationScreen.routeName);
+                                    //                 // Alert(
+                                    //                 //     context: context,
+                                    //                 //     title: "Email Verification",
+                                    //                 //     content: Column(
+                                    //                 //       children: <Widget>[
+                                    //                 //         OtpForm(
+                                    //                 //           onSubmit: (val) {},
+                                    //                 //           otpLength: 6,
+                                    //                 //         )
+                                    //                 //       ],
+                                    //                 //     ),
+                                    //                 //     buttons: []).show();
+                                    //               }),
+                                    //             ],
+                                    //             alignment:
+                                    //                 MainAxisAlignment.spaceBetween,
+                                    //           )
+                                    //             .box
+                                    //             .padding(EdgeInsets.symmetric(horizontal: 15,))
+                                    //             .make()
+                                    //             .wFull(context)
+                                    //         :
 
-                                SizedBox.shrink()
-                                    :
-                                Column(
+                                    SizedBox.shrink()
+                                    : Column(
                                         children: [
                                           ListingItem(
                                             product: data.listings[i - 1],

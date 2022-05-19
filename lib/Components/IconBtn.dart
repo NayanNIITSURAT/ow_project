@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:owlet/constants/palettes.dart';
+import 'package:velocity_x/velocity_x.dart';
 
 class IconBtn extends StatelessWidget {
-  final IconData icon;
+  final IconData? icon;
   final Color? color;
   final double? size;
   final double paddingTop;
@@ -13,9 +14,10 @@ class IconBtn extends StatelessWidget {
   final bool? isImage;
   final bool? issvg;
   final String? imagePath;
+  final String? iconText;
 
   const IconBtn({
-    required this.icon,
+    this.icon,
     this.onPressed,
     this.issvg,
     this.isImage,
@@ -26,6 +28,7 @@ class IconBtn extends StatelessWidget {
     this.paddingBottom: 0,
     this.paddingLeft: 0,
     this.paddingRight: 0,
+    this.iconText,
   });
 
   @override
@@ -38,23 +41,29 @@ class IconBtn extends StatelessWidget {
           bottom: paddingBottom,
           left: paddingLeft,
         ),
-        child:isImage==true?
-        IconButton(
-
-          icon: Container(
-            child: Image(
-              height: 22,
-              image: AssetImage(
-                imagePath!,
-
-              ),
-              fit: BoxFit.cover,
-            ),
-
-          ),
-          onPressed: onPressed,
-        ):
-        Icon(icon, color: color, size: size),
+        child: isImage == true
+            ? Row(
+                children: [
+                  InkWell(
+                    onTap: onPressed,
+                    child: Container(
+                      child: Image(
+                        height: size,
+                        image: AssetImage(
+                          imagePath!,
+                        ),
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
+                  7.widthBox,
+                  if (iconText != null)
+                    Text(
+                      iconText! ?? "",
+                    )
+                ],
+              )
+            : Icon(icon, color: color, size: size),
       ),
       onTap: onPressed,
     );

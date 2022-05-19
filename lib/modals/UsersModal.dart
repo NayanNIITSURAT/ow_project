@@ -10,6 +10,8 @@ import 'package:owlet/models/User.dart';
 import 'package:provider/provider.dart';
 import 'package:velocity_x/velocity_x.dart';
 
+import '../constants/palettes.dart';
+
 class UsersModal extends StatelessWidget {
   static var show = (BuildContext ctx, {Function(User)? callBack}) =>
       showCupertinoModalBottomSheet(
@@ -38,15 +40,15 @@ class UsersModal extends StatelessWidget {
           preWidget: utility.searchStatus == Status.Processing
               ? CupertinoActivityIndicator()
               : null,
-          padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
+          padding: const EdgeInsets.symmetric(vertical: 3),
           icon: Icons.search,
           hintText: "Search",
           rightIcon: Icons.search,
           width: double.infinity,
-          containtpadding: EdgeInsets.fromLTRB(10, 8, 0, 8),
+          containtpadding: EdgeInsets.fromLTRB(10, 11, 0, 11),
           elevate: false,
           onSaved: (val) => onInput(val ?? ''),
-          bgColor: Colors.grey.shade100,
+          bgColor: fieldcolor,
           radius: 10,
         ),
       ),

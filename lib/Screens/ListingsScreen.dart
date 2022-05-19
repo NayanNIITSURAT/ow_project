@@ -6,6 +6,8 @@ import 'package:owlet/Widgets/ListingsListView.dart';
 import 'package:owlet/helpers/helpers.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
+import '../constants/palettes.dart';
+
 class ListingsArgs {
   final int initialIndex;
   final ListingProviderType providerType;
@@ -52,7 +54,7 @@ class _ListingsScreenState extends State<ListingsScreen> {
         iconTheme: IconThemeData(color: Colors.black),
         title: Text('My Posts',
             style: TextStyle(
-                fontWeight: FontWeight.w500, fontSize: 20, color: Colors.black)
+                fontWeight: FontWeight.w500, fontSize: 18, color: Colors.black)
             // Theme.of(context).textTheme.headline6,
             ),
         centerTitle: true,

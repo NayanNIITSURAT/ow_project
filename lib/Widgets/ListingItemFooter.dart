@@ -51,7 +51,7 @@ class ListingItemFooter extends StatelessWidget {
     }
 
     return Container(
-      decoration: BoxDecoration(color: Palette.postFooterColor.withOpacity(0.5)),
+      decoration: BoxDecoration(color: pagecommentcolor.withOpacity(0.1)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -71,20 +71,16 @@ class ListingItemFooter extends StatelessWidget {
                     Text(product.totalLikes.toString()),
                     15.widthBox,
                     IconBtn(
-
-                      icon: CupertinoIcons.chat_bubble,
                       isImage: true,
-                      imagePath:comments,
-
+                      imagePath: comments,
                       size: 22,
+                      iconText: product.totalComments.toString(),
                       color: product.totalComments < 1
                           ? Colors.black54
                           : Palette.primaryColor,
                       onPressed: () =>
                           ListingCommentModal.show(context, product),
                     ),
-                    2.widthBox,
-                    Text(product.totalComments.toString()),
                     15.widthBox,
                     IconBtn(
                       size: 22,

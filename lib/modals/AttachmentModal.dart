@@ -142,7 +142,7 @@ class _AttachmentModalState extends State<AttachmentModal> {
                   Icons.insert_photo,
                   Colors.purple,
                   "Gallery",
-                  onPressed: () => _pickFile(type: FileType.media),
+                  onPressed: () => _pickFile(type: FileType.image),
                 ),
               ],
             ),
