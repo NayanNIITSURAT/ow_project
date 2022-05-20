@@ -2,6 +2,9 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
+import 'package:owlet/models/User.dart';
+
+import '../Preferences/UserPreferences.dart';
 
 class passbooknotifier extends ChangeNotifier {
   late Map<String, dynamic> pmodel;
@@ -9,12 +12,16 @@ class passbooknotifier extends ChangeNotifier {
     pmodel = await getData(context);
     notifyListeners();
   }
-
+  Future<int> get getuserid async {
+    User user = await UserPreferences().getUser;
+    return user.id;
+  }
   Future<Map<String, dynamic>> getData(context) async {
     // late passbookmodel dataModel;
+    final userid = await getuserid;
     try {
       final response = await http.get(
-          Uri.parse('https://api.the-owlette.com/v4/wallet/passbook?userId=1'));
+          Uri.parse('https://api.the-owlette.com/v4/wallet/passbook?userId=$userid'));
       // if (response.statusCode == 200) {
       //   final data = json.decode(response.body);
       //   dataModel = passbookmodel.fromJson(data);

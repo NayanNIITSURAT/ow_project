@@ -41,12 +41,12 @@ class HelpScren extends StatelessWidget {
                 _launchURL();
               },
             ),
-            HelpTile(
-              text: 'Support Requests',
-              callback: () {
-                _launchURL();
-              },
-            ),
+            // HelpTile(
+            //   text: 'Support Requests',
+            //   callback: () {
+            //     _launchURL();
+            //   },
+            // ),
           ],
         ),
       ),

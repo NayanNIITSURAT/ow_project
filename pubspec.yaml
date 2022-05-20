@@ -72,12 +72,14 @@ dependencies:
   overlay_support: ^1.2.1
   path: ^1.8.0
   photo_manager: ^2.0.2
+  csv: ^5.0.1
   platform_device_id: ^1.0.1
   provider: ^5.0.0
   pull_to_refresh: ^2.0.0
   readmore: null
   rflutter_alert: ^2.0.4
   scroll_to_index: ^2.0.0
+  file_saver: ^0.1.0
   scrollable_positioned_list: ^0.2.3
   shared_preferences: ^2.0.6
   sliding_up_panel: ^2.0.0+1
