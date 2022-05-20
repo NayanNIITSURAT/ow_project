@@ -65,6 +65,7 @@ class _ListingsScreenState extends State<ListingsScreen> {
             data: listingData,
             scrollController: itemScrollController,
             child: (i) => ListingItem(
+              ismessage: false,
               product: listingData.listings[i],
             ),
           )

@@ -74,6 +74,7 @@ class _ListingsScreenState extends State<SingleListingScreen> {
                 captionMaxLength: 10000,
                 doubleTapToLike: false,
                 product: listing,
+                ismessage: true,
               ));
   }
 }

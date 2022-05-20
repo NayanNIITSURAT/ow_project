@@ -43,7 +43,6 @@ class Button extends StatelessWidget {
       child: ClipRRect(
         // borderRadius: BorderRadius.circular(10),
         child: TextButton(
-
           style: ElevatedButton.styleFrom(
             minimumSize: Size(30, 20),
             enableFeedback: true,
@@ -58,7 +57,8 @@ class Button extends StatelessWidget {
                 )
               : Text(
                   text,
-                  style: TextStyle(color: textColor),
+                  style:
+                      TextStyle(color: textColor, fontWeight: FontWeight.w600),
                 ),
         ),
       ),

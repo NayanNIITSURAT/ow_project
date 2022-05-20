@@ -127,12 +127,14 @@ class _LoginScreenState extends State<LoginScreen> {
                                           fontWeight: FontWeight.w600),
                                 ),
                                 Text(
-                                  "Let's Build Something Great",
+                                  "Let's build something great",
                                   style: Theme.of(context)
                                       .textTheme
                                       .bodyLarge!
                                       .copyWith(
-                                          fontSize: 18, color: Colors.black54),
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w400,
+                                          color: Colors.black54),
                                 ),
                                 SizedBox(height: 20),
                                 Input(

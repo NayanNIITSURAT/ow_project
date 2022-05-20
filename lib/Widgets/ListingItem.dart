@@ -16,17 +16,18 @@ import 'package:owlet/models/User.dart';
 import 'package:provider/provider.dart';
 
 class ListingItem extends StatefulWidget {
-  const ListingItem({
-    required this.product,
-    this.activeImage: 0,
-    this.captionMaxLength,
-    this.doubleTapToLike: true,
-  });
+  const ListingItem(
+      {required this.product,
+      this.activeImage: 0,
+      this.captionMaxLength,
+      this.doubleTapToLike: true,
+      required this.ismessage});
 
   final int? captionMaxLength;
   final bool doubleTapToLike;
   final Listing product;
   final int activeImage;
+  final bool ismessage;
 
   @override
   _ListingItemState createState() => _ListingItemState();
@@ -53,6 +54,7 @@ class _ListingItemState extends State<ListingItem> {
               GestureDetector(
                 child: ListingItemHeader(
                   product: widget.product,
+                  chatmess: widget.ismessage,
                 ),
                 onTap: () {
                   User owner = product.owner;

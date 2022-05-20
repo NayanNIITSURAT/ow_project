@@ -159,6 +159,7 @@ class _AddListingScreenState extends State<AddListingScreen> {
                               width: MediaQuery.of(context).size.width,
                               text: "Add Post",
                               paddingHori: 130,
+                              paddingVert: 10,
                               press: () => createListing(),
                             )
                           ],

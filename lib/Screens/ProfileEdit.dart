@@ -14,10 +14,12 @@ import 'package:owlet/constants/palettes.dart';
 import 'package:provider/provider.dart';
 import 'package:velocity_x/velocity_x.dart';
 
+import '../Components/Input.dart';
 import '../Components/bottomsheetbutton.dart';
 import '../constants/palettes.dart';
 import '../constants/palettes.dart';
 import '../helpers/helpers.dart';
+import '../helpers/validators.dart';
 
 class ProfileEdit extends StatefulWidget {
   static const routeName = '/edit-profile';
@@ -109,6 +111,7 @@ class _ProfileEditState extends State<ProfileEdit> {
                           onChange: (val) => onChange('phone', val),
                           label: 'Phone',
                           isMultiLine: false,
+                          maxlengh: 10,
                           keybordtype: TextInputType.number,
                           initialValue: profile.phone,
                         ),
@@ -193,6 +196,8 @@ class EditInput extends StatelessWidget {
     this.initialValue,
     this.isMultiLine: false,
     this.keybordtype,
+    this.validate,
+    this.maxlengh,
   });
   final Function(String)? onChange;
   final String? label;
@@ -200,6 +205,8 @@ class EditInput extends StatelessWidget {
   final bool isMultiLine;
   final EdgeInsets? margin;
   final EdgeInsets? padding;
+  final String? Function(String?)? validate;
+  final int? maxlengh;
 
   final TextInputType? keybordtype;
   @override
@@ -215,7 +222,7 @@ class EditInput extends StatelessWidget {
                         style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                             fontSize: 16,
                             color: Colors.black54,
-                            fontWeight: FontWeight.w400)),
+                            fontWeight: FontWeight.w600)),
                   SizedBox(
                     height: 5,
                   ),
@@ -230,8 +237,10 @@ class EditInput extends StatelessWidget {
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: TextFormField(
+                      maxLength: maxlengh,
                       decoration: InputDecoration(
                           border: InputBorder.none,
+                          counterText: "",
                           enabledBorder: InputBorder.none,
                           focusedBorder: InputBorder.none,
                           labelStyle:
@@ -272,7 +281,7 @@ class EditInput extends StatelessWidget {
                     ),
                     child: TextFormField(
                       decoration: InputDecoration(
-                        border: InputBorder.none,
+                        border: InputBorder.none, counterText: "",
                         // enabledBorder: border,
                         // focusedBorder: border,
                       ),
@@ -284,6 +293,7 @@ class EditInput extends StatelessWidget {
                       minLines: 5,
                       maxLines: 15,
                       maxLength: 200,
+
                       keyboardType: keybordtype,
                       textInputAction: TextInputAction.newline,
                       initialValue: initialValue,

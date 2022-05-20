@@ -38,7 +38,10 @@ class AuthFooter extends StatelessWidget {
                   child: GestureDetector(
                     child: Text(
                       'Forgot password?',
-                      style: TextStyle(color: Colors.black54, fontSize: 15),
+                      style: TextStyle(
+                          color: Colors.black54,
+                          fontWeight: FontWeight.w400,
+                          fontSize: 15),
                     ),
                     onTap: () => Navigator.of(context)
                         .pushNamed(ForgotPasswordScreen.routeName),
@@ -156,7 +159,7 @@ class AuthFooter extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                  '${isRegister ? "Already" : isforget == true ? "Have an account?" : "Don\'t have an account?"} '),
+                  '${isRegister ? "Already have an account?" : isforget == true ? "Have an account?" : "Don\'t have an account?"} '),
               GestureDetector(
                 child: Text(
                   isResetPassword

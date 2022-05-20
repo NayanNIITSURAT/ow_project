@@ -186,12 +186,12 @@ class _ChatScreenState extends State<ChatScreen> with RouteAware {
       focusNode: FocusNode(),
       // onKey: (val) => print(val),
       child: Scaffold(
-       backgroundColor: Colors.white,
+        backgroundColor: Colors.white,
         body: Column(
           children: [
             SafeArea(
               bottom: false,
-              child:  Column(
+              child: Column(
                 children: [
                   Padding(
                     padding: EdgeInsets.symmetric(
@@ -203,9 +203,10 @@ class _ChatScreenState extends State<ChatScreen> with RouteAware {
                         IconButton(
                           padding: EdgeInsets.only(left: 0),
                           alignment: Alignment.centerLeft,
-                          icon: SvgPicture.asset(back,height: 25,),
-
-
+                          icon: SvgPicture.asset(
+                            back,
+                            height: 25,
+                          ),
                           onPressed: context.pop,
                         ),
                         ProfileAvatar(
@@ -214,7 +215,8 @@ class _ChatScreenState extends State<ChatScreen> with RouteAware {
                           isOnline: chat!.isOnline,
                           onPressed: () async {
                             ProfileViewModal.show(context);
-                            await Provider.of<UtilsProvider>(context, listen: false)
+                            await Provider.of<UtilsProvider>(context,
+                                    listen: false)
                                 .getCurrentSellerProfile(chat.getUser);
                           },
                         ),
@@ -233,11 +235,9 @@ class _ChatScreenState extends State<ChatScreen> with RouteAware {
                       ],
                     ),
                   ),
-
                   Center(
                     child: SizedBox(
-                        width: screenSize(context).width,
-                        child: Divider()),
+                        width: screenSize(context).width, child: Divider()),
                   ),
                 ],
               ),
@@ -330,12 +330,11 @@ class ChatItem extends StatelessWidget {
 
         alignment: iSent ? Alignment.bottomRight : Alignment.bottomLeft,
         margin: BubbleEdges.only(
-          bottom: showNip ? 10 : 4,
-          // left: !showNip && !iSent ? 7 : null,
-          // right: !showNip && iSent ? 7 : null,
-          left: 7,right: 7
-
-        ),
+            bottom: showNip ? 10 : 4,
+            // left: !showNip && !iSent ? 7 : null,
+            // right: !showNip && iSent ? 7 : null,
+            left: 7,
+            right: 7),
 
         padding: BubbleEdges.symmetric(
           vertical: 4,

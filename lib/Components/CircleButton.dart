@@ -16,7 +16,7 @@ class CircleButton extends StatelessWidget {
   const CircleButton({
     this.icon,
     this.iconSize: 25,
-     this.imageIcon,
+    this.imageIcon,
     this.imagePath,
     this.color: Palette.primaryColor,
     this.bgColor: const Color(0xFFEEEEEE),
@@ -45,30 +45,25 @@ class CircleButton extends StatelessWidget {
         ],
         border: border,
       ),
-      child:
-      imageIcon==true?
-      IconButton(
-
-        icon: Container(
-          child: Image(
-            image: AssetImage(
-              imagePath!,
+      child: imageIcon == true
+          ? InkWell(
+              onTap: onPressed,
+              child: Container(
+                  decoration:
+                      BoxDecoration(shape: BoxShape.circle, color: fieldcolor),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Image.asset(imagePath!),
+                  )),
+            )
+          : IconButton(
+              icon: Icon(
+                icon,
+                color: color,
+                size: iconSize,
+              ),
+              onPressed: onPressed,
             ),
-            fit: BoxFit.cover,
-          ),
-
-        ),
-        onPressed: onPressed,
-      ):
-      IconButton(
-
-        icon: Icon(
-          icon,
-          color: color,
-          size: iconSize,
-        ),
-        onPressed: onPressed,
-      ),
     );
   }
 }

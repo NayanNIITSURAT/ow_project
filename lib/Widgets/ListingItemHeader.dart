@@ -27,10 +27,12 @@ import 'package:provider/provider.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 class ListingItemHeader extends StatelessWidget {
-  const ListingItemHeader({required this.product, this.captionMaxLength});
+  ListingItemHeader(
+      {required this.product, this.captionMaxLength, this.chatmess});
 
   final Listing product;
   final int? captionMaxLength;
+  bool? chatmess;
 
   @override
   Widget build(BuildContext context) {
@@ -105,49 +107,93 @@ class ListingItemHeader extends StatelessWidget {
                       ],
                     ),
                   ),
-                  Row(
-                    children: [
-                      // ImageBtn(
-                      //     size: 20,
-                      //     paddingLeft: 10,
-                      //     assetString: chat_icon,
-                      //     isSvg: true,
-                      //     color: Palette.primaryColor,
-                      //     onPressed: userData.isLoggedIn
-                      //         ? () {
-                      //             userData.curChatUser = owner.chat;
-                      //             Navigator.push(
-                      //               context,
-                      //               MaterialPageRoute(
-                      //                 builder: (context) => ChatScreen(
-                      //                   onPageEnter: () => Chatable(
-                      //                     //chatableId: product.id,
-                      //                     type: ChatableType.LISTING,
-                      //                     listing: product,
-                      //                   ),
-                      //                 ),
-                      //               ),
-                      //             );
-                      //           }
-                      //         : () => Navigator.pushNamed(
-                      //             context, LoginScreen.routeName)),
-                      IconBtn(
-                        size: 20,
-                        paddingLeft: 15,
-                        icon: Icons.more_vert,
-                        color: Colors.black87,
-                        onPressed: () => showCupertinoModalBottomSheet(
-                          context: context,
-                          builder: (context) => Container(
-                            child: ListingMenuModal(listing: product),
-                          ),
-                          duration: Duration(milliseconds: 400),
-                          expand: false,
-                          barrierColor: Colors.black.withOpacity(0.4),
+                  chatmess == true
+                      ? Row(
+                          children: [
+                            ImageBtn(
+                                size: 20,
+                                paddingLeft: 10,
+                                assetString: chat_icon,
+                                isSvg: true,
+                                color: Palette.primaryColor,
+                                onPressed: userData.isLoggedIn
+                                    ? () {
+                                        userData.curChatUser = owner.chat;
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => ChatScreen(
+                                              onPageEnter: () => Chatable(
+                                                //chatableId: product.id,
+                                                type: ChatableType.LISTING,
+                                                listing: product,
+                                              ),
+                                            ),
+                                          ),
+                                        );
+                                      }
+                                    : () => Navigator.pushNamed(
+                                        context, LoginScreen.routeName)),
+                            IconBtn(
+                              size: 20,
+                              paddingLeft: 15,
+                              icon: Icons.more_vert,
+                              color: Colors.black87,
+                              onPressed: () => showCupertinoModalBottomSheet(
+                                context: context,
+                                builder: (context) => Container(
+                                  child: ListingMenuModal(listing: product),
+                                ),
+                                duration: Duration(milliseconds: 400),
+                                expand: false,
+                                barrierColor: Colors.black.withOpacity(0.4),
+                              ),
+                            ),
+                          ],
+                        )
+                      : Row(
+                          children: [
+                            // ImageBtn(
+                            //     size: 20,
+                            //     paddingLeft: 10,
+                            //     assetString: chat_icon,
+                            //     isSvg: true,
+                            //     color: Palette.primaryColor,
+                            //     onPressed: userData.isLoggedIn
+                            //         ? () {
+                            //             userData.curChatUser = owner.chat;
+                            //             Navigator.push(
+                            //               context,
+                            //               MaterialPageRoute(
+                            //                 builder: (context) => ChatScreen(
+                            //                   onPageEnter: () => Chatable(
+                            //                     //chatableId: product.id,
+                            //                     type: ChatableType.LISTING,
+                            //                     listing: product,
+                            //                   ),
+                            //                 ),
+                            //               ),
+                            //             );
+                            //           }
+                            //         : () => Navigator.pushNamed(
+                            //             context, LoginScreen.routeName)),
+                            IconBtn(
+                              size: 20,
+                              paddingLeft: 15,
+                              icon: Icons.more_vert,
+                              color: Colors.black87,
+                              onPressed: () => showCupertinoModalBottomSheet(
+                                context: context,
+                                builder: (context) => Container(
+                                  child: ListingMenuModal(listing: product),
+                                ),
+                                duration: Duration(milliseconds: 400),
+                                expand: false,
+                                barrierColor: Colors.black.withOpacity(0.4),
+                              ),
+                            ),
+                          ],
                         ),
-                      ),
-                    ],
-                  ),
                 ],
               ),
             ),
@@ -164,13 +210,13 @@ class ListingItemHeader extends StatelessWidget {
                     maxLength: captionMaxLength ?? 90,
                   ),
                 ),
-                DateFormat("dd, MMM")
-                    .format(
-                        DateTime.tryParse(product.createdAt) ?? DateTime.now())
-                    .text
-                    .sm
-                    .gray400
-                    .make()
+                // DateFormat("dd, MMM")
+                //     .format(
+                //         DateTime.tryParse(product.createdAt) ?? DateTime.now())
+                //     .text
+                //     .sm
+                //     .gray400
+                //     .make()
               ],
             ),
           ],
