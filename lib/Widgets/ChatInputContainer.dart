@@ -77,102 +77,94 @@ class _ChatInputContainerState extends State<ChatInputContainer> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      top: false,
-
-      child:Container(
-        margin: EdgeInsets.symmetric(horizontal: 10,vertical: 10),
-        child: Column(
-          children: [
-            if (widget.chatable != null &&
-                widget.chatable?.type == ChatableType.LISTING)
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10),
-                child: Align(
-                  alignment: Alignment.centerRight,
-                  child: widget.chatable
-                      ?.build(context, onChatableClose: widget.onChatableClose),
-                ),
-              ),
-
-            Row(
-              children: [
-                Container(
-                  margin: EdgeInsets.only(right: 15,),
-                  decoration: BoxDecoration(
-                    border: Border.all(width: 0.3,color: Colors.grey),
-                    borderRadius: BorderRadius.circular(10)
+        top: false,
+        child: Container(
+          margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+          child: Column(
+            children: [
+              if (widget.chatable != null &&
+                  widget.chatable?.type == ChatableType.LISTING)
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  child: Align(
+                    alignment: Alignment.centerRight,
+                    child: widget.chatable?.build(context,
+                        onChatableClose: widget.onChatableClose),
                   ),
-                  child: IconBtn(
-                    isImage: true,
-                    imagePath: attachment,
-                    icon: Icons.attach_file,
-                    onPressed: () => AttachmentModal.show(
-                      context,
-                      handleChatable: (Chatable chatable) {
-                        print(chatable.user);
-                        Navigator.popUntil(
-                            context, ModalRoute.withName(ChatScreen.routeName));
-                      },
+                ),
+              Row(
+                children: [
+                  Container(
+                    height: 50,
+                    width: 52,
+                    margin: EdgeInsets.only(
+                      right: 15,
                     ),
-                  ),
-                ),
-
-                Expanded(
-                  child: Container(
-
                     decoration: BoxDecoration(
-                        border: Border.all(width: 0.3,color: Colors.grey),
-                        borderRadius: BorderRadius.circular(10)
+                        border: Border.all(width: 0.3, color: Colors.grey),
+                        borderRadius: BorderRadius.circular(10)),
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(12, 5, 5, 5),
+                      child: IconBtn(
+                        isImage: true,
+                        imagePath: attachment,
+                        size: 25,
+                        icon: Icons.attach_file,
+                        onPressed: () => AttachmentModal.show(
+                          context,
+                          handleChatable: (Chatable chatable) {
+                            print(chatable.user);
+                            Navigator.popUntil(context,
+                                ModalRoute.withName(ChatScreen.routeName));
+                          },
+                        ),
+                      ),
                     ),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: Container(
-                            child: TextFormField(
-
-                              decoration: InputDecoration(
-                                contentPadding: EdgeInsets.symmetric(horizontal: 15),
-                                hintText: "Your Message",
-
-
-                              border: InputBorder.none,
-
-
+                  ),
+                  Expanded(
+                    child: Container(
+                      decoration: BoxDecoration(
+                          border: Border.all(width: 0.3, color: Colors.grey),
+                          borderRadius: BorderRadius.circular(10)),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Container(
+                              child: TextFormField(
+                                decoration: InputDecoration(
+                                  contentPadding:
+                                      EdgeInsets.symmetric(horizontal: 15),
+                                  hintText: "Your message",
+                                  border: InputBorder.none,
+                                ),
+                                focusNode: widget.focusNode,
+                                controller: _controller,
                               ),
-
-                              focusNode: widget.focusNode,
-                              controller: _controller,
-
-
                             ),
                           ),
-
-                        ),
-                        InkWell(
-                            onTap: (){setState(() {
-                              widget.onSend(_controller.text);
-                              _controller..text = '';
-                            });},
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 10),
-                              child: Image.asset(send,height: 25,),
-                            )),
-
-                      ],
+                          InkWell(
+                              onTap: () {
+                                setState(() {
+                                  widget.onSend(_controller.text);
+                                  _controller..text = '';
+                                });
+                              },
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 10),
+                                child: Image.asset(
+                                  send,
+                                  height: 25,
+                                ),
+                              )),
+                        ],
+                      ),
                     ),
-
                   ),
-                ),
-
-
-
-              ],
-            ),
-          ],
-        ),
-      )
-
-
-    );
+                ],
+              ),
+            ],
+          ),
+        ));
   }
 }

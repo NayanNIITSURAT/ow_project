@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:owlet/Components/Button.dart';
 import 'package:owlet/Components/Loading.dart';
@@ -135,19 +136,23 @@ class _AddMarketSquareScreenState extends State<AddMarketSquareScreen> {
           }
 
           if ((index == 0)) {
-            return InkWell(
-              onTap: () => Navigator.pushNamed(context, CameraScreen.routeName),
-              child: Container(
-                color: Colors.blue.shade50,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.camera_alt_outlined,
-                      color: Colors.black,
-                    ),
-                    Text("Camera")
-                  ],
+            return Padding(
+              padding: const EdgeInsets.all(3.0),
+              child: InkWell(
+                onTap: () =>
+                    Navigator.pushNamed(context, CameraScreen.routeName),
+                child: Container(
+                  color: Colors.blue.shade50,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.camera_alt_outlined,
+                        color: Colors.black,
+                      ),
+                      Text("Camera")
+                    ],
+                  ),
                 ),
               ),
             );
@@ -176,7 +181,7 @@ class _AddMarketSquareScreenState extends State<AddMarketSquareScreen> {
                     setState(() {});
                   },
                   child: Padding(
-                    padding: const EdgeInsets.all(4.0),
+                    padding: const EdgeInsets.all(3.0),
                     child: AssetEntityImage(
                       entity,
                       fit: BoxFit.cover,
@@ -224,17 +229,12 @@ class _AddMarketSquareScreenState extends State<AddMarketSquareScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Palette.primaryColorLight,
-          centerTitle: true,
-          title: Text(
-            'Add Marketsquare',
-            style: Theme.of(context)
-                .textTheme
-                .headline6!
-                .copyWith(fontWeight: FontWeight.normal),
-          ),
-        ),
+        // appBar: AppBar(
+        //   backgroundColor: Palette.primaryColorLight,
+        //   iconTheme: IconThemeData(color: Colors.black),
+        //   centerTitle: true,
+        //   title:
+        // ),
         body: _marketSquareWidget(context));
   }
 
@@ -242,6 +242,39 @@ class _AddMarketSquareScreenState extends State<AddMarketSquareScreen> {
     return Column(
       mainAxisSize: MainAxisSize.max,
       children: [
+        SafeArea(
+          bottom: false,
+          child: Container(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+              child: Row(
+                children: [
+                  InkWell(
+                      onTap: () {
+                        {
+                          Navigator.pop(context);
+                        }
+                      },
+                      child: Icon(
+                        Icons.arrow_back,
+                        color: Colors.black,
+                        size: 27,
+                      )),
+                  SizedBox(
+                    width: 60,
+                  ),
+                  Text(
+                    'Add Marketsquare',
+                    style: Theme.of(context)
+                        .textTheme
+                        .headline6!
+                        .copyWith(fontWeight: FontWeight.w600, fontSize: 18),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
         Padding(
           padding: const EdgeInsets.all(16.0),
           child: Row(
@@ -318,7 +351,12 @@ class _AddMarketSquareScreenState extends State<AddMarketSquareScreen> {
             ],
           ),
         ),
-        Expanded(child: _buildImageGrid(context))
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.all(3.0),
+            child: _buildImageGrid(context),
+          ),
+        )
       ],
     );
   }

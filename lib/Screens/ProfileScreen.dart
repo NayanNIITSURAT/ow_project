@@ -194,7 +194,7 @@ class _ProfileScreenState extends State<ProfileScreen>
       List<String> Story) {
     var h = MediaQuery.of(context).size.height;
     var w = MediaQuery.of(context).size.width;
-    var space5 = SizedBox(height: h * 0.005);
+    var space5 = SizedBox(height: h * 0.000);
 
     return Column(
       children: [
@@ -211,21 +211,21 @@ class _ProfileScreenState extends State<ProfileScreen>
                 children: [
                   Text(_user.username,
                       style: TextStyle(
-                          fontSize: w * 0.050, fontWeight: FontWeight.bold)),
+                          fontSize: w * 0.055, fontWeight: FontWeight.bold)),
                   space5,
                   Text(
                     _user.fullName,
-                    style: TextStyle(color: Colors.grey, fontSize: w * 0.032),
+                    style: TextStyle(color: Colors.grey, fontSize: w * 0.040),
                   ),
                 ],
               ),
               user.profile.bio != null && user.profile.bio!.length > 0
                   ? user.profile.bio!.richText.justify
-                      .size(w * 0.030)
+                      .size(w * 0.040)
                       // .maxLines(5)
                       .make()
                       .box
-                      .padding(EdgeInsets.symmetric(vertical: h * 0.008))
+                      .padding(EdgeInsets.symmetric(vertical: h * 0.010))
                       .make()
                       .w(double.infinity)
                   : SizedBox.shrink(),

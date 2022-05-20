@@ -150,7 +150,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         Input(
                           icon: Icons.email,
                           elevate: false,
-                          label: 'Email',
+                          label: 'E-mail',
                           bgColor: Color(0xffEDF2F7).withOpacity(0.5),
                           type: TextInputType.emailAddress,
                           validate: validateEmail,
@@ -230,9 +230,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                           .textTheme
                                           .labelLarge!
                                           .copyWith(
-                                              fontWeight: FontWeight.w600,
-                                              decoration:
-                                                  TextDecoration.underline)),
+                                            fontWeight: FontWeight.w600,
+                                          )),
                                   TextSpan(
                                       text: ", and our ",
                                       style: Theme.of(context)

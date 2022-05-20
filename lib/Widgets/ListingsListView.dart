@@ -209,6 +209,7 @@ class _ListingListViewState extends State<ListingListView> {
                                     : Column(
                                         children: [
                                           ListingItem(
+                                            ismessage: true,
                                             product: data.listings[i - 1],
                                           ),
                                         ],
