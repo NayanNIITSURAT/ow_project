@@ -23,6 +23,9 @@ import 'package:owlet/services/comment.dart';
 import 'package:provider/provider.dart';
 import 'package:velocity_x/velocity_x.dart';
 
+import '../Providers/GlobalProvider.dart';
+import '../Providers/Listing.dart';
+
 class ListingCommentModal extends StatefulWidget {
   static var show =
       (BuildContext ctx, Listing post) => showCupertinoModalBottomSheet(
@@ -78,6 +81,8 @@ class _ListingCommentModalState extends State<ListingCommentModal> {
 
   @override
   Widget build(BuildContext context) {
+    final state = GlobalProvider(context);
+    Provider.of<ListingProvider>(context);
     final userData = Provider.of<UserProvider>(context);
     final post = widget.post;
     void postComment(String msg) async {
@@ -122,6 +127,7 @@ class _ListingCommentModalState extends State<ListingCommentModal> {
             commentToReply = null;
           } else
             widget.post.commentsData.comments.first.id = 0;
+          state.addcomments = post.id;
           setState(() {});
         }
       } else

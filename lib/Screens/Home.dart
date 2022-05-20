@@ -106,12 +106,8 @@ class _BodyState extends State<Body> with SingleTickerProviderStateMixin {
                               indicator: CustomTabIndicator(color:indicatorColor,indicatorHeight: 3 ),
                               labelStyle: TextStyle(fontSize: 18),
                               tabs: [
-                                Tab(
-                                  text: 'Market',
-                                ),
-                                Tab(
-                                  text: 'Following',
-                                ),
+                                Tab(text: 'Market',),
+                                Tab(text: 'Following',),
                               ],
                             ),
                           ),
