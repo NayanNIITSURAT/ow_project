@@ -121,6 +121,7 @@ class MyApp extends StatelessWidget {
               },
               child: MainApp(),
             ),
+
             routes: {
               RegisterScreen.routeName: (ctx) => RegisterScreen(),
               LoginScreen.routeName: (ctx) => LoginScreen(),

@@ -124,7 +124,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                       .headlineSmall!
                                       .copyWith(
                                           fontSize: 22,
-                                          fontWeight: FontWeight.w600),
+                                          fontWeight: FontWeight.bold),
                                 ),
                                 Text(
                                   "Let's build something great",

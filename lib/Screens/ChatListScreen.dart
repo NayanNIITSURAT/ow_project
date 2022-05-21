@@ -150,9 +150,8 @@ class ChatCard extends StatelessWidget {
             timeAgo(sender.messages.last.time ?? DateTime.now().toString())
                 .text
                 .size(12)
-                .color(lastMsgSeen ? Colors.black : Palette.primaryColor)
-                .textStyle(
-                    TextStyle(fontWeight: lastMsgSeen ? null : FontWeight.w600))
+                .color(Palette.primaryColor)
+                .textStyle(TextStyle(fontWeight: FontWeight.w600))
                 .make(),
             if (!lastMsgSeen)
               VxCircle(

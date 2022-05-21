@@ -230,7 +230,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                           .textTheme
                                           .labelLarge!
                                           .copyWith(
-                                            fontWeight: FontWeight.w600,
+                                            fontWeight: FontWeight.w800,
                                           )),
                                   TextSpan(
                                       text: ", and our ",
@@ -244,7 +244,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                           .textTheme
                                           .labelLarge!
                                           .copyWith(
-                                              fontWeight: FontWeight.w600))
+                                              fontWeight: FontWeight.w800))
                                 ])),
                               ),
                             )

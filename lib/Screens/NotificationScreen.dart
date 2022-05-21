@@ -19,6 +19,11 @@ import 'package:owlet/services/utils.dart';
 import 'package:provider/provider.dart';
 import 'package:velocity_x/velocity_x.dart';
 
+import '../helpers/helpers.dart';
+import '../models/Notification.dart';
+import '../models/Notification.dart';
+import '../models/Notification.dart';
+
 class NotificationScreen extends StatelessWidget {
   static const routeName = 'notifications-screen';
   @override
@@ -191,6 +196,7 @@ class _NotificationItemState extends State<NotificationItem> {
     final type = widget.notification.notifyableType;
     final isAccount = type == N.NotificationType.FOLLOW;
     final listing = widget.notification.listing;
+    List<NotificationUser> notifications;
 
     showSeller() async {
       ProfileViewModal.show(context);
@@ -273,6 +279,13 @@ class _NotificationItemState extends State<NotificationItem> {
                   ),
                 ),
               ),
+              // timeAgo(sender.notifications.last.time ?? DateTime.now().toString())
+              //     .text
+              //     .size(12)
+              //     .color(lastMsgSeen ? Colors.black : Palette.primaryColor)
+              //     .textStyle(TextStyle(
+              //         fontWeight: lastMsgSeen ? null : FontWeight.w600))
+              //     .make(),
               // isAccount
               //     ? iFollow || user.profile.id == sender.id
               //         ? Text(
