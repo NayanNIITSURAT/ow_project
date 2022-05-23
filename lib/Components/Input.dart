@@ -91,7 +91,7 @@ class Input extends StatelessWidget {
                   style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                       fontSize: 16,
                       color: Colors.black54,
-                      fontWeight: FontWeight.w600))
+                      fontWeight: FontWeight.w500))
               : SizedBox.shrink(),
           Container(
             width: width ?? screenSize(context).width * 0.8,

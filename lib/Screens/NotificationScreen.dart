@@ -19,6 +19,11 @@ import 'package:owlet/services/utils.dart';
 import 'package:provider/provider.dart';
 import 'package:velocity_x/velocity_x.dart';
 
+import '../helpers/helpers.dart';
+import '../models/Notification.dart';
+import '../models/Notification.dart';
+import '../models/Notification.dart';
+
 class NotificationScreen extends StatelessWidget {
   static const routeName = 'notifications-screen';
   @override
@@ -273,6 +278,13 @@ class _NotificationItemState extends State<NotificationItem> {
                   ),
                 ),
               ),
+              // timeAgo(sender.notification.last.time ??
+              //         DateTime.now().toString())
+              //     .text
+              //     .size(12)
+              //     .color(Palette.primaryColor)
+              //     .textStyle(TextStyle(fontWeight: FontWeight.w600))
+              //     .make(),
               // isAccount
               //     ? iFollow || user.profile.id == sender.id
               //         ? Text(
@@ -287,7 +299,7 @@ class _NotificationItemState extends State<NotificationItem> {
               //                     user
               //                         .followUser(User(
               //                           id: sender.id,
-              //                           fullName: 'fullName',
+              //                           fullName: 'fullName',f
               //                           username: sender.username,
               //                           email: 'email',
               //                           phone: 'phone',

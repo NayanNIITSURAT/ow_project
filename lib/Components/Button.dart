@@ -27,8 +27,9 @@ class Button extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      height: 40,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(8),
         gradient: LinearGradient(
           begin: Alignment.centerLeft,
           end:

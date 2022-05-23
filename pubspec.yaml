@@ -54,7 +54,6 @@ dependencies:
   flutter_swiper: ^1.1.6
   font_awesome_flutter: ^9.1.0
   geolocator: ^8.2.0
-  google_fonts: null
   grouped_list: ^4.1.0
   hashtagable: ^2.0.2+1
   http: null
@@ -100,6 +99,7 @@ dependencies:
   share: ^2.0.4
   flutter_email_sender: ^5.1.0
   flutter_paystack: ^1.0.5+1
+  google_fonts: ^3.0.0
 
 
 

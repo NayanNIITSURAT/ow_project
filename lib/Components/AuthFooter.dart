@@ -40,7 +40,7 @@ class AuthFooter extends StatelessWidget {
                       'Forgot password?',
                       style: TextStyle(
                           color: Colors.black54,
-                          fontWeight: FontWeight.w400,
+                          fontWeight: FontWeight.w500,
                           fontSize: 15),
                     ),
                     onTap: () => Navigator.of(context)

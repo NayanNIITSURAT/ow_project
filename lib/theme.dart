@@ -19,7 +19,14 @@ ThemeData lightThemeData(BuildContext context) {
     800: Color.fromRGBO(223, 65, 11, .9),
     900: Color.fromRGBO(223, 65, 11, 1),
   };
+  final textTheme = Theme.of(context).textTheme;
   return ThemeData(
+      textTheme: GoogleFonts.interTextTheme(textTheme).copyWith(
+        bodyText1: GoogleFonts.inter(
+          textStyle: textTheme.bodyText1,
+          // fontWeight: FontWeight.bold,
+        ),
+      ),
       primarySwatch: MaterialColor(0xFFDF410B, color),
       scaffoldBackgroundColor: Palette.primaryColorLight,
       appBarTheme: AppBarTheme(
@@ -33,16 +40,15 @@ ThemeData lightThemeData(BuildContext context) {
       ),
       iconTheme: IconThemeData(color: Colors.grey),
       fontFamily: GoogleFonts.poppins().fontFamily,
-
-      // primaryColor: MaterialColor(0xFFDF410B, color),
-      textTheme: TextTheme(
-        headline2: TextStyle(
-          fontSize: 36,
-          fontWeight: FontWeight.bold,
-          color: Palette.primaryColor,
-        ),
-        bodyText1: TextStyle(fontSize: Global.fontSize, letterSpacing: 0.1),
-      ),
+      primaryColor: MaterialColor(0xFFDF410B, color),
+      // textTheme: TextTheme(
+      //   headline2: TextStyle(
+      //     fontSize: 36,
+      //     fontWeight: FontWeight.bold,
+      //     color: Palette.primaryColor,
+      //   ),
+      //   bodyText1: TextStyle(fontSize: Global.fontSize, letterSpacing: 0.1),
+      // ),
       listTileTheme: ListTileThemeData()
 
       // GoogleFonts.interTextTheme(Theme.of(context).textTheme)

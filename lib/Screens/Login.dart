@@ -8,6 +8,7 @@ import 'package:owlet/Components/Loading.dart';
 import 'package:owlet/Components/Toast.dart';
 import 'package:owlet/Providers/Auth.dart';
 import 'package:owlet/Providers/GlobalProvider.dart';
+import 'package:owlet/Screens/Home.dart';
 import 'package:owlet/Screens/NavScreen.dart';
 import 'package:owlet/constants/images.dart';
 import 'package:owlet/helpers/helpers.dart';
@@ -123,7 +124,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                       .headlineSmall!
                                       .copyWith(
                                           fontSize: 22,
-                                          fontWeight: FontWeight.w600),
+                                          fontWeight: FontWeight.bold),
                                 ),
                                 Text(
                                   "Let's build something great",
