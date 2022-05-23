@@ -69,7 +69,7 @@ class SettingsTextField extends StatelessWidget {
                     fontWeight: FontWeight.w400)),
           Container(
             width: width ?? screenSize(context).width * 0.8,
-            height: 70,
+            height: 55,
             margin: margin ?? EdgeInsets.symmetric(vertical: 8),
             padding:
                 padding ?? EdgeInsets.symmetric(vertical: 8, horizontal: 10),

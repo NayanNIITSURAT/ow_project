@@ -196,7 +196,6 @@ class _NotificationItemState extends State<NotificationItem> {
     final type = widget.notification.notifyableType;
     final isAccount = type == N.NotificationType.FOLLOW;
     final listing = widget.notification.listing;
-    List<NotificationUser> notifications;
 
     showSeller() async {
       ProfileViewModal.show(context);
@@ -279,12 +278,12 @@ class _NotificationItemState extends State<NotificationItem> {
                   ),
                 ),
               ),
-              // timeAgo(sender.notifications.last.time ?? DateTime.now().toString())
+              // timeAgo(sender.notification.last.time ??
+              //         DateTime.now().toString())
               //     .text
               //     .size(12)
-              //     .color(lastMsgSeen ? Colors.black : Palette.primaryColor)
-              //     .textStyle(TextStyle(
-              //         fontWeight: lastMsgSeen ? null : FontWeight.w600))
+              //     .color(Palette.primaryColor)
+              //     .textStyle(TextStyle(fontWeight: FontWeight.w600))
               //     .make(),
               // isAccount
               //     ? iFollow || user.profile.id == sender.id
@@ -300,7 +299,7 @@ class _NotificationItemState extends State<NotificationItem> {
               //                     user
               //                         .followUser(User(
               //                           id: sender.id,
-              //                           fullName: 'fullName',
+              //                           fullName: 'fullName',f
               //                           username: sender.username,
               //                           email: 'email',
               //                           phone: 'phone',

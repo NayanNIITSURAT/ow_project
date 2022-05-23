@@ -178,6 +178,7 @@ class _ReportProblemScreenState extends State<ReportProblemScreen> {
                       lines: 2,
                       isdescription: true,
                       maxlines: 3,
+
                       validate: validateUsername,
                       onSaved: (value) => description = value!.trim(),
                       autofill: const <String>[AutofillHints.newUsername],

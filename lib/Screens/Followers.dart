@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:owlet/Components/Button.dart';
 import 'package:owlet/Components/Input.dart';
 import 'package:owlet/Components/Loading.dart';
@@ -15,6 +16,9 @@ import 'package:owlet/modals/ProfileViewModal.dart';
 import 'package:owlet/models/Comment.dart';
 import 'package:owlet/models/User.dart';
 import 'package:provider/provider.dart';
+
+import '../Components/bottomsheetbutton.dart';
+import '../helpers/helpers.dart';
 
 class FollowerScreenArguments {
   final User user;
@@ -67,24 +71,14 @@ class _FollowersState extends State<Followers> {
         ));
 
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Palette.primaryColorLight,
-        elevation: 0,
-        iconTheme: IconThemeData(color: Colors.black),
-        title: Text(
-          args.user.username,
-          style: TextStyle(
-              fontSize: 20, fontWeight: FontWeight.w600, color: Colors.black),
-        ),
-        centerTitle: true,
-      ),
-      body: Column(
-        children: [
-          Flexible(
-            child: DefaultTabController(
-              initialIndex: args.type == FollowType.FOLLOWERS ? 0 : 1,
-              length: 2,
-              child: Builder(builder: (context) {
+      body: DefaultTabController(
+        initialIndex: args.type == FollowType.FOLLOWERS ? 0 : 1,
+        length: 2,
+        child: SafeArea(
+          bottom: false,
+          child: Column(
+            children: [
+              Builder(builder: (context) {
                 final utility =
                     Provider.of<UtilsProvider>(context, listen: false);
                 final userData =
@@ -102,40 +96,95 @@ class _FollowersState extends State<Followers> {
                   }
                 });
                 return Builder(builder: (context) {
-                  return Scaffold(
-                    appBar: TabBar(
-                      unselectedLabelColor: Colors.black45,
-                      indicatorColor: Colors.blue,
-                      indicatorSize: TabBarIndicatorSize.label,
-                      labelColor: Colors.black,
-                      enableFeedback: false,
-                      tabs: [
-                        tabHeaderWrapper(
-                          title: 'Followers',
-                          total: seller!.totalFollowers,
-                          loading: utility.userStatus == Status.Processing,
+                  return Column(
+                    children: [
+                      Container(
+                        color: Colors.white,
+                        child: Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 20, vertical: 15),
+                              child: Row(
+                                children: [
+                                  InkWell(
+                                      onTap: () {
+                                        {
+                                          Navigator.pop(context);
+                                        }
+                                      },
+                                      child: Icon(
+                                        Icons.arrow_back,
+                                        color: Colors.black,
+                                        size: 20,
+                                      )),
+                                  SizedBox(
+                                    width: 120,
+                                  ),
+                                  Text(
+                                    args.user.username,
+                                    style: TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.black),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            SizedBox(
+                                height:
+                                    MediaQuery.of(context).size.width * 0.05,
+                                width: MediaQuery.of(context).size.width,
+                                child: Divider(
+                                    thickness: 1,
+                                    color: divider.withOpacity(0.5))),
+                          ],
                         ),
-                        tabHeaderWrapper(
-                          title: 'Following',
-                          total: seller.totalFollowing,
-                          loading: utility.hashTagStatus == Status.Processing,
+                      ),
+                      Container(
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.only(
+                                bottomLeft: Radius.circular(30),
+                                bottomRight: Radius.circular(30))),
+                        child: TabBar(
+                          unselectedLabelColor: Colors.black45,
+                          indicatorColor: Colors.blue,
+                          indicatorSize: TabBarIndicatorSize.label,
+                          labelColor: Colors.black,
+                          enableFeedback: false,
+                          tabs: [
+                            tabHeaderWrapper(
+                              title: 'Followers',
+                              total: seller!.totalFollowers,
+                              loading: utility.userStatus == Status.Processing,
+                            ),
+                            tabHeaderWrapper(
+                              title: 'Following',
+                              total: seller.totalFollowing,
+                              loading:
+                                  utility.hashTagStatus == Status.Processing,
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
-                    body: TabBarView(
-                      children: [
-                        AccountList(
-                            userId: args.user.id, type: FollowType.FOLLOWERS),
-                        AccountList(
-                            userId: args.user.id, type: FollowType.FOLLOWING),
-                      ],
-                    ),
+                      ),
+                    ],
                   );
                 });
               }),
-            ),
+              Flexible(
+                child: TabBarView(
+                  children: [
+                    AccountList(
+                        userId: args.user.id, type: FollowType.FOLLOWERS),
+                    AccountList(
+                        userId: args.user.id, type: FollowType.FOLLOWING),
+                  ],
+                ),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
       // floatingActionButton: FloatingActionButton(
       //   onPressed: () {},
@@ -150,7 +199,10 @@ class _FollowersState extends State<Followers> {
 class AccountList extends StatelessWidget {
   final int userId;
   final FollowType type;
+
   AccountList({required this.userId, required this.type});
+
+  List<dynamic> detail = [];
 
   @override
   Widget build(BuildContext context) {
@@ -211,13 +263,115 @@ class AccountList extends StatelessWidget {
                           final seller = users[i];
                           return SearchItem(
                               title: seller.username,
-                              press: userData.isLoggedIn
-                                  ? seller.iFollow ||
-                                          userData.profile.id == seller.id
-                                      ? null
-                                      : () => userData.followUser(seller)
-                                  : () => Navigator.of(context)
-                                      .pushNamed(LoginScreen.routeName),
+                              // press: userData.isLoggedIn
+                              //     ? seller.iFollow ||
+                              //             userData.profile.id == seller.id
+                              //         ? null
+                              //         : () => userData.followUser(seller)
+                              //     : () => Navigator.of(context)
+                              //         .pushNamed(LoginScreen.routeName),
+                              press: () {
+                                showModalBottomSheet<void>(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.vertical(
+                                      top: Radius.circular(25),
+                                    ),
+                                  ),
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return Container(
+                                      height: 230,
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        children: [
+                                          Container(
+                                            decoration: BoxDecoration(
+                                                color: Colors.grey
+                                                    .withOpacity(0.3),
+                                                borderRadius:
+                                                    BorderRadius.circular(20)),
+                                            height: 3,
+                                            width: 80,
+                                          ),
+                                          CircleAvatar(
+                                            backgroundColor: Colors.white30,
+                                            backgroundImage:
+                                                AssetImage(loadingGif),
+                                            foregroundImage:
+                                                NetworkImage(seller.avartar),
+                                          ),
+                                          Text(
+                                            "Remove follower?",
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 16),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 8),
+                                            child: Text(
+                                              "Owlet Wont's tell me"
+                                              '  ${seller.username} that they have been removed from your followers.',
+                                              textAlign: TextAlign.center,
+                                              style: GoogleFonts.poppins(
+                                                textStyle: TextStyle(
+                                                    color: icolor,
+                                                    fontSize: 12,
+                                                    fontWeight:
+                                                        FontWeight.w500),
+                                              ),
+                                            ),
+                                          ),
+                                          bottomsheetbutton(
+                                            text: 'Remove',
+                                            press: () {
+                                              detail.removeAt(i)
+                                                  ? seller.iFollow ||
+                                                      userData.profile.id ==
+                                                          seller.id
+                                                  : () => userData
+                                                      .followUser(seller);
+                                            },
+                                          ),
+                                          // bottomsheetbutton(
+                                          //   text: 'Remove',
+                                          //   press: () {
+                                          //     userData.isLoggedIn
+                                          //         ? seller.iFollow ||
+                                          //         userData.profile.id ==
+                                          //             seller.id
+                                          //         ? null
+                                          //         : () => userData
+                                          //         .followUser(seller)
+                                          //         : () => Navigator.of(context)
+                                          //         .pushNamed(LoginScreen
+                                          //         .routeName);
+                                          //   },
+                                          // ),
+                                          Padding(
+                                            padding: const EdgeInsets.all(5.0),
+                                            child: InkWell(
+                                              onTap: () {
+                                                Navigator.of(context).pop();
+                                              },
+                                              child: Text(
+                                                "Cancel",
+                                                style: TextStyle(
+                                                  color: Colors.red,
+                                                  fontWeight: FontWeight.w500,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  },
+                                );
+                              },
                               subtitle: seller.fullName,
                               imageUrl: seller.avartar,
                               view: () async {
@@ -273,16 +427,37 @@ class SearchItem extends StatelessWidget {
         ),
         subtitle: Text(subtitle),
         trailing: press == null
-            ? Text(
-                'following',
-                style:
-                    TextStyle(fontStyle: FontStyle.italic, color: Colors.grey),
+            // ? Text(
+            //     'following',
+            //     style:
+            //         TextStyle(fontStyle: FontStyle.italic, color: Colors.grey),
+            //   )
+            // : Button(
+            //     text: 'Follow',
+            //     press: press!,
+            //     paddingVert: 5,
+            //     paddingHori: 30,
+            //   ),
+            ? Container(
+                height: 40,
+                width: 105,
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.grey),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Center(
+                  child: Text(
+                    'Following',
+                    style: TextStyle(
+                        color: Colors.grey, fontWeight: FontWeight.bold),
+                  ),
+                ),
               )
             : Button(
-                text: 'Follow',
+                text: 'Remove',
                 press: press!,
                 paddingVert: 5,
-                paddingHori: 30,
+                paddingHori: 25,
               ),
         contentPadding: EdgeInsets.symmetric(horizontal: 0),
       ),
