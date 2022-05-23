@@ -24,6 +24,7 @@ import 'package:owlet/models/User.dart';
 import 'package:provider/provider.dart';
 import 'package:velocity_x/velocity_x.dart';
 
+
 enum MenuOptions { Logout, Verify, Loan }
 
 class ProfileScreen extends StatefulWidget {
@@ -157,6 +158,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                         space10,
                         Expanded(
                           child: TabBarView(
+                            controller: _tabController,
                             children: [
                               ListingGridView(
                                 listings: user.listings,
