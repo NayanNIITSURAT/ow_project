@@ -43,7 +43,7 @@ class User with ChangeNotifier {
   String? lname;
   String? country;
   String? email;
-  String avartar;
+  String avtar;
   String? phone;
   String? website;
   bool private;
@@ -71,6 +71,7 @@ class User with ChangeNotifier {
   String joinedAt;
   List<Message> messages;
 
+
   User({
     required this.id,
     required this.username,
@@ -78,7 +79,7 @@ class User with ChangeNotifier {
     this.fname,
     this.lname,
     this.country,
-    this.avartar: AppUrl.profileImageBaseUrl + 'avatar_2.jpeg',
+    this.avtar: AppUrl.profileImageBaseUrl + 'avatar_2.jpeg',
     this.email,
     this.phone,
     this.whatsapp,
@@ -111,11 +112,14 @@ class User with ChangeNotifier {
     token = token;
   }
 
+
+
+
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
       id: json['id'],
       fullName: json['fullName'],
-      avartar:
+      avtar:
           AppUrl.profileImageBaseUrl + (json['avartar'] ?? 'avatar_2.jpeg'),
       username: json['username'],
       email: json['email'] ?? '',
@@ -184,7 +188,7 @@ class User with ChangeNotifier {
     if (map['bio'] != null) bio = map['bio'];
     if (map['website'] != null) website = map['website'];
     if (map['avartar'] != null)
-      avartar = AppUrl.profileImageBaseUrl + map['avartar'];
+      avtar = AppUrl.profileImageBaseUrl + map['avartar'];
     // if(json['email'] != null) email = json['email'];
   }
 
@@ -231,7 +235,7 @@ class User with ChangeNotifier {
       lname: lname ?? this.lname,
       country: country ?? this.country,
       email: email ?? this.email,
-      avartar: avartar ?? this.avartar,
+      avtar: avartar ?? this.avtar,
       phone: phone ?? this.phone,
       website: website ?? this.website,
       private: private ?? this.private,
@@ -268,7 +272,7 @@ class User with ChangeNotifier {
       'lname': lname,
       'country': country,
       'email': email,
-      'avartar': avartar,
+      'avartar': avtar,
       'phone': phone,
       'website': website,
       'private': private,
@@ -294,6 +298,17 @@ class User with ChangeNotifier {
     };
   }
 
+   String encode(List<User> musics) => json.encode(
+    musics
+        .map<Map<String, dynamic>>((music) =>toMap())
+        .toList(),
+  );
+  static List<User> decode(String musics) =>
+      (json.decode(musics) as List<dynamic>)
+          .map<User>((item) => User.fromJson(item))
+          .toList();
+
+
   factory User.fromMap(Map<String, dynamic> map) {
     return User(
       id: map['id']?.toInt() ?? 0,
@@ -303,7 +318,7 @@ class User with ChangeNotifier {
       lname: map['lname'],
       country: map['country'],
       email: map['email'],
-      avartar: map['avartar'] ?? '',
+      avtar: map['avartar'] ?? '',
       phone: map['phone'],
       website: map['website'],
       private: map['private'] ?? false,
@@ -342,13 +357,13 @@ class User with ChangeNotifier {
 
   @override
   String toString() {
-    return 'User(id: $id, fullName: $fullName, username: $username, fname: $fname, lname: $lname, country: $country, email: $email, avartar: $avartar, phone: $phone, website: $website, private: $private, confirmed: $confirmed, iFollow: $iFollow, whatsapp: $whatsapp, isOnline: $isOnline, isAdmin: $isAdmin, hasVerifiedCompany: $hasVerifiedCompany, hasPendingLoan: $hasPendingLoan, bio: $bio, totalFollowers: $totalFollowers, totalFollowing: $totalFollowing, listings: $listings, stories: $stories, subscription: $subscription, company: $company, token: $token, totalListing: $totalListing, totalNotifications: $totalNotifications, renewalToken: $renewalToken, lastSeen: $lastSeen, joinedAt: $joinedAt, messages: $messages)';
+    return 'User(id: $id, fullName: $fullName, username: $username, fname: $fname, lname: $lname, country: $country, email: $email, avartar: $avtar, phone: $phone, website: $website, private: $private, confirmed: $confirmed, iFollow: $iFollow, whatsapp: $whatsapp, isOnline: $isOnline, isAdmin: $isAdmin, hasVerifiedCompany: $hasVerifiedCompany, hasPendingLoan: $hasPendingLoan, bio: $bio, totalFollowers: $totalFollowers, totalFollowing: $totalFollowing, listings: $listings, stories: $stories, subscription: $subscription, company: $company, token: $token, totalListing: $totalListing, totalNotifications: $totalNotifications, renewalToken: $renewalToken, lastSeen: $lastSeen, joinedAt: $joinedAt, messages: $messages)';
   }
 
   ChatUser get chat => ChatUser(
         id: id,
         username: username,
-        avartar: avartar,
+        avartar: avtar,
         confirmed: confirmed,
         iFollow: iFollow,
         isOnline: isOnline,

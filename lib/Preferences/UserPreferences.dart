@@ -12,14 +12,63 @@ class UserPreferences extends ChangeNotifier {
   }
 
   Future saveUser(User user) async {
+    List<int> listofides=[];
     _prefs!.setInt("userId", user.id);
-    _prefs!.setString("avartar", user.avartar);
+    _prefs!.setString("avartar", user.avtar);
     _prefs!.setString("fullName", user.fullName);
     _prefs!.setString("email", user.email ?? '');
     _prefs!.setString("phone", user.phone ?? '');
     _prefs!.setString("token", user.token);
+    final String getuser = user.encode([user]);
+    final String? userlist = await _prefs!.getString('user_details');
+
+    if (userlist != null && userlist.isNotEmpty) {
+      final List<User> userspref = User.decode(userlist);
+
+      print(userspref.length);
+
+      userspref.contains(user);
+      for (int i = 0; i < userspref.length; i++) {
+
+        listofides.add(userspref[i].id);
+      }
+
+
+      if(listofides.contains(user.id))
+        {
+          int updateindex=listofides.indexOf(user.id);
+          userspref[updateindex] = user;
+          print("userupdated"+user.id.toString());
+
+        }
+      else
+        {
+
+          userspref.add(user);
+          print("newuseradded");
+          print(user.username);
+        }
+
+      final String updateduserlist = user.encode(userspref);
+      await _prefs!.setString('user_details', updateduserlist);
+    }
+    else {
+      await _prefs!.setString('user_details', getuser);
+    }
     // _prefs!.setString("type", user.type);
     // _prefs!.setString("renewalToken", user.renewalToken);
+  }
+
+
+  getuserlist()
+  async{
+    final String? userlist = await _prefs!.getString('user_details');
+
+    if (userlist != null && userlist.isNotEmpty)
+      final List<User> userspref = User.decode(userlist);
+
+    return userlist;
+
   }
 
   Future get registerAppToDevice async {
@@ -78,7 +127,7 @@ class UserPreferences extends ChangeNotifier {
 
     return User(
       id: id,
-      avartar: avartar,
+      avtar: avartar,
       fullName: fullName,
       email: email,
       phone: phone,

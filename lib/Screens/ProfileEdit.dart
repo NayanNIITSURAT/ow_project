@@ -379,7 +379,7 @@ class MyProfileImage extends StatelessWidget {
     return Column(
       children: [
         ProfileAvatar(
-          avatar: user.profile.avartar,
+          avatar: user.profile.avtar,
           size: 130,
         ),
         SizedBox(

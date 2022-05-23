@@ -18,6 +18,10 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+
+
+
     final listing = Provider.of<ListingProvider>(context, listen: false);
     final user = Provider.of<UserProvider>(context, listen: false);
 
@@ -30,7 +34,34 @@ class HomeScreen extends StatelessWidget {
     //               Navigator.pushNamed(context, SearchScreen.routeName)
     //           });
 
-    return Body();
+    return WillPopScope(
+        onWillPop: ()=> _onWillPop(context),
+        child: Body());
+  }
+
+  Future<bool> _onWillPop(BuildContext context) async {
+    bool? exitResult = await showDialog(
+      context: context,
+      builder: (context) => _buildExitDialog(context),
+    );
+    return exitResult ?? false;
+  }
+
+  AlertDialog _buildExitDialog(BuildContext context) {
+    return AlertDialog(
+      title: const Text('Please confirm'),
+      content: const Text('Do you want to exit ?'),
+      actions: <Widget>[
+        TextButton(
+          onPressed: () => Navigator.of(context).pop(false),
+          child: Text('No'),
+        ),
+        TextButton(
+          onPressed: () => Navigator.of(context).pop(true),
+          child: Text('Yes'),
+        ),
+      ],
+    );
   }
 }
 
@@ -50,8 +81,20 @@ class _BodyState extends State<Body> with SingleTickerProviderStateMixin {
     super.initState();
   }
 
+
+
+
+
+
+
+
   @override
   Widget build(BuildContext context) {
+
+
+
+
+
     final listing = Provider.of<ListingProvider>(context);
     final user = Provider.of<UserProvider>(context);
     return user.initStatus == Status.Processing ||

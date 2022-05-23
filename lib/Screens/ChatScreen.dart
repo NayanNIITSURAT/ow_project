@@ -149,7 +149,7 @@ class _ChatScreenState extends State<ChatScreen> with RouteAware {
         "receiverId": chat!.id,
         "senderId": userData.profile.id,
         'username': userData.profile.username,
-        'avartar': userData.profile.avartar,
+        'avartar': userData.profile.avtar,
         'time': DateTime.now().toIso8601String(),
         "id": _newMsg.id,
       };

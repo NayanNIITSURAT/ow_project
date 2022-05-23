@@ -159,7 +159,7 @@ class _ListingCommentModalState extends State<ListingCommentModal> {
                           ? Row(
                               children: [
                                 ProfileAvatar(
-                                    avatar: post.owner.avartar,
+                                    avatar: post.owner.avtar,
                                     size: 60,
                                     isOnline: post.owner.isOnline,
                                     withBorder: true,
@@ -247,7 +247,7 @@ class _ListingCommentModalState extends State<ListingCommentModal> {
                   Row(
                     children: [
                       ProfileAvatar(
-                        avatar: userData.profile.avartar,
+                        avatar: userData.profile.avtar,
                         size: 42,
                       ),
                       8.widthBox,
@@ -312,7 +312,7 @@ class _CommentItemState extends State<CommentItem> {
                 ),
               ProfileAvatar(
                   align: Alignment.topCenter,
-                  avatar: widget.comment.author.avartar,
+                  avatar: widget.comment.author.avtar,
                   size: widget.comment.parentId == null ? 45 : 30,
                   onPressed: () async {
                     ProfileViewModal.show(context);
