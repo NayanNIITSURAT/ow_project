@@ -228,8 +228,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   bottomsheetbutton(
                     text: 'Log in to Existing Account',
                     press: () {
-                      // Navigator.pushNamedAndRemoveUntil(context, LoginScreen.routeName, (r) => false);
-                      Navigator.pushNamed(context, LoginScreen.routeName);
+                      Navigator.pushNamedAndRemoveUntil(
+                          context, LoginScreen.routeName, (r) => false);
                     },
                   ),
                   InkWell(
@@ -377,6 +377,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
       // throw HttpException(data['message']);
     }
   }
+
+
+
+
+
+
   // new
   // callapi() async {
   //   var onof = "";
