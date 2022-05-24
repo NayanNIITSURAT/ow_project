@@ -160,7 +160,7 @@ Future<String> pingServer() async {
     throw HttpException('Unable to ping server');
 }
 
-Future<Map<String, dynamic>> on_of_notification(String onof) async {
+Future<Map<String, dynamic>> on_off_notification(String onof) async {
   // late passbookmodel dataModel;
   final userid=await getuserid;
   try {

@@ -62,8 +62,7 @@ class _LoginScreenState extends State<LoginScreen> {
               });
               Toast(context, message: response['message']).show();
               await GlobalProvider(context).loadData();
-              Navigator.pushNamedAndRemoveUntil(
-                  context, NavScreen.routeName, (route) => false);
+              Navigator.pushNamedAndRemoveUntil(context, NavScreen.routeName, (route) => false);
             } else
               Toast(
                 context,

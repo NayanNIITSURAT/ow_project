@@ -435,7 +435,7 @@ class MyProfileImage extends StatelessWidget {
       showStatusPainter: false,
       storyNum: _user!.profile.stories.length,
       size: h * 0.12,
-      avatar: _user!.profile.avartar,
+      avatar: _user!.profile.avtar,
       // onPressed: () => _showPickOptionDialog(context),
       onPressed: () => Toast(context, message: 'Feature coming soon...').show(),
     );

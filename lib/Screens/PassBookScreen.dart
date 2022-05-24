@@ -11,6 +11,7 @@ import 'package:provider/provider.dart';
 
 import '../../Widgets/SettingsBar.dart';
 import '../../constants/palettes.dart';
+import '../Components/Toast.dart';
 import '../models/passbooknotifier.dart';
 
 class PassBookScreen extends StatefulWidget {
@@ -48,10 +49,10 @@ class _PassBookScreenState extends State<PassBookScreen> {
   String formatISOTime(DateTime date) {
     date = date.toUtc();
     final convertedDate = date.toLocal();
-    String fstring = "";
+    String formated_date = "";
 
-    fstring = (DateFormat("dd MMM,h:mm a").format(convertedDate));
-    return fstring;
+    formated_date = (DateFormat("dd MMM,h:mm a").format(convertedDate));
+    return formated_date;
     // var duration = date.timeZoneOffset;
     // if (duration.isNegative) {
     //   fstring = (DateFormat("dd MMM , HH:mm a").format(date) +
@@ -93,9 +94,9 @@ class _PassBookScreenState extends State<PassBookScreen> {
         : SettingsBar(
             trailing: true,
             isappbar: true,
-            Title: "Passsdfsdfsdfbook",
+            Title: "Passbook",
             trailingTap: () {
-              downLoadExcel(data.pmodel['response'], "nayan");
+              downLoadExcel(data.pmodel['response'], "passbooklist");
             },
             child: Padding(
               padding: EdgeInsets.symmetric(
@@ -176,10 +177,11 @@ class _PassBookScreenState extends State<PassBookScreen> {
     List<List<String>> csvList = [];
     csvList.add(labels);
     for (int i = 0; i < pdata.length; i++) {
-      List<String> dataList = [
+      var date=formatISOTime(DateTime.parse(pdata[i.toString()]['createdAt']));
+          List<String> dataList = [
         i.toString(),
     pdata[i.toString()]['transactionType']!,
-    pdata[i.toString()]['createdAt'],
+            date,
     pdata[i.toString()]['amount'].toString(),
 
       ];
@@ -189,7 +191,13 @@ class _PassBookScreenState extends State<PassBookScreen> {
     String csvData = ListToCsvConverter().convert(csvList);
 
     Uint8List obj = Uint8List.fromList(csvData.codeUnits);
-    MimeType type = MimeType.PDF;
-    await FileSaver.instance.saveFile(name, obj, "csv", mimeType: type);
+    MimeType type = MimeType.CSV;
+   var str= await FileSaver.instance.saveFile(name, obj, "csv", mimeType: type);
+   if(str!=null)
+    Toast(
+      context,
+      message: 'File created sucessfully on $str',
+      type: ToastType.SUCCESS,
+    ).showTop();
   }
 }
