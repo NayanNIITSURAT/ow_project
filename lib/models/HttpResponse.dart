@@ -62,14 +62,6 @@ class ListingResponse extends ChangeNotifier {
         // }
       });
 
-  set addComment(int id) {
-    listings = listings.map((listing) {
-      if (listing.id == id) {
-        listing.totalComments =  listing.totalComments +=1;
-      }
-      return listing;
-    }).toList();
-  }
   set newListing(Listing newListing) {
     listings.insert(0, newListing);
     totalItems += 1;
