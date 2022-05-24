@@ -31,7 +31,9 @@ class HelpScren extends StatelessWidget {
             ),
             HelpTile(
               text: 'Help Center',
-              callback: () {},
+              callback: () {
+                _launchURL();
+              },
             ),
             HelpTile(
               text: 'Privacy and Security Help',
@@ -39,10 +41,12 @@ class HelpScren extends StatelessWidget {
                 _launchURL();
               },
             ),
-            HelpTile(
-              text: 'Support Requests',
-              callback: () {},
-            ),
+            // HelpTile(
+            //   text: 'Support Requests',
+            //   callback: () {
+            //     _launchURL();
+            //   },
+            // ),
           ],
         ),
       ),

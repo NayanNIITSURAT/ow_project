@@ -185,6 +185,7 @@ Future<dynamic> deleteListing(int listingId) async {
   }
 }
 
+
 Future<ListingResponse> searchListingsTable(String query, int page) async {
   final response = await get(
     Uri.parse(AppUrl.searchListingUrl + '/$query/$page'),

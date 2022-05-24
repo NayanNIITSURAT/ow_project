@@ -1,12 +1,14 @@
 import 'dart:async';
-
+import 'package:file_saver/file_saver.dart';
+import 'package:csv/csv.dart';
 import 'package:flutter/cupertino.dart';
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:owlet/Components/Loading.dart';
 import 'package:owlet/Widgets/PullToRefresh.dart';
-
 import 'package:provider/provider.dart';
+
 import '../../Widgets/SettingsBar.dart';
 import '../../constants/palettes.dart';
 import '../models/passbooknotifier.dart';
@@ -20,6 +22,8 @@ class PassBookScreen extends StatefulWidget {
 
 class _PassBookScreenState extends State<PassBookScreen> {
   bool isloadingstate = true;
+  final List<String> labels = ["No", "Title", "Date and time", "Amount"];
+
   @override
   void initState() {
     final data = Provider.of<passbooknotifier>(context, listen: false);
@@ -89,8 +93,10 @@ class _PassBookScreenState extends State<PassBookScreen> {
         : SettingsBar(
             trailing: true,
             isappbar: true,
-            Title: "Passbook",
-            trailingTap: () {},
+            Title: "Passsdfsdfsdfbook",
+            trailingTap: () {
+              downLoadExcel(data.pmodel['response'], "nayan");
+            },
             child: Padding(
               padding: EdgeInsets.symmetric(
                   horizontal: MediaQuery.of(context).size.width * 0.05),
@@ -164,5 +170,26 @@ class _PassBookScreenState extends State<PassBookScreen> {
               ),
             ),
           );
+  }
+
+  downLoadExcel(pdata, String name) async {
+    List<List<String>> csvList = [];
+    csvList.add(labels);
+    for (int i = 0; i < pdata.length; i++) {
+      List<String> dataList = [
+        i.toString(),
+    pdata[i.toString()]['transactionType']!,
+    pdata[i.toString()]['createdAt'],
+    pdata[i.toString()]['amount'].toString(),
+
+      ];
+      csvList.add(dataList);
+    }
+
+    String csvData = ListToCsvConverter().convert(csvList);
+
+    Uint8List obj = Uint8List.fromList(csvData.codeUnits);
+    MimeType type = MimeType.PDF;
+    await FileSaver.instance.saveFile(name, obj, "csv", mimeType: type);
   }
 }

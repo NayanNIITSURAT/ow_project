@@ -158,7 +158,7 @@ Future<dynamic> toggleFollow(RequestAction action, int userId) async {
         (action == RequestAction.Follow
             ? '/follow/$userId'
             : '/unfollow/$userId')),
-    headers: headers,
+    headers:headers,
   );
 
   if (response.statusCode == 200) {

@@ -25,6 +25,12 @@ class ListingProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  set comment(int id) {
+    listingDataForMe.addComment = id;
+    listingData.addComment = id;
+    notifyListeners();
+  }
+
   set unfollowUser(User user) {
     listingData.unfollowUser = user;
     listingDataForMe.unfollowUser = user;
@@ -135,7 +141,7 @@ class ListingProvider with ChangeNotifier {
           'status': true,
           'message': 'Fetching commpelted',
         };
-      } catch (error) {
+      }catch (error) {
         _listingForMeStatus = Status.Failed;
         notifyListeners();
 

@@ -65,6 +65,7 @@ class _BodyState extends State<Body> with SingleTickerProviderStateMixin {
               child: Column(
                 children: [
                   CustomAppBar(),
+<<<<<<< HEAD
                   Expanded(
                     child: DefaultTabController(
                       length: 2,
@@ -79,6 +80,51 @@ class _BodyState extends State<Body> with SingleTickerProviderStateMixin {
                                   buildContainer(context),
                                 ],
                               ),
+=======
+
+                  Container(
+                    decoration: BoxDecoration(
+
+                        color: Colors.white,
+                        borderRadius: BorderRadius.only(
+                            bottomLeft: Radius.circular(30),
+                            bottomRight: Radius.circular(30))),
+                    child: Column(
+                      children: [
+                        SizedBox(
+
+                            child: Divider(
+                                thickness: 1,
+                                color:divider.withOpacity(0.1)
+                            )),
+                        StatusScrollView(),
+                        SizedBox(
+                            width: screenSize(context).width * 0.9,
+                            child: Divider(
+                              thickness: 1,
+                                color:divider.withOpacity(0.1)
+                            )),
+                        Container(
+                          height: screenSize(context).height * 0.06,
+                          width: screenSize(context).width,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.only(
+                                  bottomLeft: Radius.circular(20),
+                                  bottomRight: Radius.circular(20))),
+                          child: Padding(
+                            padding:  EdgeInsets.symmetric(horizontal:50 ),
+                            child: TabBar(
+                              controller: _tabController,
+                              labelColor: Colors.black,
+                              unselectedLabelColor: Colors.grey,
+                              indicatorColor:indicatorColor,
+                              indicator: CustomTabIndicator(color:indicatorColor,indicatorHeight: 3 ),
+                              labelStyle: TextStyle(fontSize: 18),
+                              tabs: [
+                                Tab(text: 'Market',),
+                                Tab(text: 'Following',),
+                              ],
+>>>>>>> main
                             ),
                           ];
                         },

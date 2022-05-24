@@ -9,6 +9,7 @@ import 'package:camera_web/camera_web.dart';
 import 'package:connectivity_for_web/connectivity_for_web.dart';
 import 'package:device_info_plus_web/device_info_plus_web.dart';
 import 'package:file_picker/_internal/file_picker_web.dart';
+import 'package:file_saver/file_saver_web.dart';
 import 'package:file_selector_web/file_selector_web.dart';
 import 'package:firebase_analytics_web/firebase_analytics_web.dart';
 import 'package:firebase_core_web/firebase_core_web.dart';
@@ -31,6 +32,7 @@ void registerPlugins(Registrar registrar) {
   ConnectivityPlugin.registerWith(registrar);
   DeviceInfoPlusPlugin.registerWith(registrar);
   FilePickerWeb.registerWith(registrar);
+  FileSaverWeb.registerWith(registrar);
   FileSelectorWeb.registerWith(registrar);
   FirebaseAnalyticsWeb.registerWith(registrar);
   FirebaseCoreWeb.registerWith(registrar);

@@ -192,8 +192,10 @@ class _AddListingScreenState extends State<AddListingScreen> {
           aspectRatio: CropAspectRatio(ratioX: 1.0, ratioY: 1.0),
         );
 
+
         if (imageFile != null)
           setState(() {
+            // _assetList.add(File(pickedImage.path));
             _assetList.add(imageFile);
           });
       }
@@ -202,7 +204,8 @@ class _AddListingScreenState extends State<AddListingScreen> {
     }
   }
 
-  void addImage(allowedImagesInt) => _assetList.length >= allowedImagesInt
+  void addImage(allowedImagesInt) =>
+      _assetList.length >= allowedImagesInt
       ? Toast(context, message: 'Maximum number of images reached').show()
       : _loadPicker();
 }
