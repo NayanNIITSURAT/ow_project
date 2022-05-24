@@ -373,7 +373,7 @@ class AccountList extends StatelessWidget {
                                 );
                               },
                               subtitle: seller.fullName,
-                              imageUrl: seller.avtar,
+                              imageUrl: seller.avartar,
                               view: () async {
                                 await utility.getCurrentSellerProfile(seller);
                                 ProfileViewModal.show(context);

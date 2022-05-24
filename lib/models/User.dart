@@ -43,7 +43,7 @@ class User with ChangeNotifier {
   String? lname;
   String? country;
   String? email;
-  String avtar;
+  String avartar;
   String? phone;
   String? website;
   bool private;
@@ -79,7 +79,7 @@ class User with ChangeNotifier {
     this.fname,
     this.lname,
     this.country,
-    this.avtar: AppUrl.profileImageBaseUrl + 'avatar_2.jpeg',
+    this.avartar: AppUrl.profileImageBaseUrl + 'avatar_2.jpeg',
     this.email,
     this.phone,
     this.whatsapp,
@@ -119,7 +119,7 @@ class User with ChangeNotifier {
     return User(
       id: json['id'],
       fullName: json['fullName'],
-      avtar:
+      avartar:
           AppUrl.profileImageBaseUrl + (json['avartar'] ?? 'avatar_2.jpeg'),
       username: json['username'],
       email: json['email'] ?? '',
@@ -188,7 +188,7 @@ class User with ChangeNotifier {
     if (map['bio'] != null) bio = map['bio'];
     if (map['website'] != null) website = map['website'];
     if (map['avartar'] != null)
-      avtar = AppUrl.profileImageBaseUrl + map['avartar'];
+      avartar = AppUrl.profileImageBaseUrl + map['avartar'];
     // if(json['email'] != null) email = json['email'];
   }
 
@@ -235,7 +235,7 @@ class User with ChangeNotifier {
       lname: lname ?? this.lname,
       country: country ?? this.country,
       email: email ?? this.email,
-      avtar: avartar ?? this.avtar,
+      avartar: avartar ?? this.avartar,
       phone: phone ?? this.phone,
       website: website ?? this.website,
       private: private ?? this.private,
@@ -272,7 +272,7 @@ class User with ChangeNotifier {
       'lname': lname,
       'country': country,
       'email': email,
-      'avartar': avtar,
+      'avartar': avartar,
       'phone': phone,
       'website': website,
       'private': private,
@@ -303,6 +303,7 @@ class User with ChangeNotifier {
         .map<Map<String, dynamic>>((music) =>toMap())
         .toList(),
   );
+
   static List<User> decode(String musics) =>
       (json.decode(musics) as List<dynamic>)
           .map<User>((item) => User.fromJson(item))
@@ -318,7 +319,7 @@ class User with ChangeNotifier {
       lname: map['lname'],
       country: map['country'],
       email: map['email'],
-      avtar: map['avartar'] ?? '',
+      avartar: map['avartar'] ?? '',
       phone: map['phone'],
       website: map['website'],
       private: map['private'] ?? false,
@@ -357,13 +358,13 @@ class User with ChangeNotifier {
 
   @override
   String toString() {
-    return 'User(id: $id, fullName: $fullName, username: $username, fname: $fname, lname: $lname, country: $country, email: $email, avartar: $avtar, phone: $phone, website: $website, private: $private, confirmed: $confirmed, iFollow: $iFollow, whatsapp: $whatsapp, isOnline: $isOnline, isAdmin: $isAdmin, hasVerifiedCompany: $hasVerifiedCompany, hasPendingLoan: $hasPendingLoan, bio: $bio, totalFollowers: $totalFollowers, totalFollowing: $totalFollowing, listings: $listings, stories: $stories, subscription: $subscription, company: $company, token: $token, totalListing: $totalListing, totalNotifications: $totalNotifications, renewalToken: $renewalToken, lastSeen: $lastSeen, joinedAt: $joinedAt, messages: $messages)';
+    return 'User(id: $id, fullName: $fullName, username: $username, fname: $fname, lname: $lname, country: $country, email: $email, avartar: $avartar, phone: $phone, website: $website, private: $private, confirmed: $confirmed, iFollow: $iFollow, whatsapp: $whatsapp, isOnline: $isOnline, isAdmin: $isAdmin, hasVerifiedCompany: $hasVerifiedCompany, hasPendingLoan: $hasPendingLoan, bio: $bio, totalFollowers: $totalFollowers, totalFollowing: $totalFollowing, listings: $listings, stories: $stories, subscription: $subscription, company: $company, token: $token, totalListing: $totalListing, totalNotifications: $totalNotifications, renewalToken: $renewalToken, lastSeen: $lastSeen, joinedAt: $joinedAt, messages: $messages)';
   }
 
   ChatUser get chat => ChatUser(
         id: id,
         username: username,
-        avartar: avtar,
+        avartar: avartar,
         confirmed: confirmed,
         iFollow: iFollow,
         isOnline: isOnline,
