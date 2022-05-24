@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:html';
 import 'package:file_saver/file_saver.dart';
 import 'package:csv/csv.dart';
 import 'package:flutter/cupertino.dart';
@@ -177,13 +178,13 @@ class _PassBookScreenState extends State<PassBookScreen> {
     List<List<String>> csvList = [];
     csvList.add(labels);
     for (int i = 0; i < pdata.length; i++) {
-      var date=formatISOTime(DateTime.parse(pdata[i.toString()]['createdAt']));
-          List<String> dataList = [
+      var date =
+          formatISOTime(DateTime.parse(pdata[i.toString()]['createdAt']));
+      List<String> dataList = [
         i.toString(),
-    pdata[i.toString()]['transactionType']!,
-            date,
-    pdata[i.toString()]['amount'].toString(),
-
+        pdata[i.toString()]['transactionType']!,
+        date,
+        pdata[i.toString()]['amount'].toString(),
       ];
       csvList.add(dataList);
     }
@@ -192,12 +193,13 @@ class _PassBookScreenState extends State<PassBookScreen> {
 
     Uint8List obj = Uint8List.fromList(csvData.codeUnits);
     MimeType type = MimeType.CSV;
-   var str= await FileSaver.instance.saveFile(name, obj, "csv", mimeType: type);
-   if(str!=null)
-    Toast(
-      context,
-      message: 'File created sucessfully on $str',
-      type: ToastType.SUCCESS,
-    ).showTop();
+    var str =
+        await FileSaver.instance.saveFile(name, obj, "csv", mimeType: type);
+    if (str != null)
+      Toast(
+        context,
+        message: 'File created sucessfully on $str',
+        type: ToastType.SUCCESS,
+      ).showTop();
   }
 }
