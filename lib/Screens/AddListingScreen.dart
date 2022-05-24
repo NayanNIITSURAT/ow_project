@@ -122,7 +122,7 @@ class _AddListingScreenState extends State<AddListingScreen> {
                                                 border: Border.all(
                                                   width: 2.5,
                                                   color: Colors.blue
-                                                      .withOpacity(0.05)!,
+                                                      .withOpacity(0.05),
                                                 ),
                                               ),
                                             ),
