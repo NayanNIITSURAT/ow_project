@@ -158,9 +158,9 @@ Future<User> authenticateUser(LoginUser? user) async {
     body: user != null
         ? jsonEncode(<String, String>{
             "usernameOrEmail": user.username,
-            "password": user.password,
+            "password": user.password, 
             "deviceToken": (await _messaging.getToken()) ?? '',
-            "deviceType": Platform.isAndroid ? 'ANDROID' : 'IOS'
+            "deviceType": Platform.isAndroid ? 'ANDROID' : 'IOS' 
           })
         : jsonEncode(<String, String>{
             "deviceToken": (await _messaging.getToken()) ?? '',

@@ -392,7 +392,7 @@ class UserProvider with ChangeNotifier {
 
         if (refresh)
           userFollowingData = await fetchUserFollowing(
-              id, 0, FollowType.FOLLOWING, searchQuery);
+              id, 0, FollowType.FOLLOWING, searchQuery); 
         else
           userFollowingData.updateUsersData = await fetchUserFollowing(
               id,
