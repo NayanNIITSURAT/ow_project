@@ -141,7 +141,7 @@ class ListingProvider with ChangeNotifier {
           'status': true,
           'message': 'Fetching commpelted',
         };
-      } catch (error) {
+      }catch (error) {
         _listingForMeStatus = Status.Failed;
         notifyListeners();
 

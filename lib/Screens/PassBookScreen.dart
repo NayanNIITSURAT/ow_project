@@ -1,14 +1,17 @@
 import 'dart:async';
-
+import 'package:file_saver/file_saver.dart';
+import 'package:csv/csv.dart';
 import 'package:flutter/cupertino.dart';
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:owlet/Components/Loading.dart';
 import 'package:owlet/Widgets/PullToRefresh.dart';
-
 import 'package:provider/provider.dart';
+
 import '../../Widgets/SettingsBar.dart';
 import '../../constants/palettes.dart';
+import '../Components/Toast.dart';
 import '../models/passbooknotifier.dart';
 
 class PassBookScreen extends StatefulWidget {
@@ -20,6 +23,8 @@ class PassBookScreen extends StatefulWidget {
 
 class _PassBookScreenState extends State<PassBookScreen> {
   bool isloadingstate = true;
+  final List<String> labels = ["No", "Title", "Date and time", "Amount"];
+
   @override
   void initState() {
     final data = Provider.of<passbooknotifier>(context, listen: false);
@@ -44,10 +49,10 @@ class _PassBookScreenState extends State<PassBookScreen> {
   String formatISOTime(DateTime date) {
     date = date.toUtc();
     final convertedDate = date.toLocal();
-    String fstring = "";
+    String formated_date = "";
 
-    fstring = (DateFormat("dd MMM,h:mm a").format(convertedDate));
-    return fstring;
+    formated_date = (DateFormat("dd MMM,h:mm a").format(convertedDate));
+    return formated_date;
     // var duration = date.timeZoneOffset;
     // if (duration.isNegative) {
     //   fstring = (DateFormat("dd MMM , HH:mm a").format(date) +
@@ -90,7 +95,9 @@ class _PassBookScreenState extends State<PassBookScreen> {
             trailing: true,
             isappbar: true,
             Title: "Passbook",
-            trailingTap: () {},
+            trailingTap: () {
+              downLoadExcel(data.pmodel['response'], "passbooklist");
+            },
             child: Padding(
               padding: EdgeInsets.symmetric(
                   horizontal: MediaQuery.of(context).size.width * 0.05),
@@ -164,5 +171,33 @@ class _PassBookScreenState extends State<PassBookScreen> {
               ),
             ),
           );
+  }
+
+  downLoadExcel(pdata, String name) async {
+    List<List<String>> csvList = [];
+    csvList.add(labels);
+    for (int i = 0; i < pdata.length; i++) {
+      var date=formatISOTime(DateTime.parse(pdata[i.toString()]['createdAt']));
+          List<String> dataList = [
+        i.toString(),
+    pdata[i.toString()]['transactionType']!,
+            date,
+    pdata[i.toString()]['amount'].toString(),
+
+      ];
+      csvList.add(dataList);
+    }
+
+    String csvData = ListToCsvConverter().convert(csvList);
+
+    Uint8List obj = Uint8List.fromList(csvData.codeUnits);
+    MimeType type = MimeType.CSV;
+   var str= await FileSaver.instance.saveFile(name, obj, "csv", mimeType: type);
+   if(str!=null)
+    Toast(
+      context,
+      message: 'File created sucessfully on $str',
+      type: ToastType.SUCCESS,
+    ).showTop();
   }
 }

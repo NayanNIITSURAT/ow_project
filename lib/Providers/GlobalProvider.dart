@@ -67,7 +67,6 @@ class GlobalProvider with ChangeNotifier {
   initMarketData() async {
     await fetchInitData('market').then((res) {
       userProvider.usersWithStory = res.topFollowing;
-
       listingProvider.listingData.setListingsData = res.listingData;
     }).catchError((onError) {
       Toast(

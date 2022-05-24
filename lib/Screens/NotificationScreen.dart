@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:owlet/Components/Button.dart';
 import 'package:owlet/Components/Loading.dart';
 import 'package:owlet/Components/ReadMore.dart';
@@ -16,6 +17,12 @@ import 'package:owlet/models/Notification.dart' as N;
 import 'package:owlet/models/User.dart';
 import 'package:owlet/services/utils.dart';
 import 'package:provider/provider.dart';
+import 'package:velocity_x/velocity_x.dart';
+
+import '../helpers/helpers.dart';
+import '../models/Notification.dart';
+import '../models/Notification.dart';
+import '../models/Notification.dart';
 
 class NotificationScreen extends StatelessWidget {
   static const routeName = 'notifications-screen';
@@ -149,7 +156,7 @@ class _NotificationListState extends State<NotificationList> {
 Widget title({required String text, required Color iconColor}) => Container(
       color: Colors.grey.shade100,
       padding: EdgeInsets.all(20),
-      margin: EdgeInsets.only(top: 5,bottom: 5),
+      margin: EdgeInsets.only(top: 5, bottom: 5),
       width: double.infinity,
       child: Row(
         children: [
@@ -271,47 +278,62 @@ class _NotificationItemState extends State<NotificationItem> {
                   ),
                 ),
               ),
-              isAccount
-                  ? iFollow || user.profile.id == sender.id
-                      ? Text(
-                          'Following',
-                          style: TextStyle(fontStyle: FontStyle.italic),
-                        )
-                      : Button(
-                          text: 'Follow back',
-                          press: user.isLoggedIn
-                              ? () {
-                                  setState(() => iFollow = !iFollow);
-                                  user
-                                      .followUser(User(
-                                        id: sender.id,
-                                        fullName: 'fullName',
-                                        username: sender.username,
-                                        email: 'email',
-                                        phone: 'phone',
-                                      ))
-                                      .catchError((onError) =>
-                                          setState(() => iFollow = !iFollow));
-                                }
-                              : () => Navigator.of(context)
-                                  .pushNamed(LoginScreen.routeName),
-                          paddingVert: 4,
-                          paddingHori: 8,
-                        )
-                  : InkWell(
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(3),
-                        child: Image.network(
-                          listing!.images[0],
-                          height: 40,
-                          filterQuality: FilterQuality.medium,
-                        ),
-                      ),
-                      onTap: showListing,
-                    )
+              // timeAgo(sender.notification.last.time ??
+              //         DateTime.now().toString())
+              //     .text
+              //     .size(12)
+              //     .color(Palette.primaryColor)
+              //     .textStyle(TextStyle(fontWeight: FontWeight.w600))
+              //     .make(),
+              // isAccount
+              //     ? iFollow || user.profile.id == sender.id
+              //         ? Text(
+              //             'Following',
+              //             style: TextStyle(fontStyle: FontStyle.italic),
+              //           )
+              //         : Button(
+              //             text: 'Follow back',
+              //             press: user.isLoggedIn
+              //                 ? () {
+              //                     setState(() => iFollow = !iFollow);
+              //                     user
+              //                         .followUser(User(
+              //                           id: sender.id,
+              //                           fullName: 'fullName',f
+              //                           username: sender.username,
+              //                           email: 'email',
+              //                           phone: 'phone',
+              //                         ))
+              //                         .catchError((onError) =>
+              //                             setState(() => iFollow = !iFollow));
+              //                   }
+              //                 : () => Navigator.of(context)
+              //                     .pushNamed(LoginScreen.routeName),
+              //             paddingVert: 4,
+              //             paddingHori: 8,
+              //           )
+              //     : InkWell(
+              //         child: ClipRRect(
+              //           borderRadius: BorderRadius.circular(3),
+              //           child: Image.network(
+              //             listing!.images[0],
+              //             height: 40,
+              //             filterQuality: FilterQuality.medium,
+              //           ),
+              //         ),
+              //         onTap: showListing,
+              //       )
               // ProfileAvatar(
               //     avatar: listing!.images[0],
               //   ),
+
+              // DateFormat("dd, MMM")
+              //     .format(
+              //         DateTime.tryParse(product.createdAt) ?? DateTime.now())
+              //     .text
+              //     .sm
+              //     .gray400
+              //     .make()
             ],
           ),
           Divider(),

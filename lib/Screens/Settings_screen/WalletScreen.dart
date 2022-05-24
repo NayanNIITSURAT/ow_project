@@ -313,16 +313,18 @@ class _WalletScreenState extends State<WalletScreen> {
                                               Text(
                                                 "Add Money to ",
                                                 style: TextStyle(
-                                                  fontSize: 16,
-                                                  color: Colors.black,
-                                                ),
+                                                    fontSize: 16,
+                                                    color: Colors.black,
+                                                    fontWeight:
+                                                        FontWeight.w600),
                                               ),
                                               Text(
                                                 "The Owlet Wallet",
                                                 style: TextStyle(
-                                                  fontSize: 16,
-                                                  color: Colors.red,
-                                                ),
+                                                    fontSize: 16,
+                                                    color: Colors.red,
+                                                    fontWeight:
+                                                        FontWeight.w600),
                                               ),
                                             ],
                                           ),

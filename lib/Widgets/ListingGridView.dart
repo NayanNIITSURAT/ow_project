@@ -14,6 +14,7 @@ class ListingGridView extends StatefulWidget {
   final Function() load;
   final Function refresh;
   final int column;
+
   final bool isLoading;
   ListingGridView({
     this.column: 3,
@@ -98,8 +99,8 @@ class _ListingGridViewState extends State<ListingGridView> {
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: widget.column,
                         childAspectRatio: 1.1,
-                        crossAxisSpacing: 0,
-                        mainAxisSpacing: 0,
+                        crossAxisSpacing: 3,
+                        mainAxisSpacing: 3,
                       ),
                     )
           // ),

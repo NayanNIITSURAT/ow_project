@@ -3,6 +3,7 @@ import 'package:owlet/Widgets/SettingsBar.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../Widgets/SettingsListTile.dart';
+import '../Faq_Screen.dart';
 import 'ReportProblem.dart';
 
 class HelpScren extends StatelessWidget {
@@ -38,15 +39,22 @@ class HelpScren extends StatelessWidget {
             HelpTile(
               text: 'Privacy and Security Help',
               callback: () {
-                _launchURL();
+                // _launchURL();
+
+                Navigator.push<void>(
+                  context,
+                  MaterialPageRoute<void>(
+                    builder: (BuildContext context) => const faq_screen(),
+                  ),
+                );
               },
             ),
-            HelpTile(
-              text: 'Support Requests',
-              callback: () {
-                _launchURL();
-              },
-            ),
+            // HelpTile(
+            //   text: 'Support Requests',
+            //   callback: () {
+            //     _launchURL();
+            //   },
+            // ),
           ],
         ),
       ),

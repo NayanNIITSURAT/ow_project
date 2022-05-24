@@ -27,8 +27,9 @@ class Button extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      height: 40,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(8),
         gradient: LinearGradient(
           begin: Alignment.centerLeft,
           end:
@@ -43,7 +44,6 @@ class Button extends StatelessWidget {
       child: ClipRRect(
         // borderRadius: BorderRadius.circular(10),
         child: TextButton(
-
           style: ElevatedButton.styleFrom(
             minimumSize: Size(30, 20),
             enableFeedback: true,
@@ -58,7 +58,8 @@ class Button extends StatelessWidget {
                 )
               : Text(
                   text,
-                  style: TextStyle(color: textColor),
+                  style:
+                      TextStyle(color: textColor, fontWeight: FontWeight.w600),
                 ),
         ),
       ),

@@ -157,19 +157,23 @@ class _ProfileScreenState extends State<ProfileScreen>
                         ),
                         space10,
                         Expanded(
-                          child: TabBarView(
-                            controller: _tabController,
-                            children: [
-                              ListingGridView(
-                                listings: user.listings,
-                                load: () => user.getListings(),
-                                refresh: () => user.getListings(refresh: true),
-                                providerType: ListingProviderType.USER,
-                              ),
-                              Text("Videos"),
-                              Text("Videos"),
-                              Text("Videos"),
-                            ],
+                          child: Padding(
+                            padding: const EdgeInsets.all(4.0),
+                            child: TabBarView(
+                              controller: _tabController,
+                              children: [
+                                ListingGridView(
+                                  listings: user.listings,
+                                  load: () => user.getListings(),
+                                  refresh: () =>
+                                      user.getListings(refresh: true),
+                                  providerType: ListingProviderType.USER,
+                                ),
+                                Text("Videos"),
+                                Text("Videos"),
+                                Text("Videos"),
+                              ],
+                            ),
                           ),
                         ),
                       ],
@@ -196,119 +200,133 @@ class _ProfileScreenState extends State<ProfileScreen>
       List<String> Story) {
     var h = MediaQuery.of(context).size.height;
     var w = MediaQuery.of(context).size.width;
-    var space5 = SizedBox(height: h * 0.005);
+    var space5 = SizedBox(height: h * 0.000);
 
     return Column(
       children: [
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: w * 0.050),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              space,
-              space,
-              MyProfileImage(user: user),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(_user.username,
-                      style: TextStyle(
-                          fontSize: w * 0.050, fontWeight: FontWeight.bold)),
-                  space5,
-                  Text(
-                    _user.fullName,
-                    style: TextStyle(color: Colors.grey, fontSize: w * 0.032),
-                  ),
-                ],
-              ),
-              user.profile.bio != null && user.profile.bio!.length > 0
-                  ? user.profile.bio!.richText.justify
-                      .size(w * 0.030)
-                      // .maxLines(5)
-                      .make()
-                      .box
-                      .padding(EdgeInsets.symmetric(vertical: h * 0.008))
-                      .make()
-                      .w(double.infinity)
-                  : SizedBox.shrink(),
-              Divider(
-                color: divider.withOpacity(0.5),
-              ),
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 15),
-                child: Column(
+        Container(
+          decoration: BoxDecoration(
+              color: Colors.white,
+              boxShadow: [
+                BoxShadow(
+                  offset: Offset(5, 3),
+                  color: Colors.grey.withOpacity(.1),
+                  blurRadius: 5.0,
+                ),
+              ],
+              borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(30),
+                  bottomRight: Radius.circular(30))),
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: w * 0.050),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                space,
+                space,
+                MyProfileImage(user: user),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            utility.currentSellerProfile = _user;
-                            user.getUserFollowers(_user.id, refresh: true);
-                            Navigator.pushNamed(
-                              context,
-                              Followers.routeName,
-                              arguments: FollowerScreenArguments(_user),
-                            );
-                          },
-                          child: Column(
-                            children: [
-                              Text("${_user.totalFollowers}",
-                                  style: counterStyle),
-                              Text(
-                                'Followers',
-                                style: counterTitleStyle,
-                              ),
-                            ],
+                    Text(_user.username,
+                        style: TextStyle(
+                            fontSize: w * 0.055, fontWeight: FontWeight.bold)),
+                    space5,
+                    Text(
+                      _user.fullName,
+                      style: TextStyle(color: Colors.grey, fontSize: w * 0.040),
+                    ),
+                  ],
+                ),
+                user.profile.bio != null && user.profile.bio!.length > 0
+                    ? user.profile.bio!.richText.justify
+                        .size(w * 0.040)
+                        // .maxLines(5)
+                        .make()
+                        .box
+                        .padding(EdgeInsets.symmetric(vertical: h * 0.010))
+                        .make()
+                        .w(double.infinity)
+                    : SizedBox.shrink(),
+                Divider(
+                  color: divider.withOpacity(0.5),
+                ),
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 15),
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              utility.currentSellerProfile = _user;
+                              user.getUserFollowers(_user.id, refresh: true);
+                              Navigator.pushNamed(
+                                context,
+                                Followers.routeName,
+                                arguments: FollowerScreenArguments(_user),
+                              );
+                            },
+                            child: Column(
+                              children: [
+                                Text("${_user.totalFollowers}",
+                                    style: counterStyle),
+                                Text(
+                                  'Followers',
+                                  style: counterTitleStyle,
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
-                        Pipe(height: h * 0.060),
-                        GestureDetector(
-                          onTap: () {
-                            utility.currentSellerProfile = _user;
-                            user.getUserFollowing(_user.id, refresh: true);
-                            Navigator.pushNamed(
-                              context,
-                              Followers.routeName,
-                              arguments: FollowerScreenArguments(
-                                _user,
-                                type: FollowType.FOLLOWING,
-                              ),
-                            );
-                          },
-                          child: Column(
+                          Pipe(height: h * 0.060),
+                          GestureDetector(
+                            onTap: () {
+                              utility.currentSellerProfile = _user;
+                              user.getUserFollowing(_user.id, refresh: true);
+                              Navigator.pushNamed(
+                                context,
+                                Followers.routeName,
+                                arguments: FollowerScreenArguments(
+                                  _user,
+                                  type: FollowType.FOLLOWING,
+                                ),
+                              );
+                            },
+                            child: Column(
+                              children: [
+                                Text(
+                                  "${_user.totalFollowing}",
+                                  style: counterStyle,
+                                ),
+                                Text(
+                                  'Following',
+                                  style: counterTitleStyle,
+                                ),
+                              ],
+                            ),
+                          ),
+                          Pipe(height: h * 0.060),
+                          Column(
                             children: [
                               Text(
-                                "${_user.totalFollowing}",
+                                '${_user.totalListing}',
                                 style: counterStyle,
                               ),
                               Text(
-                                'Following',
+                                'Products',
                                 style: counterTitleStyle,
                               ),
                             ],
                           ),
-                        ),
-                        Pipe(height: h * 0.060),
-                        Column(
-                          children: [
-                            Text(
-                              '${_user.totalListing}',
-                              style: counterStyle,
-                            ),
-                            Text(
-                              'Products',
-                              style: counterTitleStyle,
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                    space,
-                  ],
+                        ],
+                      ),
+                      space,
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
         Padding(
@@ -418,7 +436,7 @@ class MyProfileImage extends StatelessWidget {
       showStatusPainter: false,
       storyNum: _user!.profile.stories.length,
       size: h * 0.12,
-      avatar: _user!.profile.avartar,
+      avatar: _user!.profile.avtar,
       // onPressed: () => _showPickOptionDialog(context),
       onPressed: () => Toast(context, message: 'Feature coming soon...').show(),
     );

@@ -8,6 +8,7 @@ import 'package:owlet/Components/Loading.dart';
 import 'package:owlet/Components/Toast.dart';
 import 'package:owlet/Providers/Auth.dart';
 import 'package:owlet/Providers/GlobalProvider.dart';
+import 'package:owlet/Screens/Home.dart';
 import 'package:owlet/Screens/NavScreen.dart';
 import 'package:owlet/constants/images.dart';
 import 'package:owlet/helpers/helpers.dart';
@@ -61,8 +62,7 @@ class _LoginScreenState extends State<LoginScreen> {
               });
               Toast(context, message: response['message']).show();  
               await GlobalProvider(context).loadData();
-              Navigator.pushNamedAndRemoveUntil(
-                  context, NavScreen.routeName, (route) => false);
+              Navigator.pushNamedAndRemoveUntil(context, NavScreen.routeName, (route) => false);
             } else
               Toast(
                 context,
@@ -124,15 +124,17 @@ class _LoginScreenState extends State<LoginScreen> {
                                       .headlineSmall!
                                       .copyWith(
                                           fontSize: 22,
-                                          fontWeight: FontWeight.w600),
+                                          fontWeight: FontWeight.bold),
                                 ),
                                 Text(
-                                  "Let's Build Something Great",
+                                  "Let's build something great",
                                   style: Theme.of(context)
                                       .textTheme
                                       .bodyLarge!
                                       .copyWith(
-                                          fontSize: 18, color: Colors.black54),
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w400,
+                                          color: Colors.black54),
                                 ),
                                 SizedBox(height: 20),
                                 Input(
