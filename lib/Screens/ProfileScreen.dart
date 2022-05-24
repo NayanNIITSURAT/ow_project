@@ -64,7 +64,7 @@ class _ProfileScreenState extends State<ProfileScreen>
 
     void doLogout() {
       socket.dispose();
-      globalProvider.logOut();
+      globalProvider.logOut(false);
     }
 
     List<String> Story = [
@@ -432,6 +432,7 @@ class MyProfileImage extends StatelessWidget {
     // }
     var h = MediaQuery.of(context).size.height;
     var w = MediaQuery.of(context).size.width;
+    print('profile photo ${_user!.profile.avartar}');
     return ProfileAvatar(
       showStatusPainter: false,
       storyNum: _user!.profile.stories.length,

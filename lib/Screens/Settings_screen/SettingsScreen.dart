@@ -11,12 +11,17 @@ import 'package:owlet/Screens/NavScreen.dart';
 import 'package:owlet/Screens/Register.dart';
 import 'package:owlet/Widgets/CustomAppBar.dart';
 import 'package:owlet/constants/images.dart';
+import 'package:provider/provider.dart';
 
+import '../../Components/ProfileAvatar.dart';
 import '../../Components/bottomsheetbutton.dart';
 import '../../Preferences/UserPreferences.dart';
+import '../../Providers/Auth.dart';
 import '../../constants/constants.dart';
 import '../../constants/palettes.dart';
+import '../../helpers/firebase.dart';
 import '../../models/User.dart';
+import '../../services/auth.dart';
 import '../../services/utils.dart';
 import '../Login.dart';
 import 'AboutScreen.dart';
@@ -39,18 +44,21 @@ class SettingsScreen extends StatefulWidget {
 class _SettingsScreenState extends State<SettingsScreen> {
   bool isload = false;
   bool check = false;
+  bool _bigBox = false;
+  var activeUserId = 0;
+  List<User> userspref=[];
+  late var auth;
 
   @override
   Widget build(BuildContext context) {
     final globalProvider = GlobalProvider(context);
-
-
+     auth = Provider.of<AuthProvider>(context);
 
 
 
     void doLogout() {
       socket.dispose();
-      globalProvider.logOut();
+      globalProvider.logOut(false);
     }
 
     return Scaffold(
@@ -253,8 +261,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ));
   }
   Future<void> switch_account_bottom_sheet() async {
-    List<User> userspref=[];
+
+    activeUserId = await getuserid;
     var preferenceuserlist = await UserPreferences().getuserlist();
+
     if (preferenceuserlist != null && preferenceuserlist.isNotEmpty) {
        userspref = User.decode(preferenceuserlist);
       print("settings data"+userspref.length.toString());
@@ -277,66 +287,91 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ),
         ),
         context: context,
-        builder: (context) => Container(
-              height: 230,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                        color: Colors.grey.withOpacity(0.3),
-                        borderRadius: BorderRadius.circular(20)),
-                    height: 2,
-                    width: 80,
+        builder: (context) => StatefulBuilder(
+            builder: (BuildContext context, StateSetter setState) {
+              print('photo of usrt ${userspref[0].avartar}');
+            return Container(
+                  height: 260,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                            color: Colors.grey.withOpacity(0.3),
+                            borderRadius: BorderRadius.circular(20)),
+                        height: 2,
+                        width: 80,
+                      ),
+                      Text(
+                        "switch Account",
+                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                      ),
+                      Container(
+                        height: 150,
+                        child: ListView.builder(
+                          itemCount: userspref.length,
+                          itemBuilder: (context, position) {
+                            return Card(
+                              child: Padding(
+                                padding: const EdgeInsets.only(top: 10,bottom: 10),
+                                child: ListTile(
+                                    leading: ProfileAvatar(
+                                      showStatusPainter: false,
+                                      storyNum:  userspref[position].stories.length,
+                                      size:45,
+                                      avatar:  'https://${userspref[position].avartar.toString().split('https://').last}',
+                                      // onPressed: () => _showPickOptionDialog(context),
+                                      onPressed: () => null,
+                                    ),
+                                    title: Text(
+                                    userspref[position].username.toString(),
+                                    style: TextStyle(fontSize: 10 , color: Colors.black),
+                                  ),
+                                  trailing: Checkbox(
+                                    value: activeUserId == userspref[position].id,
+                                    shape: CircleBorder(),
+                                    splashRadius: 20,
+                                    onChanged: (value) {
+                                      onClick(position);
+                                      activeUserId = userspref[position].id;
+                                      setState(() {});
+                                    },
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                      // bottomsheetbutton(
+                      //   text: 'Log in to Existing Account',
+                      //   press: () {
+                      //     // Navigator.pushNamedAndRemoveUntil(context, LoginScreen.routeName, (r) => false);
+                      //     Navigator.pushNamed(context, LoginScreen.routeName);
+                      //   },
+                      // ),
+                      // InkWell(
+                      //   onTap: () {
+                      //     Navigator.pushNamedAndRemoveUntil(
+                      //         context, RegisterScreen.routeName, (r) => false);
+                      //   },
+                      //   child: Padding(
+                      //     padding: const EdgeInsets.all(5.0),
+                      //     child: Text(
+                      //       "Create New Account",
+                      //       style: TextStyle(
+                      //         color: Colors.red,
+                      //         fontWeight: FontWeight.w500,
+                      //       ),
+                      //     ),
+                      //   ),
+                      // ),
+                    ],
                   ),
-                  Text(
-                    "switch Account",
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                  ),
-                  Container(
-                    height: 150,
-                    child: ListView.builder(
-                      itemCount: userspref.length,
-                      itemBuilder: (context, position) {
-                        return Card(
-                          child: Padding(
-                            padding: const EdgeInsets.all(20.0),
-                            child: Text(
-                              userspref[position].id.toString(),
-                              style: TextStyle(fontSize: 10 , color: Colors.black),
-                            ),
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-                  // bottomsheetbutton(
-                  //   text: 'Log in to Existing Account',
-                  //   press: () {
-                  //     // Navigator.pushNamedAndRemoveUntil(context, LoginScreen.routeName, (r) => false);
-                  //     Navigator.pushNamed(context, LoginScreen.routeName);
-                  //   },
-                  // ),
-                  // InkWell(
-                  //   onTap: () {
-                  //     Navigator.pushNamedAndRemoveUntil(
-                  //         context, RegisterScreen.routeName, (r) => false);
-                  //   },
-                  //   child: Padding(
-                  //     padding: const EdgeInsets.all(5.0),
-                  //     child: Text(
-                  //       "Create New Account",
-                  //       style: TextStyle(
-                  //         color: Colors.red,
-                  //         fontWeight: FontWeight.w500,
-                  //       ),
-                  //     ),
-                  //   ),
-                  // ),
-                ],
-              ),
-            ));
+                );
+          }
+        ));
   }
 
   callapi() async {
@@ -422,4 +457,37 @@ class _SettingsScreenState extends State<SettingsScreen> {
   //     throw HttpException(data['message']);
   //   }
   // }
+
+  Future<void> onClick([int position = 0]) async {
+    try {
+     print('click on change---'+position.toString());
+/*     socket.dispose();
+     resetFCMInstance();*/
+     await UserPreferences().changeUser(userspref[position]);
+     Navigator.pushNamedAndRemoveUntil(context, NavScreen.routeName, (route) => false);
+/*      auth
+          .login(LoginUser(
+        username: '',
+        password: '',
+      ))
+          .then(
+            (response) async {
+          if (response['status']) {
+            Toast(context, message: response['message']).show();
+            await GlobalProvider(context).loadData();
+            Navigator.pushNamedAndRemoveUntil(context, NavScreen.routeName, (route) => false);
+          } else
+            Toast(
+              context,
+              title: "Login Failed",
+              message: response['message'],
+            ).show();
+        },
+      );*/
+
+    } catch (error) {
+      print("the error is $error .detail");
+
+    }
+  }
 }

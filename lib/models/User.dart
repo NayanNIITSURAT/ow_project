@@ -298,9 +298,44 @@ class User with ChangeNotifier {
     };
   }
 
-   String encode(List<User> musics) => json.encode(
-    musics
-        .map<Map<String, dynamic>>((music) =>toMap())
+  Map<String, dynamic> toJason(User user) {
+    return {
+      'id': user.id,
+      'fullName': user.fullName,
+      'username': user.username,
+      'fname': user.fname,
+      'lname': user.lname,
+      'country': user.country,
+      'email': user.email,
+      'avartar': user.avartar,
+      'phone': user.phone,
+      'website': user.website,
+      'private': user.private,
+      'confirmed': user.confirmed,
+      'iFollow': user.iFollow,
+      'whatsapp': user.whatsapp,
+      'isOnline': user.isOnline,
+      'isAdmin': user.isAdmin,
+      'hasVerifiedCompany': user.hasVerifiedCompany,
+      'hasPendingLoan': user.hasPendingLoan,
+      'bio': user.bio,
+      'totalFollowers': user.totalFollowers,
+      'totalFollowing': user.totalFollowing,
+      'stories': user.stories.map((x) => x.toMap()).toList(),
+      'company': user.company?.toMap(),
+      'token': user.token,
+      'totalListing': user.totalListing,
+      'totalNotifications': user.totalNotifications,
+      'renewalToken': user.renewalToken,
+      'lastSeen': user.lastSeen,
+      'joinedAt': user.joinedAt,
+      'messages': user.messages.map((x) => x.toMap()).toList(),
+    };
+  }
+
+   String encode(List<User> user) => json.encode(
+     user
+        .map<Map<String, dynamic>>((user) =>toJason(user))
         .toList(),
   );
 

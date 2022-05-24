@@ -108,7 +108,12 @@ class AuthProvider with ChangeNotifier {
     _loggedInStatus = Status.Authenticating;
     notifyListeners();
     try {
-      authProfile = await authenticateUser(user);
+      if(user.username.isEmpty && user.password.isEmpty){
+        authProfile = await authenticateUser(null);
+      }else{
+        authProfile = await authenticateUser(user);
+      }
+
       var result = {
         'status': true,
         'message': 'Login Successful',

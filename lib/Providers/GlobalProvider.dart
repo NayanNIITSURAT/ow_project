@@ -11,6 +11,8 @@ import 'package:owlet/models/User.dart';
 import 'package:owlet/services/listing.dart';
 import 'package:provider/provider.dart';
 
+import '../Preferences/UserPreferences.dart';
+
 class InitData {
   ListingResponse listingData;
   List<User> topFollowing;
@@ -86,11 +88,14 @@ class GlobalProvider with ChangeNotifier {
     await userProvider.loadChats(refresh: true);
   }
 
-  logOut() async {
-    authProListenFalse.logout();
-    await initMarketData();
-    Navigator.pushNamedAndRemoveUntil(
-        context, LoginScreen.routeName, (route) => false);
+  logOut(bool fromLogin) async {
+    UserPreferences().removeUser();
+   // authProListenFalse.logout();
+    if(!fromLogin) {
+      await initMarketData();
+      Navigator.pushNamedAndRemoveUntil(
+          context, LoginScreen.routeName, (route) => false);
+    }
   }
 
   Future loadData() async {
