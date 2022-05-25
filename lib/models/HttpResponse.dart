@@ -309,6 +309,8 @@ class NotificationResponse extends ChangeNotifier {
       notifications.where((n) => n.isOpened).toList();
 }
 
+
+
 class CommentResponse extends ChangeNotifier {
   int totalItems;
   List<Comment> comments;

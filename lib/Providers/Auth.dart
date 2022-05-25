@@ -167,6 +167,7 @@ class AuthProvider with ChangeNotifier {
     }
   }
 
+
   Future<Map<String, dynamic>> forgotPassword(String email) async {
     _resetStatus = Status.Requesting;
     _resetId = email;

@@ -9,6 +9,7 @@ enum NotificationType {
   COMMENT,
   NEW_POST,
   SUBSCRIPTION,
+
 }
 
 class NotificationUser {
