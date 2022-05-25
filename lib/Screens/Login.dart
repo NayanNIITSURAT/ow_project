@@ -44,15 +44,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     var auth = Provider.of<AuthProvider>(context);
-    final globalProvider = GlobalProvider(context);
-    void doLogout() {
-      if(socket != null){
-        socket.dispose();
-      }
-      globalProvider.logOut(true);
-    }
     var doLogin = () {
-      doLogout();
       final form = formKey.currentState;
       if (form!.validate()) {
         form.save();

@@ -151,7 +151,7 @@ Future<User> createUser(NewUser newUser) async {
 }
 
 Future<User> authenticateUser(LoginUser? user) async {
-  headers.addAll({HttpHeaders.authorizationHeader: 'Bearer ${await getToken}'});
+  headers.addAll({HttpHeaders.authorizationHeader: 'Bearer ${user != null ?'':await getToken }'});
   final response = await post(
     Uri.parse(AppUrlV3.loginUrl),
     headers: headers,

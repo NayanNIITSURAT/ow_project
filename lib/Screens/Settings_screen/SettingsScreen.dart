@@ -461,29 +461,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Future<void> onClick([int position = 0]) async {
     try {
      print('click on change---'+position.toString());
-/*     socket.dispose();
-     resetFCMInstance();*/
      await UserPreferences().changeUser(userspref[position]);
+     userspref[position].avartar = 'https://${userspref[position].avartar.toString().split('https://').last}';
+     await GlobalProvider(context).authProListenFalse.updateAuth(userspref[position]);
      Navigator.pushNamedAndRemoveUntil(context, NavScreen.routeName, (route) => false);
-/*      auth
-          .login(LoginUser(
-        username: '',
-        password: '',
-      ))
-          .then(
-            (response) async {
-          if (response['status']) {
-            Toast(context, message: response['message']).show();
-            await GlobalProvider(context).loadData();
-            Navigator.pushNamedAndRemoveUntil(context, NavScreen.routeName, (route) => false);
-          } else
-            Toast(
-              context,
-              title: "Login Failed",
-              message: response['message'],
-            ).show();
-        },
-      );*/
 
     } catch (error) {
       print("the error is $error .detail");
