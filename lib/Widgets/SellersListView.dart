@@ -34,7 +34,7 @@ class SellersListView extends StatelessWidget {
                               ProfileAvatar(
                                 // withBorder: true,
                                 storyNum: userData.storyLen,
-                                avatar: userData.profile.avtar,
+                                avatar: userData.profile.avartar,
                                 size: 60,
                                 onPressed: () async {
                                   Navigator.push(
@@ -88,7 +88,7 @@ class SellersListView extends StatelessWidget {
                             lastViewdIndex:
                                 user.stories.lastIndexWhere((_) => _.iViewed),
                             // withBorder: true,
-                            avatar: user.avtar,
+                            avatar: user.avartar,
                             // isOnline: user.isOnline,
                             size: 60,
                             onPressed: () async {

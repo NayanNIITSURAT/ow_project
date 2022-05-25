@@ -131,7 +131,7 @@ class ChatUser {
     );
   }
 
-  User get getUser => User(id: id, username: username, avtar: avartar);
+  User get getUser => User(id: id, username: username, avartar: avartar);
 
   String toJson() => json.encode(toMap());
 

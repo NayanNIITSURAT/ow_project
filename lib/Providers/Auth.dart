@@ -103,12 +103,21 @@ class AuthProvider with ChangeNotifier {
       };
     }
   }
+  Future<dynamic> updateAuth(User user) async {
+    authProfile = user;
+    notifyListeners();
+  }
 
   Future<Map<String, dynamic>> login(LoginUser user) async {
     _loggedInStatus = Status.Authenticating;
     notifyListeners();
     try {
-      authProfile = await authenticateUser(user);
+      if(user.username.isEmpty && user.password.isEmpty){
+        authProfile = await authenticateUser(null);
+      }else{
+        authProfile = await authenticateUser(user);
+      }
+
       var result = {
         'status': true,
         'message': 'Login Successful',
@@ -161,6 +170,7 @@ class AuthProvider with ChangeNotifier {
       };
     }
   }
+
 
   Future<Map<String, dynamic>> forgotPassword(String email) async {
     _resetStatus = Status.Requesting;

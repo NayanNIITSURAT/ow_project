@@ -282,7 +282,7 @@ class AccountList extends StatelessWidget {
                                   : () => Navigator.of(context)
                                       .pushNamed(LoginScreen.routeName),
                               subtitle: seller.fullName,
-                              imageUrl: seller.avtar,
+                              imageUrl: seller.avartar,
                               view: callBack != null
                                   ? () => callBack!(seller)
                                   : isChat

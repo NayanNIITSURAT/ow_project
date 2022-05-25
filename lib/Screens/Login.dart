@@ -40,11 +40,11 @@ class _LoginScreenState extends State<LoginScreen> {
     // TODO: implement initState
     super.initState();
   }
+  bool hidepassword=true;
 
   @override
   Widget build(BuildContext context) {
     var auth = Provider.of<AuthProvider>(context);
-
     var doLogin = () {
       final form = formKey.currentState;
       if (form!.validate()) {
@@ -60,7 +60,7 @@ class _LoginScreenState extends State<LoginScreen> {
               setState(() {
                 settingUp = true;
               });
-              Toast(context, message: response['message']).show();
+              Toast(context, message: response['message']).show();  
               await GlobalProvider(context).loadData();
               Navigator.pushNamedAndRemoveUntil(context, NavScreen.routeName, (route) => false);
             } else
@@ -73,6 +73,7 @@ class _LoginScreenState extends State<LoginScreen> {
         );
       }
     };
+
 
     return Scaffold(
       body: AuthBackground(
@@ -154,13 +155,23 @@ class _LoginScreenState extends State<LoginScreen> {
                                 Input(
                                   icon: Icons.security,
                                   label: 'Password',
+                                  isrightimage: false,
+                                  isPassword: hidepassword,
+                                  rightIcon:  hidepassword==true?Icons.remove_red_eye:Icons.visibility_off,
+                                  righticonTap: (){
+                                 setState(() {
+                                   hidepassword==true?hidepassword=false:hidepassword=true;
+                                 });
+
+                                  },
+
                                   textEditingController: Passwordcontroller,
                                   elevate: false,
                                   validate: (value) => Password(
                                     value: value,
                                   ),
                                   bgColor: Color(0xffEDF2F7).withOpacity(0.5),
-                                  isPassword: true,
+
                                   onSaved: (value) => password = value ?? '',
                                   autofill: const <String>[
                                     AutofillHints.password

@@ -43,6 +43,7 @@ class ChangePassword {
   });
 }
 
+
 class LoginUser {
   String username;
   String password;
@@ -151,16 +152,16 @@ Future<User> createUser(NewUser newUser) async {
 }
 
 Future<User> authenticateUser(LoginUser? user) async {
-  headers.addAll({HttpHeaders.authorizationHeader: 'Bearer ${await getToken}'});
+  headers.addAll({HttpHeaders.authorizationHeader: 'Bearer ${user != null ?'':await getToken }'});
   final response = await post(
     Uri.parse(AppUrlV3.loginUrl),
     headers: headers,
     body: user != null
         ? jsonEncode(<String, String>{
             "usernameOrEmail": user.username,
-            "password": user.password,
+            "password": user.password, 
             "deviceToken": (await _messaging.getToken()) ?? '',
-            "deviceType": Platform.isAndroid ? 'ANDROID' : 'IOS'
+            "deviceType": Platform.isAndroid ? 'ANDROID' : 'IOS' 
           })
         : jsonEncode(<String, String>{
             "deviceToken": (await _messaging.getToken()) ?? '',
@@ -232,6 +233,8 @@ Future<Map<String, dynamic>> changepassword(
     throw HttpException(data['message']);
   }
 }
+
+
 
 Future<Map<String, dynamic>> verifyOtp(String otp, String resetToken) async {
   final response = await post(
