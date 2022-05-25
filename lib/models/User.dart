@@ -333,7 +333,7 @@ class User with ChangeNotifier {
     };
   }
 
-   String encode(List<User> user) => json.encode(
+    String encode(List<User> user) => json.encode(
      user
         .map<Map<String, dynamic>>((user) =>toJason(user))
         .toList(),
