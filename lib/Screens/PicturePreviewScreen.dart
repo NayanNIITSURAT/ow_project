@@ -44,14 +44,14 @@ class _PicturePreviewScreenState extends State<PicturePreviewScreen> {
   //   super.dispose();
   // }
 
-  _cropPicture() async {
-    _picture = await ImageCropper.cropImage(
-          compressFormat: ImageCompressFormat.jpg,
-          sourcePath: _picture.path,
-        ) ??
-        _picture;
-    setState(() {});
-  }
+  // _cropPicture() async {
+  //   _picture = await ImageCropper.cropImage(
+  //         compressFormat: ImageCompressFormat.jpg,
+  //         sourcePath: _picture.path,
+  //       ) ??
+  //       _picture;
+  //   setState(() {});
+  // }
 
   _addStory(String? caption) async {
     final userData = Provider.of<UserProvider>(context, listen: false);
@@ -92,7 +92,8 @@ class _PicturePreviewScreenState extends State<PicturePreviewScreen> {
                   IconBtn(
                     icon: Icons.crop_rotate,
                     color: Vx.white,
-                    onPressed: _cropPicture,
+                    onPressed: (){}
+                    // _cropPicture,
                   ),
                 ],
                 alignment: MainAxisAlignment.spaceBetween,

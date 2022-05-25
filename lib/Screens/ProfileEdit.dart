@@ -3,8 +3,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:owlet/Components/BackArrow.dart';
-import 'package:owlet/Components/CircleButton.dart';
 import 'package:owlet/Components/ProfileAvatar.dart';
 import 'package:owlet/Components/Toast.dart';
 import 'package:owlet/Providers/Auth.dart';
@@ -317,12 +315,12 @@ class MyProfileImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     void _cropImage(File image) async {
-      File? cropped = await ImageCropper.cropImage(
+      File? cropped = (await ImageCropper().cropImage(
         sourcePath: image.path,
         aspectRatio: CropAspectRatio(ratioX: 1.0, ratioY: 1.0),
         maxHeight: 200,
         maxWidth: 200,
-      );
+      )) as File?;
 
       if (cropped != null) {
         Navigator.pop(context);

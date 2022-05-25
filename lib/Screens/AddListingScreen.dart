@@ -1,8 +1,6 @@
 import 'dart:io';
-
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:image_cropper/image_cropper.dart';
+import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:owlet/Components/Button.dart';
 import 'package:owlet/Components/Loading.dart';
@@ -75,7 +73,6 @@ class _AddListingScreenState extends State<AddListingScreen> {
             .show();
       }
     }
-
     return Scaffold(
       body: Container(
         child: Column(
@@ -184,7 +181,7 @@ class _AddListingScreenState extends State<AddListingScreen> {
         preferredCameraDevice: CameraDevice.rear,
       );
       if (pickedImage != null) {
-        var imageFile = await ImageCropper.cropImage(
+        var imageFile = await ImageCropper().cropImage(
           maxHeight: 700,
           maxWidth: 700,
           compressFormat: ImageCompressFormat.jpg,
@@ -194,7 +191,7 @@ class _AddListingScreenState extends State<AddListingScreen> {
 
         if (imageFile != null)
           setState(() {
-            _assetList.add(imageFile);
+            // _assetList.add(imageFile);
           });
       }
     } catch (e) {
