@@ -37,7 +37,7 @@ class StatusScrollView extends StatelessWidget {
                         width: 75,
                         child: ProfileAvatar(
                           withBorder: true,
-                          // storyNum: userData.storyLen,
+                          storyNum: userData.storyLen,
                           avatar: userData.profile.avtar,
                           size: 70,
                           onPressed: () async {

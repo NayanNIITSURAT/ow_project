@@ -367,10 +367,25 @@ class SearchItem extends StatelessWidget {
         trailing: isChat
             ? Icon(Icons.chevron_right)
             : press == null
-                ? Text(
-                    seller!.private == true ? 'Requested' : 'Following',
-                    style: TextStyle(decorationStyle: TextDecorationStyle.wavy),
+                ? Container(
+                    height: 40,
+                    width: 105,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.grey),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Center(
+                      child: Text(
+                        seller?.private == true ? 'Requested' : 'Following',
+                        style: TextStyle(
+                            color: Colors.grey, fontWeight: FontWeight.bold),
+                      ),
+                    ),
                   )
+                // Text(
+                //             seller!.private == true ? 'Requested' : 'Following',
+                //             style: TextStyle(decorationStyle: TextDecorationStyle.wavy),
+                //           )
                 : Button(
                     text: 'Follow',
                     press: press!,
