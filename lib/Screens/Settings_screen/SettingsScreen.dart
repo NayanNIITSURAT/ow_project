@@ -12,6 +12,7 @@ import 'package:owlet/Screens/Register.dart';
 import 'package:owlet/Widgets/CustomAppBar.dart';
 import 'package:owlet/constants/images.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../Components/ProfileAvatar.dart';
 import '../../Components/bottomsheetbutton.dart';
@@ -21,7 +22,7 @@ import '../../constants/constants.dart';
 import '../../constants/palettes.dart';
 import '../../helpers/firebase.dart';
 import '../../models/User.dart';
-import '../../services/auth.dart';
+import 'package:owlet/models/User.dart';
 import '../../services/utils.dart';
 import '../Login.dart';
 import 'AboutScreen.dart';
@@ -56,9 +57,34 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
 
 
-    void doLogout() {
-      socket.dispose();
-      globalProvider.logOut(false);
+    Future<void> doLogout() async {
+      var preferenceuserlist = await UserPreferences().getuserlist();
+      if (preferenceuserlist != null && preferenceuserlist.isNotEmpty) {
+        userspref = User.decode(preferenceuserlist);
+        if(userspref.length > 1){
+          for(int i = 0; i < userspref.length; i++){
+            if(activeUserId == userspref[i].id){
+              int index = userspref.indexOf(userspref[i]);
+              userspref.removeAt(index);
+            }
+          }
+          User user = userspref[0];
+          final String updateduserlist = user.encode(userspref);
+          SharedPreferences? _prefs = await SharedPreferences.getInstance();
+          await _prefs.setString('user_details', updateduserlist);
+          await UserPreferences().changeUser(userspref[0]);
+          userspref[0].avartar = 'https://${userspref[0].avartar.toString().split('https://').last}';
+          await GlobalProvider(context).authProListenFalse.updateAuth(userspref[0]);
+          Navigator.pushNamedAndRemoveUntil(context, NavScreen.routeName, (route) => false);
+        }else {
+          socket.dispose();
+          globalProvider.logOut();
+        }
+        print("settings data"+userspref.length.toString());
+      }else{
+        socket.dispose();
+        globalProvider.logOut();
+      }
     }
 
     return Scaffold(
@@ -461,29 +487,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Future<void> onClick([int position = 0]) async {
     try {
      print('click on change---'+position.toString());
-/*     socket.dispose();
-     resetFCMInstance();*/
      await UserPreferences().changeUser(userspref[position]);
+     userspref[position].avartar = 'https://${userspref[position].avartar.toString().split('https://').last}';
+     await GlobalProvider(context).authProListenFalse.updateAuth(userspref[position]);
      Navigator.pushNamedAndRemoveUntil(context, NavScreen.routeName, (route) => false);
-/*      auth
-          .login(LoginUser(
-        username: '',
-        password: '',
-      ))
-          .then(
-            (response) async {
-          if (response['status']) {
-            Toast(context, message: response['message']).show();
-            await GlobalProvider(context).loadData();
-            Navigator.pushNamedAndRemoveUntil(context, NavScreen.routeName, (route) => false);
-          } else
-            Toast(
-              context,
-              title: "Login Failed",
-              message: response['message'],
-            ).show();
-        },
-      );*/
 
     } catch (error) {
       print("the error is $error .detail");

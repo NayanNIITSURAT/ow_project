@@ -64,7 +64,7 @@ class _ProfileScreenState extends State<ProfileScreen>
 
     void doLogout() {
       socket.dispose();
-      globalProvider.logOut(false);
+      globalProvider.logOut();
     }
 
     List<String> Story = [

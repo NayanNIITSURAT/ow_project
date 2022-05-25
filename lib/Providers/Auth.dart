@@ -103,6 +103,10 @@ class AuthProvider with ChangeNotifier {
       };
     }
   }
+  Future<dynamic> updateAuth(User user) async {
+    authProfile = user;
+    notifyListeners();
+  }
 
   Future<Map<String, dynamic>> login(LoginUser user) async {
     _loggedInStatus = Status.Authenticating;

@@ -88,14 +88,12 @@ class GlobalProvider with ChangeNotifier {
     await userProvider.loadChats(refresh: true);
   }
 
-  logOut(bool fromLogin) async {
+  logOut() async {
     UserPreferences().removeUser();
-   // authProListenFalse.logout();
-    if(!fromLogin) {
       await initMarketData();
       Navigator.pushNamedAndRemoveUntil(
           context, LoginScreen.routeName, (route) => false);
-    }
+
   }
 
   Future loadData() async {
