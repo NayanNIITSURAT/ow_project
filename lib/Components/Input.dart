@@ -39,8 +39,10 @@ class Input extends StatelessWidget {
   final String? hintText;
   final VoidCallback? leftimageTap;
   final VoidCallback? rightimageTap;
+  final Function()? righticonTap;
   final bool? isrightimage;
   final bool? isdescription;
+  final bool? hideshowpassword;
 
   const Input({
     this.rightIconImage,
@@ -52,6 +54,7 @@ class Input extends StatelessWidget {
     this.maxlengh,
     this.rightIcon,
     this.preWidget,
+    this.righticonTap,
     this.postWidget,
     this.label = '',
     this.type: TextInputType.text,
@@ -77,6 +80,7 @@ class Input extends StatelessWidget {
     this.topPadding,
     this.hintText,
     this.isdescription = false,
+    this.hideshowpassword = false
   });
 
   @override
@@ -134,16 +138,19 @@ class Input extends StatelessWidget {
                   suffixIcon: isrightimage == true
                       ? rightIconImage != null
                           ? InkWell(
-                              onTap: leftimageTap,
+                              onTap: rightimageTap,
                               child: Image.asset(rightIconImage!),
                             )
                           : null
                       : rightIcon != null
-                          ? Icon(
-                              rightIcon,
-                              size: 25,
-                            )
-                          : null),
+                          ? InkWell(
+                    onTap: righticonTap,
+                            child: Icon(
+                                rightIcon,
+                                size: 25,
+                              ),
+                          )
+                          : null,),
               keyboardType: type,
               obscureText: isPassword,
               onChanged: onSaved,
