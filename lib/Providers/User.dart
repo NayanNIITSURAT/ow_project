@@ -142,6 +142,22 @@ class UserProvider with ChangeNotifier {
     return res;
   }
 
+  Future<dynamic> sendUserRequest(User user) async {
+    var u = user.username.toLowerCase();
+
+    user.follower = _profile.username;
+    notifyListeners();
+    final res = await sendRequest(user.id);
+
+    if (!res['success'])
+      user.unFollower = _profile.username;
+    else
+      _profile.follows = u;
+
+    notifyListeners();
+    return res;
+  }
+
   Future<void> _unFollow(User user) async {
     var u = user.username.toLowerCase();
 

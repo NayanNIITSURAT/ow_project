@@ -223,7 +223,7 @@ class _ChatScreenState extends State<ChatScreen> with RouteAware {
                         10.widthBox,
                         VStack(
                           [
-                            chat!.username.text.semiBold.size(18).make(),
+                            chat.username.text.semiBold.size(18).make(),
                             // chat.isOnline
                             //     ? 'online'.text.make()
                             //     : Text(

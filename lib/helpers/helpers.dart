@@ -24,9 +24,6 @@ Size screenSize(BuildContext context) {
   return MediaQuery.of(context).size;
 }
 
-
-
-
 final formatter = NumberFormat('#,###,000');
 
 bool hasHashtag(String text) {

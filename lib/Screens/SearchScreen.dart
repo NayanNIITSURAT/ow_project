@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:io';
+import 'package:http/http.dart' as http;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:owlet/Components/Button.dart';
@@ -22,8 +25,11 @@ import 'package:owlet/services/apiUrl.dart';
 import 'package:provider/provider.dart';
 import 'package:velocity_x/velocity_x.dart';
 
+import '../services/utils.dart';
+
 class SearchScreen extends StatelessWidget {
   static const routeName = "search";
+
   @override
   Widget build(BuildContext context) {
     final utility = Provider.of<UtilsProvider>(context);
@@ -165,6 +171,7 @@ class SearchScreen extends StatelessWidget {
 
 class HashtagList extends StatelessWidget {
   final UtilsProvider utility;
+
   HashtagList({
     required this.utility,
   });
@@ -230,6 +237,7 @@ class AccountList extends StatelessWidget {
   final UtilsProvider data;
   final bool isChat;
   final Function(User)? callBack;
+
   AccountList({
     required this.data,
     this.isChat: false,
@@ -262,12 +270,15 @@ class AccountList extends StatelessWidget {
                         return Consumer<UserProvider>(
                           builder: (_, user, __) {
                             return SearchItem(
+                              seller: seller,
                               title: seller.username,
                               press: user.isLoggedIn
                                   ? seller.iFollow ||
                                           user.profile.id == seller.id
                                       ? null
-                                      : () => user.followUser(seller)
+                                      : seller.private == true
+                                          ? () => getdata(seller.id)
+                                          : () => user.followUser(seller)
                                   : () => Navigator.of(context)
                                       .pushNamed(LoginScreen.routeName),
                               subtitle: seller.fullName,
@@ -301,6 +312,22 @@ class AccountList extends StatelessWidget {
   }
 }
 
+callfollow(UserProvider user, User seller) {
+  print("make the flooow ");
+  user.followUser(seller);
+}
+
+getdata(int id) {
+  print("make  the private");
+}
+
+// user.isLoggedIn
+//     ? seller.iFollow ||
+//             user.profile.id == seller.id
+//         ? null
+//         : () => user.followUser(seller)
+//     : () => Navigator.of(context)
+//         .pushNamed(LoginScreen.routeName),
 class SearchItem extends StatelessWidget {
   const SearchItem({
     Key? key,
@@ -310,6 +337,7 @@ class SearchItem extends StatelessWidget {
     required this.subtitle,
     required this.imageUrl,
     required this.press,
+    this.seller,
     this.view,
   }) : super(key: key);
 
@@ -320,6 +348,7 @@ class SearchItem extends StatelessWidget {
   final String subtitle;
   final Function()? press;
   final Function()? view;
+  final User? seller;
 
   @override
   Widget build(BuildContext context) {
@@ -338,10 +367,25 @@ class SearchItem extends StatelessWidget {
         trailing: isChat
             ? Icon(Icons.chevron_right)
             : press == null
-                ? Text(
-                    'Following',
-                    style: TextStyle(decorationStyle: TextDecorationStyle.wavy),
+                ? Container(
+                    height: 40,
+                    width: 105,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.grey),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Center(
+                      child: Text(
+                        seller?.private == true ? 'Requested' : 'Following',
+                        style: TextStyle(
+                            color: Colors.grey, fontWeight: FontWeight.bold),
+                      ),
+                    ),
                   )
+                // Text(
+                //             seller!.private == true ? 'Requested' : 'Following',
+                //             style: TextStyle(decorationStyle: TextDecorationStyle.wavy),
+                //           )
                 : Button(
                     text: 'Follow',
                     press: press!,

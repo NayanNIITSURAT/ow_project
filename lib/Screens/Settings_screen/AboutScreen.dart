@@ -7,7 +7,6 @@ import '../../Widgets/SettingsListTile.dart';
 class AboutScren extends StatelessWidget {
   const AboutScren({Key? key}) : super(key: key);
 
-
   @override
   Widget build(BuildContext context) {
     return SettingsBar(
@@ -22,9 +21,7 @@ class AboutScren extends StatelessWidget {
           children: [
             HelpTile(
               text: 'Data Policy',
-              callback: () {
-                _launchURL();
-              },
+              callback: () {},
             ),
             HelpTile(
               text: 'Terms of Use',
@@ -34,9 +31,7 @@ class AboutScren extends StatelessWidget {
             ),
             HelpTile(
               text: 'Open source libraries',
-              callback: () {
-                _launchURL();
-              },
+              callback: () {},
             ),
           ],
         ),
