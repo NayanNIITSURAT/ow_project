@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:owlet/Screens/AddMarketSquare.dart';
 import 'package:provider/provider.dart';
 
 import 'package:owlet/Providers/User.dart';
@@ -80,7 +81,8 @@ class _FloatingBtnState extends State<FloatingBtn> {
             child: Icon(Icons.add),
             backgroundColor: Palette.primaryColor,
             onPressed: () =>
-                Navigator.pushReplacementNamed(context, CameraScreen.routeName),
+                Navigator.pushReplacementNamed(context, AddMarketSquareScreen.routeName),
+                //Navigator.pushReplacementNamed(context, CameraScreen.routeName),
           );
   }
 }
