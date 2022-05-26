@@ -122,7 +122,7 @@ class StatusPainter extends CustomPainter {
     final Paint paint = Paint()
       ..isAntiAlias = true
       ..strokeWidth = 2
-      ..color = isSeen ? color : Colors.grey
+     // ..color = isSeen ? color : Colors.grey
       ..style = PaintingStyle.stroke;
     drawArc(canvas, size, paint);
   }
