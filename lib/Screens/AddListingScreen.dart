@@ -1,4 +1,5 @@
-import 'dart:io';
+
+
 import 'package:image_cropper/image_cropper.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -16,6 +17,7 @@ import 'package:owlet/constants/palettes.dart';
 import 'package:owlet/helpers/helpers.dart';
 import 'package:owlet/services/listing.dart';
 import 'package:provider/provider.dart';
+import 'package:video_thumbnail/video_thumbnail.dart';
 
 class AddListingScreen extends StatefulWidget {
   static const routeName = '/add-listing';
@@ -24,8 +26,18 @@ class AddListingScreen extends StatefulWidget {
 }
 
 class _AddListingScreenState extends State<AddListingScreen> {
-  List<File> _assetList = [];
+  // List<File> _assetList = [];
+  final scaffoldKey = GlobalKey<ScaffoldState>();
+
   String caption = '';
+
+  var setFile;
+  String? imagePath;
+
+  var result;
+  PlatformFile? file;
+  List<PlatformFile> fileData = [];
+  List<File> _assetList = [];
 
   Future<void> retrieveLostData() async {
     final LostDataResponse response = await ImagePicker().retrieveLostData();
@@ -46,11 +58,9 @@ class _AddListingScreenState extends State<AddListingScreen> {
   Widget build(BuildContext context) {
     final user = Provider.of<UserProvider>(context);
     final listing = Provider.of<ListingProvider>(context);
-
     final bool adding = listing.listingStatus == Status.Adding;
-
-    int allowedImagesInt =
-        user.profile.subscription?.package.allowedImages ?? 0;
+    int allowedImagesInt = 3;
+    // user.profile.subscription?.package.allowedImages ?? 0;
     void createListing() async {
       try {
         if (caption.length > 0 && _assetList.length > 0) {
@@ -74,6 +84,7 @@ class _AddListingScreenState extends State<AddListingScreen> {
       }
     }
     return Scaffold(
+      key: scaffoldKey,
       body: Container(
         child: Column(
           mainAxisSize: MainAxisSize.max,
@@ -119,7 +130,7 @@ class _AddListingScreenState extends State<AddListingScreen> {
                                                 border: Border.all(
                                                   width: 2.5,
                                                   color: Colors.blue
-                                                      .withOpacity(0.05)!,
+                                                      .withOpacity(0.05),
                                                 ),
                                               ),
                                             ),
@@ -199,9 +210,47 @@ class _AddListingScreenState extends State<AddListingScreen> {
     }
   }
 
+  void _pickFile() async {
+    FilePickerResult? pickedImage = await FilePicker.platform.pickFiles(
+        type: FileType.custom,
+        allowedExtensions: ['jpg', 'png', 'mp4'],
+        allowMultiple: true);
+    if (pickedImage == null) return;
+
+    if (pickedImage!.files.length >= 3) {
+      scaffoldKey.currentState?.showSnackBar(
+          const SnackBar(content: Text('Please Select Only 2 item!')));
+    } else {
+      if (pickedImage != null) {
+        var leng = pickedImage.files.length;
+        for (int i = 0; i < leng; i++) {
+          PlatformFile pfile = pickedImage.files[i];
+          File files = File(pfile.path!);
+
+          // var imageFile = await ImageCropper.cropImage(
+          //   maxHeight: 700,
+          //   maxWidth: 700,
+          //   compressFormat: ImageCompressFormat.jpg,
+          //   sourcePath: files.path,
+          //   aspectRatio: CropAspectRatio(ratioX: 1.0, ratioY: 1.0),
+          // );
+
+          if (files != null)
+            setState(() {
+              _assetList.add(files);
+            });
+        }
+      } else {
+        scaffoldKey.currentState?.showSnackBar(
+            const SnackBar(content: Text('Please Select Only 3 item!')));
+      }
+    }
+    setState(() {});
+  }
+
   void addImage(allowedImagesInt) => _assetList.length >= allowedImagesInt
       ? Toast(context, message: 'Maximum number of images reached').show()
-      : _loadPicker();
+      : _pickFile();
 }
 
 class EditListing extends StatefulWidget {

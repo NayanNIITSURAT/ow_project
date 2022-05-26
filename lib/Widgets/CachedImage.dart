@@ -9,15 +9,22 @@ class CachedImage extends StatelessWidget {
   }) : super(key: key);
 
   final String imageUrl;
+  String ext = imageUrl.toString().split(".").last;
 
   @override
   Widget build(BuildContext context) {
-    return CachedNetworkImage(
-      imageUrl: imageUrl,
-      fit: BoxFit.cover,
-      progressIndicatorBuilder: (_, st, status) => CupertinoActivityIndicator(),
-      errorWidget: (context, url, error) => Icon(Icons.error),
-      // useOldImageOnUrlChange: true,
-    );
+    return ext != "mp4"
+        ? CachedNetworkImage(
+            imageUrl: imageUrl,
+            fit: BoxFit.cover,
+            progressIndicatorBuilder: (_, st, status) =>
+                CupertinoActivityIndicator(),
+            errorWidget: (context, url, error) => Icon(Icons.error),
+            // useOldImageOnUrlChange: true,
+          )
+        : Image.asset(
+            "assets/images/vthumb.png",
+            fit: BoxFit.fitWidth,
+          );
   }
 }

@@ -83,41 +83,44 @@ class _ListingItemState extends State<ListingItem> {
                               child: Stack(
                                 fit: StackFit.expand,
                                 children: [
-                                  CachedImage(imageUrl: product.images[i]),
-                                  if (widget.doubleTapToLike)
-                                    InstaLikeButton(
-                                      image: NetworkImage(product.images[0]),
-                                      imageColorFilter: ColorFilter.mode(
-                                        Colors.black.withOpacity(0),
-                                        BlendMode.dstATop,
-                                      ),
-                                      iconColor:
-                                          userData.isLoggedIn && product.iLike
-                                              ? Colors.white
-                                              : Colors.red,
-                                      icon: userData.isLoggedIn
-                                          ? product.iLike
-                                              ? Icons.favorite
-                                              : Icons.favorite_border_outlined
-                                          : Icons.not_interested_outlined,
-                                      onChanged: userData.isLoggedIn
-                                          ? () async {
-                                              globalProvider.toggleLikeListing =
-                                                  product.id;
-
-                                              final liked =
-                                                  await (!product.iLike
-                                                      ? product.unLike()
-                                                      : product.like());
-
-                                              if (liked && !product.iLike)
-                                                globalProvider
-                                                        .toggleLikeListing =
-                                                    product.id;
-                                            }
-                                          : () => Navigator.pushNamed(
-                                              context, LoginScreen.routeName),
-                                    ),
+                                  InkWell(
+                                      onTap: () {},
+                                      child: CachedImage(
+                                          imageUrl: product.images[i])),
+                                  // if (widget.doubleTapToLike)
+                                  //   InstaLikeButton(
+                                  //     image: NetworkImage(product.images[0]),
+                                  //     imageColorFilter: ColorFilter.mode(
+                                  //       Colors.black.withOpacity(0),
+                                  //       BlendMode.dstATop,
+                                  //     ),
+                                  //     iconColor:
+                                  //         userData.isLoggedIn && product.iLike
+                                  //             ? Colors.white
+                                  //             : Colors.red,
+                                  //     icon: userData.isLoggedIn
+                                  //         ? product.iLike
+                                  //             ? Icons.favorite
+                                  //             : Icons.favorite_border_outlined
+                                  //         : Icons.not_interested_outlined,
+                                  //     onChanged: userData.isLoggedIn
+                                  //         ? () async {
+                                  //             globalProvider.toggleLikeListing =
+                                  //                 product.id;
+                                  //
+                                  //             final liked =
+                                  //                 await (!product.iLike
+                                  //                     ? product.unLike()
+                                  //                     : product.like());
+                                  //
+                                  //             if (liked && !product.iLike)
+                                  //               globalProvider
+                                  //                       .toggleLikeListing =
+                                  //                   product.id;
+                                  //           }
+                                  //         : () => Navigator.pushNamed(
+                                  //             context, LoginScreen.routeName),
+                                  //   ),
                                 ],
                               ),
                             );

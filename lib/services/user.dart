@@ -169,6 +169,36 @@ Future<dynamic> toggleFollow(RequestAction action, int userId) async {
   }
 }
 
+Future<Map<String, dynamic>> sendRequest(int id) async {
+  try {
+    headers
+        .addAll({HttpHeaders.authorizationHeader: 'Bearer ${await getToken}'});
+    final response = await http.get(
+        Uri.parse('https://api.the-owlette.com/v4/users/followreq/$id'),
+        headers: headers);
+    if (response.statusCode == 200) {
+      print("sucesssssssssssssssssssssssssssssssssssss");
+      var jsonResponse = jsonDecode(response.body) as Map<String, dynamic>;
+      return <String, dynamic>{
+        'isError': false,
+        'response': jsonResponse,
+      };
+    } else {
+      print('Request failed with status: ${response.statusCode}.');
+      return <String, dynamic>{
+        'isError': true,
+        'response': response,
+      };
+    }
+  } catch (e) {
+    print(e.toString());
+    return <String, dynamic>{
+      'isError': true,
+      'response': "noresponce",
+    };
+  }
+}
+
 Future<dynamic> blockUser(int userId) async {
   headers.addAll({HttpHeaders.authorizationHeader: 'Bearer ${await getToken}'});
   final response = await get(

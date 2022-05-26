@@ -59,7 +59,7 @@ class IconBtn extends StatelessWidget {
                   7.widthBox,
                   if (iconText != null)
                     Text(
-                      iconText! ?? "",
+                      iconText ?? "",
                     )
                 ],
               )
