@@ -65,6 +65,7 @@ class ProfileAvatar extends StatelessWidget {
               alignment: Alignment.center,
               transform: Matrix4.rotationY(pi),
               child: CustomPaint(
+                size: Size.fromHeight(20),
                 painter:
                 showStatusPainter==true?
                 storyNum != null
@@ -76,7 +77,6 @@ class ProfileAvatar extends StatelessWidget {
                   alignment: Alignment.center,
                   transform: Matrix4.rotationY(pi),
                   child: CircleAvatar(
-
                     backgroundColor: Colors.white30,
                     backgroundImage: AssetImage(loadingGif),
                     foregroundImage: NetworkImage(avatar==null?"null":avatar!),
@@ -122,7 +122,7 @@ class StatusPainter extends CustomPainter {
     final Paint paint = Paint()
       ..isAntiAlias = true
       ..strokeWidth = 2
-      // ..color = isSeen ? color : Colors.grey
+      ..color = isSeen ? color : Colors.grey
       ..style = PaintingStyle.stroke;
     drawArc(canvas, size, paint);
   }
@@ -141,6 +141,7 @@ class StatusPainter extends CustomPainter {
             ? (paint..color = Colors.grey)
             : (paint..color = Palette.primaryColor),
       );
+
     else if (storyNum > 1) {
       double degree = -90;
       double arc = 360 / storyNum;
@@ -153,8 +154,8 @@ class StatusPainter extends CustomPainter {
       for (var i = 0; i < storyNum; i++) {
         canvas.drawArc(
           Rect.fromCircle(
-            center: new Offset(0,0),
-            radius: size.height,
+            center: new Offset(size.width*0.5,size.height*0.5),
+            radius: size.height*0.6,
           ),
           degreeToAngle(degree + gap),
           degreeToAngle(arc - gap * 2),

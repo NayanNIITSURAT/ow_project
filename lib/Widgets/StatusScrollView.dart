@@ -30,14 +30,16 @@ class StatusScrollView extends StatelessWidget {
             final user = users.length > 0
                 ? users[index > 0 && userData.isLoggedIn ? index - 1 : index]
                 : User(id: 0, username: '');
-            return index == 0 && userData.isLoggedIn
-                ? Stack(
-                    children: [
-                      Container(
-                        width: 75,
-                        child: ProfileAvatar(
+            return
+              index == 0 && userData.isLoggedIn
+                ? Container(
+                  margin: EdgeInsets.symmetric(horizontal: 10),
+                  child: Stack(
+                      overflow: Overflow.visible,
+                      children: [
+                        ProfileAvatar(
                           withBorder: true,
-                          // storyNum: userData.storyLen,
+                          storyNum: userData.storyLen,
                           avatar: userData.profile.avartar,
                           size: 70,
                           onPressed: () async {
@@ -55,45 +57,46 @@ class StatusScrollView extends StatelessWidget {
                             //     .getCurrentSellerProfile(user);
                           },
                         ),
-                      ),
-                      Positioned(
-                        bottom: 0.5,
-                        right: 1,
-                        child: InkWell(
-                          onTap: () {
-                            Navigator.pushNamed(
-                                context, CameraScreen.routeName);
-                          },
-                          child: Container(
-                            height: 30,
-                            width: 30,
-                            decoration: BoxDecoration(
-                                border:
-                                    Border.all(color: Colors.white, width: 3),
-                                gradient: LinearGradient(
-                                  begin: Alignment.centerLeft,
-                                  end: Alignment(0.1,
-                                      0.0), // 10% of the width, so there are ten blinds.
-                                  colors: [
-                                    Color(0xffee0000),
-                                    Palette.primaryColor,
-                                    Color.fromARGB(255, 240, 102, 11),
-                                  ], // red to yellow
+                        Positioned(
+                          bottom: 0.5,
+                          right: -1.5,
+                          child: InkWell(
+                            onTap: () {
+                              Navigator.pushNamed(
+                                  context, CameraScreen.routeName);
+                            },
+                            child: Container(
+                              height: 30,
+                              width: 30,
+                              decoration: BoxDecoration(
+                                  border:
+                                      Border.all(color: Colors.white, width: 3),
+                                  gradient: LinearGradient(
+                                    begin: Alignment.centerLeft,
+                                    end: Alignment(0.1,
+                                        0.0), // 10% of the width, so there are ten blinds.
+                                    colors: [
+                                      Color(0xffee0000),
+                                      Palette.primaryColor,
+                                      Color.fromARGB(255, 240, 102, 11),
+                                    ], // red to yellow
+                                  ),
+                                  shape: BoxShape.circle),
+                              child: Center(
+                                child: Icon(
+                                  Icons.add,
+                                  size: 20,
+                                  color: Colors.white,
                                 ),
-                                shape: BoxShape.circle),
-                            child: Center(
-                              child: Icon(
-                                Icons.add,
-                                size: 20,
-                                color: Colors.white,
                               ),
                             ),
                           ),
-                        ),
-                      )
-                    ],
-                  )
-                : ProfileAvatar(
+                        )
+                      ],
+                    ),
+                )
+                :
+            ProfileAvatar(
                     storyNum: user.stories.length,
                     lastViewdIndex:
                         user.stories.lastIndexWhere((_) => _.iViewed),
