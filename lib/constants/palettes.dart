@@ -33,3 +33,4 @@ const icolor = Color(0xFFA0AEC0);
 const fieldcolor = Color(0xFFF7FAFC);
 const pagecommentcolor = Color(0xFFE90808);
 const kDefaultPadding = 20.0;
+const description = Color(0xFF718096);

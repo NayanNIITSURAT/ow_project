@@ -130,6 +130,7 @@ class ChatCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // print('sender.messages.last.time   ${sender.messages.last.time}');
     return InkWell(
       onTap: press,
       child: ListTile(

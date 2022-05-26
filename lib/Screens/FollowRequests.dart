@@ -19,9 +19,8 @@ import 'package:owlet/services/utils.dart';
 import 'package:provider/provider.dart';
 import 'package:velocity_x/velocity_x.dart';
 
+import '../Components/bottomsheetbutton.dart';
 import '../models/Requestuser.dart';
-
-
 
 class FollowNotificationScreen extends StatelessWidget {
   static const routeName = 'notifications-screen';
@@ -59,7 +58,7 @@ class FollowNotificationList extends StatefulWidget {
 }
 
 class _FollowNotificationListState extends State<FollowNotificationList> {
-  Product? nd ;
+  Product? nd;
   // NotificationResponse nd = NotificationResponse(
   //   totalItems: 0,
   //   totalPages: 0,
@@ -83,12 +82,12 @@ class _FollowNotificationListState extends State<FollowNotificationList> {
       Navigator.pop(context);
     else
       await senderRequest(await getuserid).then(
-            (res) {
+        (res) {
           setState(() {
-           nd= res;
+            nd = res;
             loading = false;
           });
-         // user.totalNotifications = 0;
+          // user.totalNotifications = 0;
         },
       ).catchError((onError) {
         print(onError.toString());
@@ -111,52 +110,55 @@ class _FollowNotificationListState extends State<FollowNotificationList> {
     // final oldLen = nd.oldNotifications.length;
     return loading
         ? Loading(
-      message: 'Fetching notifications',
-    )
+            message: 'Fetching notifications',
+          )
         : nd!.data.length < 1
-        ? Center(
-      child: Text('You don\'t have any notification yet'),
-    )
-        : Container(
-        child: PullToLoad(
-          refresh: () => requestNotification(true),
-          load: () => requestNotification(false),
-          child: ListView.builder(
-            shrinkWrap: true,
-            itemCount: nd!.data.length,
-            //+ (newLen > 0 ? 1 : 0) + (oldLen > 0 ? 1 : 0),
-            itemBuilder: (_, i) => NotificationItem(notification: nd!.data![i]),
-          ),
-        ));
+            ? Center(
+                child: Text('You don\'t have any notification yet'),
+              )
+            : Container(
+                child: PullToLoad(
+                refresh: () => requestNotification(true),
+                load: () => requestNotification(false),
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: nd!.data.length,
+                  //+ (newLen > 0 ? 1 : 0) + (oldLen > 0 ? 1 : 0),
+                  itemBuilder: (_, i) =>
+                      NotificationItem(notification: nd!.data![i]),
+                ),
+              ));
   }
 }
 
 Widget title({required String text, required Color iconColor}) => Container(
-  color: Colors.grey.shade100,
-  padding: EdgeInsets.all(20),
-  margin: EdgeInsets.only(top: 5, bottom: 5),
-  width: double.infinity,
-  child: Row(
-    children: [
-      Icon(
-        Icons.circle,
-        color: iconColor,
-        size: 16,
+      color: Colors.grey.shade100,
+      padding: EdgeInsets.all(20),
+      margin: EdgeInsets.only(top: 5, bottom: 5),
+      width: double.infinity,
+      child: Row(
+        children: [
+          Icon(
+            Icons.circle,
+            color: iconColor,
+            size: 16,
+          ),
+          Text(
+            '  $text',
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: 16,
+              // fontWeight: FontWeight.bold,
+            ),
+          ),
+        ],
       ),
-      Text(
-        '  $text',
-        style: TextStyle(
-          color: Colors.black,
-          fontSize: 16,
-          // fontWeight: FontWeight.bold,
-        ),
-      ),
-    ],
-  ),
-);
+    );
 
 class NotificationItem extends StatefulWidget {
-  const NotificationItem({required this.notification});
+  const NotificationItem({
+    required this.notification,
+  });
 
   final Datum notification;
 
@@ -165,16 +167,18 @@ class NotificationItem extends StatefulWidget {
 }
 
 class _NotificationItemState extends State<NotificationItem> {
-
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<UserProvider>(context, listen: false);
     final utility = Provider.of<UtilsProvider>(context, listen: false);
-
+    final Size size = MediaQuery.of(context).size;
+    final Color color, textColor;
 
     showSeller() async {
       ProfileViewModal.show(context);
-      await utility.getCurrentProfileFromUsername(widget.notification.requesterUser.username,);
+      await utility.getCurrentProfileFromUsername(
+        widget.notification.requesterUser.username,
+      );
     }
 
     showListing() => Navigator.pushNamed(context, SingleListingScreen.routeName,
@@ -183,7 +187,6 @@ class _NotificationItemState extends State<NotificationItem> {
         ));
 
     return Container(
-
       padding: EdgeInsets.symmetric(horizontal: 12, vertical: 10),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(5)),
@@ -207,14 +210,14 @@ class _NotificationItemState extends State<NotificationItem> {
                   radius: 28,
                   backgroundColor: Colors.white30,
                   backgroundImage: AssetImage(loadingGif),
-                  foregroundImage: NetworkImage(widget.notification.requesterUser.avartar),
+                  foregroundImage:
+                      NetworkImage(widget.notification.requesterUser.avartar),
                 ),
                 onTap: showSeller,
               ),
               Expanded(
                 child: InkWell(
-                  onTap:
-                   showSeller ,
+                  onTap: showSeller,
                   child: Padding(
                     padding: const EdgeInsets.only(left: 15, right: 10),
                     child: Column(
@@ -234,13 +237,61 @@ class _NotificationItemState extends State<NotificationItem> {
                               widget.notification.requesterUser.fullName,
                               style: TextStyle(fontSize: 15),
                             ),
-
                           ],
                         ),
                         SizedBox(
                           height: 8,
                         )
                       ],
+                    ),
+                  ),
+                ),
+              ),
+              InkWell(
+                child: Container(
+                  height: size.height * 0.050,
+                  width: size.width * 0.2,
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.centerLeft,
+                      end: Alignment(0.04, 5.5),
+                      colors: <Color>[
+                        Color(0xffee0000),
+                        Color(0xffF33909),
+                        Color(0xffFE6D0A).withOpacity(0.8)
+                      ], // red to yellow
+                    ),
+                    borderRadius: BorderRadius.circular(6),
+                  ),
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(vertical: 2, horizontal: 5),
+                    child: Center(
+                      child: Text(
+                        'Confirm',
+                        style: TextStyle(
+                            color: Palette.primaryColorLight,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(
+                width: 8,
+              ),
+              InkWell(
+                child: Container(
+                  height: size.height * 0.050,
+                  width: size.width * 0.2,
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.grey),
+                    borderRadius: BorderRadius.circular(6),
+                  ),
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(vertical: 2, horizontal: 5),
+                    child: Center(
+                      child: Text('Delete',
+                          style: TextStyle(fontWeight: FontWeight.bold)),
                     ),
                   ),
                 ),

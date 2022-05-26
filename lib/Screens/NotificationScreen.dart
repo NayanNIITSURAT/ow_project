@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:owlet/Components/Button.dart';
@@ -73,7 +74,6 @@ class _NotificationListState extends State<NotificationList> {
   void initState() {
     Future.delayed(Duration.zero, () => getNotifications(true));
 
-
     super.initState();
   }
 
@@ -108,7 +108,6 @@ class _NotificationListState extends State<NotificationList> {
       });
   }
 
-
   @override
   Widget build(BuildContext context) {
     final ttLen = nd.notifications.length;
@@ -118,74 +117,76 @@ class _NotificationListState extends State<NotificationList> {
         ? Loading(
             message: 'Fetching notifications',
           )
-
         : Column(
-          children: [
-            InkWell(
-              onTap: (){
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) =>  FollowNotificationScreen()),
-                );
-              },
-              child: Container(
-                height: 70,
-                width: 400,
-                color: fieldcolor,
-                child: Padding(
-                  padding: const EdgeInsets.all(15.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-
-                    children: [
-                      Text('Follow request'),
-                      Icon(Icons.double_arrow_rounded)
-                    ],
+            children: [
+              InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => FollowNotificationScreen()),
+                  );
+                },
+                child: Container(
+                  height: 70,
+                  width: 400,
+                  color: fieldcolor,
+                  child: Padding(
+                    padding: const EdgeInsets.all(15.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text('Follow requests',
+                            style: TextStyle(fontWeight: FontWeight.bold)),
+                        Icon(Icons.double_arrow_rounded)
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
-        
-            nd.totalItems < 1
-                ? Center(
-                    child: Text('You don\'t have any notification yet'),
-                  )
-                : Expanded(
-                  child: Container(
-                      child: PullToLoad(
-                      refresh: () => getNotifications(true),
-                      load: () => getNotifications(false),
-                      child: ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: ttLen,
-                        //+ (newLen > 0 ? 1 : 0) + (oldLen > 0 ? 1 : 0),
-                        itemBuilder: (_, i) => newLen > 0
-                            ? i <= newLen
-                                ?
-                                //i == 0
-                                //     ? title(
-                                //         text: 'New notifications',
-                                //         iconColor: Colors.green,
-                                //       )
-                                //     :
-                                NotificationItem(notification: nd.notifications[i])
-                                // : oldLen > 0 && i == newLen + 1
-                                //     ? title(
-                                //         text: 'Past notifications',
-                                //         iconColor: Colors.grey,
-                                //       )
-                                : NotificationItem(notification: nd.notifications[i])
-                            // : i == 0
-                            //     ? title(
-                            //         text: 'Past notifications',
-                            //         iconColor: Colors.grey,
-                            //       )
-                            : NotificationItem(notification: nd.notifications[i]),
-                      ),
-                    )),
-                ),
-          ],
-        );
+              nd.totalItems < 1
+                  ? Center(
+                      child: Text('You don\'t have any notification yet'),
+                    )
+                  : Expanded(
+                      child: Container(
+                          child: PullToLoad(
+                        refresh: () => getNotifications(true),
+                        load: () => getNotifications(false),
+                        child: ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: ttLen,
+                          //+ (newLen > 0 ? 1 : 0) + (oldLen > 0 ? 1 : 0),
+                          itemBuilder: (_, i) => newLen > 0
+                              ? i <= newLen
+                                  ?
+                                  //i == 0
+                                  //     ? title(
+                                  //         text: 'New notifications',
+                                  //         iconColor: Colors.green,
+                                  //       )
+                                  //     :
+                                  NotificationItem(
+                                      notification: nd.notifications[i])
+                                  // : oldLen > 0 && i == newLen + 1
+                                  //     ? title(
+                                  //         text: 'Past notifications',
+                                  //         iconColor: Colors.grey,
+                                  //       )
+                                  : NotificationItem(
+                                      notification: nd.notifications[i])
+                              // : i == 0
+                              //     ? title(
+                              //         text: 'Past notifications',
+                              //         iconColor: Colors.grey,
+                              //       )
+                              : NotificationItem(
+                                  notification: nd.notifications[i]),
+                        ),
+                      )),
+                    ),
+            ],
+          );
   }
 }
 
@@ -224,6 +225,28 @@ class NotificationItem extends StatefulWidget {
 
 class _NotificationItemState extends State<NotificationItem> {
   late bool iFollow = widget.notification.sender.iFollow;
+  String formatISOTime(DateTime date) {
+    date = date.toUtc();
+    final convertedDate = date.toLocal();
+    String formated_date = "";
+
+    formated_date = (DateFormat("dd MMM,h:mm a").format(convertedDate));
+    return formated_date;
+    // var duration = date.timeZoneOffset;
+    // if (duration.isNegative) {
+    //   fstring = (DateFormat("dd MMM , HH:mm a").format(date) +
+    //       "-${duration.inHours.toString().padLeft(2, '0')}${(duration.inMinutes - (duration.inHours * 60)).toString().padLeft(2, '0')}");
+    //   String result = fstring.replaceAll("+0000", " ");
+    //
+    //   return result;
+    // } else {
+    //   fstring = (DateFormat("dd MMM , HH:mm a").format(date) +
+    //       "+${duration.inHours.toString().padLeft(2, '0')}${(duration.inMinutes - (duration.inHours * 60)).toString().padLeft(2, '0')}");
+    //   String result = fstring.replaceAll("+0000", " ");
+    //   return result;
+    // }
+  }
+
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<UserProvider>(context, listen: false);
@@ -243,25 +266,11 @@ class _NotificationItemState extends State<NotificationItem> {
           id: listing!.id,
         ));
 
-    return Container(
-      // margin: EdgeInsets.symmetric(vertical: 4, horizontal: 15),
-      padding: EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(5)),
-        color: Colors.white,
-        boxShadow: [
-          BoxShadow(
-            blurRadius: 2,
-            // spreadRadius: 3,
-            color: Colors.grey.shade100,
-            offset: Offset(0, 2),
-          ),
-        ],
-      ),
-      child: Column(
-        children: [
-
-          Row(
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
+          child: Row(
             crossAxisAlignment: isAccount
                 ? CrossAxisAlignment.center
                 : CrossAxisAlignment.start,
@@ -284,17 +293,36 @@ class _NotificationItemState extends State<NotificationItem> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          sender.username,
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 15),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              sender.username,
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 15),
+                            ),
+                            Container(
+                              width: 40,
+                              child: Center(
+                                child: timeAgo(widget.notification.Updatedat ??
+                                        DateTime.now().toString())
+                                    .text
+                                    .size(12)
+                                    .semiBold
+                                    .color(icolor)
+                                    .make(),
+                              ),
+                            ),
+                          ],
                         ),
                         SizedBox(
                           height: 8,
                         ),
                         ReadMore(
                           maxLength: 2000,
-                          style: TextStyle(fontSize: 12),
+                          style: TextStyle(
+                              fontSize: 12,
+                              color: description.withOpacity(0.6)),
                           caption: isAccount
                               ? 'Started following you'
                               : type == N.NotificationType.MENTION &&
@@ -315,67 +343,12 @@ class _NotificationItemState extends State<NotificationItem> {
                   ),
                 ),
               ),
-              // timeAgo(sender.notification.last.time ??
-              //         DateTime.now().toString())
-              //     .text
-              //     .size(12)
-              //     .color(Palette.primaryColor)
-              //     .textStyle(TextStyle(fontWeight: FontWeight.w600))
-              //     .make(),
-              // isAccount
-              //     ? iFollow || user.profile.id == sender.id
-              //         ? Text(
-              //             'Following',
-              //             style: TextStyle(fontStyle: FontStyle.italic),
-              //           )
-              //         : Button(
-              //             text: 'Follow back',
-              //             press: user.isLoggedIn
-              //                 ? () {
-              //                     setState(() => iFollow = !iFollow);
-              //                     user
-              //                         .followUser(User(
-              //                           id: sender.id,
-              //                           fullName: 'fullName',f
-              //                           username: sender.username,
-              //                           email: 'email',
-              //                           phone: 'phone',
-              //                         ))
-              //                         .catchError((onError) =>
-              //                             setState(() => iFollow = !iFollow));
-              //                   }
-              //                 : () => Navigator.of(context)
-              //                     .pushNamed(LoginScreen.routeName),
-              //             paddingVert: 4,
-              //             paddingHori: 8,
-              //           )
-              //     : InkWell(
-              //         child: ClipRRect(
-              //           borderRadius: BorderRadius.circular(3),
-              //           child: Image.network(
-              //             listing!.images[0],
-              //             height: 40,
-              //             filterQuality: FilterQuality.medium,
-              //           ),
-              //         ),
-              //         onTap: showListing,
-              //       )
-              // ProfileAvatar(
-              //     avatar: listing!.images[0],
-              //   ),
-
-              // DateFormat("dd, MMM")
-              //     .format(
-              //         DateTime.tryParse(product.createdAt) ?? DateTime.now())
-              //     .text
-              //     .sm
-              //     .gray400
-              //     .make()
             ],
           ),
-          Divider(),
-        ],
-      ),
+        ),
+        SizedBox(
+            width: MediaQuery.of(context).size.width * 0.90, child: Divider()),
+      ],
     );
   }
 }
