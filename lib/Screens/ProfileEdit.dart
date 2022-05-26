@@ -126,12 +126,32 @@ class _ProfileEditState extends State<ProfileEdit> {
                         SizedBox(
                           height: 10,
                         ),
-                        EditInput(
-                          onChange: (val) => onChange('bio', val),
-                          label: 'Bio',
-                          isMultiLine: true,
-                          keybordtype: TextInputType.multiline,
-                          initialValue: profile.bio,
+                        // EditInput(
+                        //   onChange: (val) => onChange('bio', val),
+                        //   label: 'Bio',
+                        //   isMultiLine: true,
+                        //   keybordtype: TextInputType.multiline,
+                        //   initialValue: profile.bio,
+                        // ),
+                        TextField(
+                          decoration: InputDecoration(
+                            filled: true,
+                            border: InputBorder.none,
+                            hintText: 'Enter Bio',
+                            fillColor: Color(0xffEDF2F7).withOpacity(0.5),
+                            // labelText: 'Description',
+                          ),
+
+                          scrollPadding: EdgeInsets.all(10),
+                          minLines: 5,
+                          maxLines: 15,
+                          autofocus: true,
+                          maxLength: 2200,
+
+                          onChanged: (value) => onChange('bio', value),
+                          // maxLengthEnforcement: ,
+                          keyboardType: TextInputType.multiline,
+                          textInputAction: TextInputAction.newline,
                         ),
                         SizedBox(
                           height: 30,
@@ -290,6 +310,7 @@ class EditInput extends StatelessWidget {
 
                       onChanged: onChange,
                       // maxLengthEnforcement: ,
+
                       minLines: 5,
                       maxLines: 15,
                       maxLength: 200,
