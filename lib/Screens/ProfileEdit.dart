@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
@@ -131,14 +132,22 @@ class _ProfileEditState extends State<ProfileEdit> {
                         //   keybordtype: TextInputType.multiline,
                         //   initialValue: profile.bio,
                         // ),
+                        Align(
+                            alignment: Alignment.centerLeft,
+
+                            child: Text("Enter Bio" , style: TextStyle(color: Color(0xff9E9E9E) ,fontWeight: FontWeight.bold))),
+                        SizedBox(
+                          height: 10,
+                        ),
                         TextField(
                           decoration: InputDecoration(
                             filled: true,
                             border: InputBorder.none,
-                            hintText: 'Enter Bio',
                             fillColor: Color(0xffEDF2F7).withOpacity(0.5),
                             // labelText: 'Description',
                           ),
+
+
 
                           scrollPadding: EdgeInsets.all(10),
                           minLines: 5,
