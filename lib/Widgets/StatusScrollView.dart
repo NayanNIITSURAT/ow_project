@@ -30,15 +30,14 @@ class StatusScrollView extends StatelessWidget {
             final user = users.length > 0
                 ? users[index > 0 && userData.isLoggedIn ? index - 1 : index]
                 : User(id: 0, username: '');
-            return
-              index == 0 && userData.isLoggedIn
+            return index == 0 && userData.isLoggedIn
                 ? Container(
-                  margin: EdgeInsets.symmetric(horizontal: 10),
-                  child: Stack(
+                    margin: EdgeInsets.symmetric(horizontal: 10),
+                    child: Stack(
                       overflow: Overflow.visible,
                       children: [
                         ProfileAvatar(
-                          withBorder: true,
+                          // withBorder: true,
                           storyNum: userData.storyLen,
                           avatar: userData.profile.avartar,
                           size: 70,
@@ -94,13 +93,12 @@ class StatusScrollView extends StatelessWidget {
                         )
                       ],
                     ),
-                )
-                :
-            ProfileAvatar(
+                  )
+                : ProfileAvatar(
                     storyNum: user.stories.length,
                     lastViewdIndex:
                         user.stories.lastIndexWhere((_) => _.iViewed),
-                    withBorder: true,
+                    // withBorder: true,
                     avatar: user.avartar,
                     //isOnline: user.isOnline,
                     size: 70,
