@@ -37,8 +37,8 @@ class StatusScrollView extends StatelessWidget {
                         width: 75,
                         child: ProfileAvatar(
                           withBorder: true,
-                          storyNum: userData.storyLen,
-                          avatar: userData.profile.avtar,
+                          // storyNum: userData.storyLen,
+                          avatar: userData.profile.avartar,
                           size: 70,
                           onPressed: () async {
                             Navigator.push(
@@ -98,7 +98,7 @@ class StatusScrollView extends StatelessWidget {
                     lastViewdIndex:
                         user.stories.lastIndexWhere((_) => _.iViewed),
                     withBorder: true,
-                    avatar: user.avtar,
+                    avatar: user.avartar,
                     //isOnline: user.isOnline,
                     size: 70,
                     onPressed: () async {

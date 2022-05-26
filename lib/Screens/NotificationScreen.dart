@@ -23,6 +23,7 @@ import '../helpers/helpers.dart';
 import '../models/Notification.dart';
 import '../models/Notification.dart';
 import '../models/Notification.dart';
+import 'FollowRequests.dart';
 
 class NotificationScreen extends StatelessWidget {
   static const routeName = 'notifications-screen';
@@ -72,6 +73,7 @@ class _NotificationListState extends State<NotificationList> {
   void initState() {
     Future.delayed(Duration.zero, () => getNotifications(true));
 
+
     super.initState();
   }
 
@@ -83,6 +85,7 @@ class _NotificationListState extends State<NotificationList> {
       Navigator.pop(context);
     else
       // final id = (ModalRoute.of(context)!.settings.arguments as SingleListingArgs).id;
+
       await fetchNotifications(refresh ? 0 : nd.currentPage + 1).then(
         (res) {
           setState(() {
@@ -105,6 +108,7 @@ class _NotificationListState extends State<NotificationList> {
       });
   }
 
+
   @override
   Widget build(BuildContext context) {
     final ttLen = nd.notifications.length;
@@ -114,42 +118,74 @@ class _NotificationListState extends State<NotificationList> {
         ? Loading(
             message: 'Fetching notifications',
           )
-        : nd.totalItems < 1
-            ? Center(
-                child: Text('You don\'t have any notification yet'),
-              )
-            : Container(
-                child: PullToLoad(
-                refresh: () => getNotifications(true),
-                load: () => getNotifications(false),
-                child: ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: ttLen,
-                  //+ (newLen > 0 ? 1 : 0) + (oldLen > 0 ? 1 : 0),
-                  itemBuilder: (_, i) => newLen > 0
-                      ? i <= newLen
-                          ?
-                          //i == 0
-                          //     ? title(
-                          //         text: 'New notifications',
-                          //         iconColor: Colors.green,
-                          //       )
-                          //     :
-                          NotificationItem(notification: nd.notifications[i])
-                          // : oldLen > 0 && i == newLen + 1
-                          //     ? title(
-                          //         text: 'Past notifications',
-                          //         iconColor: Colors.grey,
-                          //       )
-                          : NotificationItem(notification: nd.notifications[i])
-                      // : i == 0
-                      //     ? title(
-                      //         text: 'Past notifications',
-                      //         iconColor: Colors.grey,
-                      //       )
-                      : NotificationItem(notification: nd.notifications[i]),
+
+        : Column(
+          children: [
+            InkWell(
+              onTap: (){
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) =>  FollowNotificationScreen()),
+                );
+              },
+              child: Container(
+                height: 70,
+                width: 400,
+                color: fieldcolor,
+                child: Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
+                    children: [
+                      Text('Follow request'),
+                      Icon(Icons.double_arrow_rounded)
+                    ],
+                  ),
                 ),
-              ));
+              ),
+            ),
+        
+            nd.totalItems < 1
+                ? Center(
+                    child: Text('You don\'t have any notification yet'),
+                  )
+                : Expanded(
+                  child: Container(
+                      child: PullToLoad(
+                      refresh: () => getNotifications(true),
+                      load: () => getNotifications(false),
+                      child: ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: ttLen,
+                        //+ (newLen > 0 ? 1 : 0) + (oldLen > 0 ? 1 : 0),
+                        itemBuilder: (_, i) => newLen > 0
+                            ? i <= newLen
+                                ?
+                                //i == 0
+                                //     ? title(
+                                //         text: 'New notifications',
+                                //         iconColor: Colors.green,
+                                //       )
+                                //     :
+                                NotificationItem(notification: nd.notifications[i])
+                                // : oldLen > 0 && i == newLen + 1
+                                //     ? title(
+                                //         text: 'Past notifications',
+                                //         iconColor: Colors.grey,
+                                //       )
+                                : NotificationItem(notification: nd.notifications[i])
+                            // : i == 0
+                            //     ? title(
+                            //         text: 'Past notifications',
+                            //         iconColor: Colors.grey,
+                            //       )
+                            : NotificationItem(notification: nd.notifications[i]),
+                      ),
+                    )),
+                ),
+          ],
+        );
   }
 }
 
@@ -224,6 +260,7 @@ class _NotificationItemState extends State<NotificationItem> {
       ),
       child: Column(
         children: [
+
           Row(
             crossAxisAlignment: isAccount
                 ? CrossAxisAlignment.center

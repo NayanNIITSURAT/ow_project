@@ -12,6 +12,8 @@ import 'package:owlet/models/User.dart';
 import 'package:owlet/services/apiUrl.dart';
 import 'package:owlet/services/user.dart';
 
+import '../models/Requestuser.dart';
+
 class HttpException implements Exception {
   final String message;
 
@@ -106,6 +108,20 @@ Future<NotificationResponse> fetchNotifications(int page) async {
 
   if (response.statusCode == 200)
     return NotificationResponse.fromJson(jsonDecode(response.body));
+  else {
+    var data = jsonDecode(response.body);
+    throw HttpException(data['message']);
+  }
+}
+Future<Product> senderRequest(int id) async {
+  headers.addAll({HttpHeaders.authorizationHeader: 'Bearer ${await getToken}'});
+  final response = await get(
+    Uri.parse("https://api.the-owlette.com/v4/users/followReqList/$id"),
+    headers: headers,
+  );
+
+  if (response.statusCode == 200)
+    return Product.fromJson(jsonDecode(response.body));
   else {
     var data = jsonDecode(response.body);
     throw HttpException(data['message']);

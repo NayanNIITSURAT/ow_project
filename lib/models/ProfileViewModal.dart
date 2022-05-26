@@ -401,7 +401,7 @@ class _ProfileViewModalState extends State<ProfileViewModal> with RouteAware {
                       ),
                       ProfileAvatar(
                         size: 90,
-                        avatar: seller.avtar,
+                        avatar: seller.avartar,
                         storyNum: seller.stories.length,
                       ),
                       CircleButton(

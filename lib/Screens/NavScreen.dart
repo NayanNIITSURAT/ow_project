@@ -152,7 +152,7 @@ class _NavScreenState extends State<NavScreen> with WidgetsBindingObserver {
           sender: User(
         id: msg['senderId'],
         username: msg['username'],
-        avtar: msg['avartar'],
+        avartar: msg['avartar'],
         lastSeen: DateTime.now().toIso8601String(),
       )),
     );

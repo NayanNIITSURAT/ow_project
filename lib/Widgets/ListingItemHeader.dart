@@ -69,7 +69,7 @@ class ListingItemHeader extends StatelessWidget {
                     child: Row(
                       children: [
                         ProfileAvatar(
-                          avatar: owner.avtar,
+                          avatar: owner.avartar,
                           size: 50,
                           isOnline: owner.isOnline,
                         ),

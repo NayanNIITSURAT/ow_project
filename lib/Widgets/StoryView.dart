@@ -161,7 +161,7 @@ class _StoryViewState extends State<StoryView>
         "receiverId": widget.user.id,
         "senderId": userData.profile.id,
         'username': userData.profile.username,
-        'avartar': userData.profile.avtar,
+        'avartar': userData.profile.avartar,
         'time': DateTime.now().toIso8601String(),
         "id": _msg?.id,
         "refType": 'story',
@@ -531,7 +531,7 @@ class StoryUser extends StatelessWidget {
       leading: CircleAvatar(
         backgroundColor: Colors.white30,
         backgroundImage: AssetImage(loadingGif),
-        foregroundImage: NetworkImage(user.avtar),
+        foregroundImage: NetworkImage(user.avartar),
         radius: 25,
       ),
       title: user.username.text.semiBold.size(13).color(Vx.white).make(),

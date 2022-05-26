@@ -26,7 +26,7 @@ class RegisterScreen extends StatefulWidget {
 
 class _RegisterScreenState extends State<RegisterScreen> {
   final formKey = new GlobalKey<FormState>();
-
+  bool hidepassword=false;
   // String phone = '08107539186',
   //     email = 'ebukanwosu45@gmail.com',
   //     username = 'coolprince',
@@ -177,20 +177,27 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         Input(
                           icon: Icons.security,
                           label: 'Password',
-                          isPassword: true,
+                          isrightimage: false,
+                          isPassword: hidepassword,
+                          rightIcon:  hidepassword==false?Icons.remove_red_eye:Icons.visibility_off,
+                          righticonTap: (){
+                            setState(() {
+                              hidepassword==true?hidepassword=false:hidepassword=true;
+                            });
+
+                          },
+
+
                           elevate: false,
-                          bgColor: Color(0xffEDF2F7).withOpacity(0.5),
-                          onSaved: (value) => password = value!,
                           validate: (value) => Password(
                             value: value,
                           ),
-                          // validate: (value) => validateBasic(
-                          //   fieldName: 'Password',
-                          //   value: value,
-                          //   minLength: 8,
-                          // ),
+                          bgColor: Color(0xffEDF2F7).withOpacity(0.5),
 
-                          autofill: const <String>[AutofillHints.newPassword],
+                          onSaved: (value) => password = value ?? '',
+                          autofill: const <String>[
+                            AutofillHints.password
+                          ],
                           // initialValue: 'cool1106',
                         ),
                         SizedBox(height: 20),

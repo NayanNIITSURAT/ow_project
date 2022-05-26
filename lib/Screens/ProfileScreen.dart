@@ -431,11 +431,12 @@ class MyProfileImage extends StatelessWidget {
     // }
     var h = MediaQuery.of(context).size.height;
     var w = MediaQuery.of(context).size.width;
+    print('profile photo ${_user!.profile.avartar}');
     return ProfileAvatar(
       showStatusPainter: false,
       storyNum: _user!.profile.stories.length,
       size: h * 0.12,
-      avatar: _user!.profile.avtar,
+      avatar: _user!.profile.avartar,
       // onPressed: () => _showPickOptionDialog(context),
       onPressed: () => Toast(context, message: 'Feature coming soon...').show(),
     );

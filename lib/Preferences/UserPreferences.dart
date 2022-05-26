@@ -11,10 +11,19 @@ class UserPreferences extends ChangeNotifier {
     }
   }
 
+  Future changeUser(User user) async {
+    List<int> listofides=[];
+    _prefs!.setInt("userId", user.id);
+    _prefs!.setString("avartar", 'https://${user.avartar.toString().split('https://').last}');
+    _prefs!.setString("fullName", user.fullName);
+    _prefs!.setString("email", user.email ?? '');
+    _prefs!.setString("phone", user.phone ?? '');
+    _prefs!.setString("token", user.token);
+  }
   Future saveUser(User user) async {
     List<int> listofides=[];
     _prefs!.setInt("userId", user.id);
-    _prefs!.setString("avartar", user.avtar);
+    _prefs!.setString("avartar", user.avartar);
     _prefs!.setString("fullName", user.fullName);
     _prefs!.setString("email", user.email ?? '');
     _prefs!.setString("phone", user.phone ?? '');
@@ -27,7 +36,7 @@ class UserPreferences extends ChangeNotifier {
 
       print(userspref.length);
 
-      userspref.contains(user);
+
       for (int i = 0; i < userspref.length; i++) {
 
         listofides.add(userspref[i].id);
@@ -127,7 +136,7 @@ class UserPreferences extends ChangeNotifier {
 
     return User(
       id: id,
-      avtar: avartar,
+      avartar: avartar,
       fullName: fullName,
       email: email,
       phone: phone,
