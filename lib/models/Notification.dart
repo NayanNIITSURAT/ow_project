@@ -1,6 +1,8 @@
 import 'package:owlet/models/Listing.dart';
 import 'package:owlet/services/apiUrl.dart';
 
+import '../services/utils.dart';
+
 enum NotificationType {
   MENTION,
   LIKE,
@@ -9,7 +11,6 @@ enum NotificationType {
   COMMENT,
   NEW_POST,
   SUBSCRIPTION,
-
 }
 
 class NotificationUser {
@@ -39,9 +40,11 @@ class NotificationUser {
 class Notification {
   final int id;
   final NotificationType notifyableType;
+
   final NotificationUser sender;
   final Listing? listing;
   final int notifyableId;
+  final String Updatedat;
   final bool isOpened;
 
   Notification(
@@ -50,6 +53,7 @@ class Notification {
       required this.notifyableId,
       required this.sender,
       required this.isOpened,
+      required this.Updatedat,
       this.listing});
 
   factory Notification.fromJson(Map<String, dynamic> json) {
@@ -63,6 +67,7 @@ class Notification {
                   ? NotificationType.LIKE
                   : NotificationType.GENERAL,
       notifyableId: json['notifyableId'],
+      Updatedat: json['createdAt'],
       sender: NotificationUser.fromJson(json['sender']),
       listing:
           json['listing'] != null ? Listing.fromJson(json['listing']) : null,
