@@ -301,7 +301,7 @@ class AccountList extends StatelessWidget {
                                             backgroundImage:
                                                 AssetImage(loadingGif),
                                             foregroundImage:
-                                                NetworkImage(seller.avtar),
+                                                NetworkImage(seller.avartar),
                                           ),
                                           Text(
                                             "Remove follower?",
