@@ -9,10 +9,10 @@ class CachedImage extends StatelessWidget {
   }) : super(key: key);
 
   final String imageUrl;
-  String ext = imageUrl.toString().split(".").last;
 
   @override
   Widget build(BuildContext context) {
+    String ext = imageUrl.toString().split(".").last;
     return ext != "mp4"
         ? CachedNetworkImage(
             imageUrl: imageUrl,
