@@ -21,7 +21,9 @@ class AboutScren extends StatelessWidget {
           children: [
             HelpTile(
               text: 'Data Policy',
-              callback: () {},
+              callback: () {
+                _launchURL();
+              },
             ),
             HelpTile(
               text: 'Terms of Use',
@@ -31,7 +33,9 @@ class AboutScren extends StatelessWidget {
             ),
             HelpTile(
               text: 'Open source libraries',
-              callback: () {},
+              callback: () {
+                _launchURL();
+              },
             ),
           ],
         ),
