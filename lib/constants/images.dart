@@ -54,3 +54,4 @@ const back = "assets/icons/chat_backAroow.svg";
 const attachment = "assets/icons/attachment.png";
 const send = "assets/icons/send.png";
 const emojis = "assets/icons/emojis.png";
+const sendstory = "assets/icons/sendstory.png";
