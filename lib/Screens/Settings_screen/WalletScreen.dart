@@ -399,19 +399,22 @@ class _WalletScreenState extends State<WalletScreen> {
                                                 text:
                                                     'Proceed to add \$ ${amount == null ? "00.00" : amount.toString() + ".00"}',
                                                 press: doAdd
-                                                // () async {
-                                                // Charge charge = Charge()
-                                                //   ..amount = int.parse(amount + "00")
-                                                //   ..reference = _getReference()
-                                                //   // or ..accessCode = _getAccessCodeFrmInitialization()
-                                                //   ..email = 'helpdesk@theowlette.com';
-                                                // CheckoutResponse response =
-                                                //     await plugin.checkout(
-                                                //   context,
-                                                //   method: CheckoutMethod
-                                                //       .card, // Defaults to CheckoutMethod.selectable
-                                                //   charge: charge,
-                                                // );
+                                                //     () async {
+                                                //   Charge charge = Charge()
+                                                //     ..amount =
+                                                //         int.parse(amount + "00")
+                                                //     ..reference =
+                                                //         _getReference()
+                                                //     // or ..accessCode = _getAccessCodeFrmInitialization()
+                                                //     ..email =
+                                                //         'helpdesk@theowlette.com';
+                                                //   CheckoutResponse response =
+                                                //       await plugin.checkout(
+                                                //     context,
+                                                //     method: CheckoutMethod
+                                                //         .card, // Defaults to CheckoutMethod.selectable
+                                                //     charge: charge,
+                                                //   );
                                                 // },
                                                 ),
                                         SizedBox(
@@ -588,77 +591,76 @@ class _WalletScreenState extends State<WalletScreen> {
     );
   }
 
-//   _handleCheckout(BuildContext context) async {
-//
-//
-//
-//     Charge charge = Charge()
-//       ..amount = 10000 // In base currency
-//       ..email = 'customer@email.com'
-//       ..card = _getCardFromUI();
-//
-//     charge.reference = _getReference();
-//
-//
-//     try {
-//       CheckoutResponse response = await plugin.checkout(
-//         context,
-//         method: _method,
-//         charge: charge,
-//         fullscreen: false,
-//         logo: MyLogo(),
-//       );
-//       print('Response = $response');
-//       setState(() => _inProgress = false);
-//       _updateStatus(response.reference, '$response');
-//     } catch (e) {
-//       setState(() => _inProgress = false);
-//       _showMessage("Check console for error");
-//       rethrow;
-//     }
-//   }
-//
-//   PaymentCard _getCardFromUI() {
-//     // Using just the must-required parameters.
-//     return PaymentCard(
-//       number: _cardNumber,
-//       cvc: _cvv,
-//       expiryMonth: _expiryMonth,
-//       expiryYear: _expiryYear,
-//     );
-//
-//     // Using Cascade notation (similar to Java's builder pattern)
-// //    return PaymentCard(
-// //        number: cardNumber,
-// //        cvc: cvv,
-// //        expiryMonth: expiryMonth,
-// //        expiryYear: expiryYear)
-// //      ..name = 'Segun Chukwuma Adamu'
-// //      ..country = 'Nigeria'
-// //      ..addressLine1 = 'Ikeja, Lagos'
-// //      ..addressPostalCode = '100001';
-//
-//     // Using optional parameters
-// //    return PaymentCard(
-// //        number: cardNumber,
-// //        cvc: cvv,
-// //        expiryMonth: expiryMonth,
-// //        expiryYear: expiryYear,
-// //        name: 'Ismail Adebola Emeka',
-// //        addressCountry: 'Nigeria',
-// //        addressLine1: '90, Nnebisi Road, Asaba, Deleta State');
-//   }
-//
-//
-//   String _getReference() {
-//     String platform;
-//     if (Platform.isIOS) {
-//       platform = 'iOS';
-//     } else {
-//       platform = 'Android';
-//     }
-//
-//     return 'ChargedFrom${platform}_${DateTime.now().millisecondsSinceEpoch}';
-//   }
+  // _handleCheckout(BuildContext context) async {
+  //
+  //
+  //
+  //   Charge charge = Charge()
+  //     ..amount = 10000 // In base currency
+  //     ..email = 'customer@email.com'
+  //     ..card = _getCardFromUI();
+  //
+  //   charge.reference = _getReference();
+  //
+  //
+  //   try {
+  //     CheckoutResponse response = await plugin.checkout(
+  //       context,
+  //       method: _method,
+  //       charge: charge,
+  //       fullscreen: false,
+  //       logo: MyLogo(),
+  //     );
+  //     print('Response = $response');
+  //     setState(() => _inProgress = false);
+  //     _updateStatus(response.reference, '$response');
+  //   } catch (e) {
+  //     setState(() => _inProgress = false);
+  //     _showMessage("Check console for error");
+  //     rethrow;
+  //   }
+  // }
+  //
+  // PaymentCard _getCardFromUI() {
+  //   // Using just the must-required parameters.
+  //   return PaymentCard(
+  //     number: _cardNumber,
+  //     cvc: _cvv,
+  //     expiryMonth: _expiryMonth,
+  //     expiryYear: _expiryYear,
+  //   );
+  //
+  //   Using Cascade notation (similar to Java's builder pattern)
+  //  return PaymentCard(
+  //      number: cardNumber,
+  //      cvc: cvv,
+  //      expiryMonth: expiryMonth,
+  //      expiryYear: expiryYear)
+  //    ..name = 'Segun Chukwuma Adamu'
+  //    ..country = 'Nigeria'
+  //    ..addressLine1 = 'Ikeja, Lagos'
+  //    ..addressPostalCode = '100001';
+  //
+  //   Using optional parameters
+  //  return PaymentCard(
+  //      number: cardNumber,
+  //      cvc: cvv,
+  //      expiryMonth: expiryMonth,
+  //      expiryYear: expiryYear,
+  //      name: 'Ismail Adebola Emeka',
+  //      addressCountry: 'Nigeria',
+  //      addressLine1: '90, Nnebisi Road, Asaba, Deleta State');
+  // }
+  //
+  // String _getReference() {
+  //   String platform;
+  //   if (Platform.isIOS) {
+  //     platform = 'iOS';
+  //   } else {
+  //     platform = 'Android';
+  //   }
+  //
+  //   return 'ChargedFrom${platform}_${DateTime.now().millisecondsSinceEpoch}';
+  // }
 
 }
