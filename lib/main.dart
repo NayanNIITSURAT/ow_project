@@ -153,7 +153,8 @@ class MyApp extends StatelessWidget {
               TextStoryScreen.routeName: (ctx) => TextStoryScreen(),
               CameraScreen.routeName: (ctx) => CameraScreen(),
               SettingsScreen.routeName: (ctx) => SettingsScreen(),
-              AddMarketSquareScreen.routeName: (ctx) => AddListingScreen(),
+              AddListingScreen.routeName: (ctx) => AddListingScreen(),
+              AddMarketSquareScreen.routeName: (ctx) => AddMarketSquareScreen(),
             },
             onGenerateRoute: (settings) {
               if (settings.name == ListingsScreen.routeName) {

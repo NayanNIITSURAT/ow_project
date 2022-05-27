@@ -57,6 +57,7 @@ class _AddMarketSquareScreenState extends State<AddMarketSquareScreen> {
     // Obtain assets using the path entity.
     final List<AssetPathEntity> paths = await PhotoManager.getAssetPathList(
       onlyAll: true,
+      type: RequestType.common,
       filterOption: _filterOptionGroup,
     );
     if (!mounted) {
@@ -191,6 +192,7 @@ class _AddMarketSquareScreenState extends State<AddMarketSquareScreen> {
                     ),
                   ),
                 ),
+                entity.mimeType == 'video/mp4'?Center(child: Icon(Icons.play_circle_fill_outlined,size: 50,color: Colors.white,)):SizedBox.shrink(),
                 if (selectedMedia.isNotEmpty)
                   Positioned(
                       top: 10,
