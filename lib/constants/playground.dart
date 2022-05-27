@@ -4,7 +4,7 @@
 // import 'package:paystack_manager/models/api_response.dart';
 // // ignore: import_of_legacy_library_into_null_safe
 // import 'package:paystack_manager/models/payment_info.dart';
-
+//
 // class APIs {
 //   static String chargeUrl = "https://api.paystack.co/charge";
 //   static String submitPINUrl = "https://api.paystack.co/charge/submit_pin";
@@ -16,7 +16,7 @@
 //   static String submitAddressUrl =
 //       "https://api.paystack.co/charge/submit_address";
 // }
-
+//
 // class PaystackPaymentApi {
 //   //Innstance of dio class
 //   static BaseOptions options = new BaseOptions(
@@ -24,12 +24,12 @@
 //     receiveTimeout: 30000,
 //   );
 //   static Dio dio = new Dio(options);
-
+//
 //   static Future<APIResponse> chargeCard({
 //     required PaymentInfo paymentInfo,
 //   }) async {
 //     APIResponse apiResponse;
-
+//
 //     //Preparing request payload
 //     final Map<String, dynamic> formDataMap = {
 //       "email": paymentInfo.email,
@@ -44,7 +44,7 @@
 //         "expiry_year": paymentInfo.paymentCard.year
 //       },
 //     };
-
+//
 //     try {
 //       var response = await dio.post(
 //         APIs.chargeUrl,
@@ -56,13 +56,13 @@
 //           },
 //         ),
 //       );
-
+//
 //       if (response.statusCode == 200) {
 //         //format the response data for system to continue operating
 //         apiResponse = APIResponse.fromObject(response.data);
 //       } else {
 //         var errorMessage = "Request Failed. Please try again later";
-
+//
 //         try {
 //           //alert the user with the message from the server
 //           errorMessage =
@@ -70,13 +70,13 @@
 //         } catch (error) {
 //           print("Error Data Getting Failed:: $error");
 //         }
-
+//
 //         throw errorMessage;
 //       }
 //     } catch (error) {
 //       DioError dioError = error as DioError;
 //       var errorMessage = "Request Failed. Please try again later";
-
+//
 //       try {
 //         //alert the user with the message from the server
 //         // final jsonObject = convert.jsonDecode(error.message);
@@ -88,26 +88,26 @@
 //       } catch (error) {
 //         print("Error Data Getting Failed:: $error");
 //       }
-
+//
 //       throw errorMessage;
 //     }
-
+//
 //     return apiResponse;
 //   }
-
+//
 //   static Future<APIResponse> sendPIN({
 //     required PaymentInfo paymentInfo,
 //     required String refrence,
 //     required String pin,
 //   }) async {
 //     APIResponse apiResponse;
-
+//
 //     //Preparing request payload
 //     final Map<String, dynamic> formDataMap = {
 //       "pin": pin,
 //       "reference": refrence,
 //     };
-
+//
 //     try {
 //       var response = await dio.post(
 //         APIs.submitPINUrl,
@@ -119,13 +119,13 @@
 //           },
 //         ),
 //       );
-
+//
 //       if (response.statusCode == 200) {
 //         //format the response data for system to continue operating
 //         apiResponse = APIResponse.fromObject(response.data);
 //       } else {
 //         var errorMessage = "Request Failed. Please try again later";
-
+//
 //         try {
 //           //alert the user with the message from the server
 //           if (response.data["data"] != null) {
@@ -136,43 +136,43 @@
 //         } catch (error) {
 //           print("Error Data Getting Failed:: $error");
 //         }
-
+//
 //         throw errorMessage;
 //       }
 //     } catch (error) {
 //       DioError dioError = error as DioError;
 //       var errorMessage = "Request Failed. Please try again later";
-
+//
 //       try {
 //         //alert the user with the message from the server
-//         if (dioError.response.data["data"] != null) {
-//           errorMessage = dioError.response.data["data"]["message"];
+//         if (dioError.response?.data["data"] != null) {
+//           errorMessage = dioError.response?.data["data"]["message"];
 //         } else {
 //           errorMessage = dioError.response.data["message"];
 //         }
 //       } catch (error) {
 //         print("Error Data Getting Failed:: $error");
 //       }
-
+//
 //       throw errorMessage;
 //     }
-
+//
 //     return apiResponse;
 //   }
-
+//
 //   static Future<APIResponse> sendOTP({
 //     required String refrence,
 //     required String otp,
 //     required PaymentInfo paymentInfo,
 //   }) async {
 //     APIResponse apiResponse;
-
+//
 //     //Preparing request payload
 //     final Map<String, dynamic> formDataMap = {
 //       "otp": otp,
 //       "reference": refrence,
 //     };
-
+//
 //     try {
 //       var response = await dio.post(
 //         APIs.submitOTPUrl,
@@ -184,13 +184,13 @@
 //           },
 //         ),
 //       );
-
+//
 //       if (response.statusCode == 200) {
 //         //format the response data for system to continue operating
 //         apiResponse = APIResponse.fromObject(response.data);
 //       } else {
 //         var errorMessage = "Request Failed. Please try again later";
-
+//
 //         try {
 //           //alert the user with the message from the server
 //           if (response.data["data"] != null) {
@@ -201,13 +201,13 @@
 //         } catch (error) {
 //           print("Error Data Getting Failed:: $error");
 //         }
-
+//
 //         throw errorMessage;
 //       }
 //     } catch (error) {
 //       DioError dioError = error as DioError;
 //       var errorMessage = "Request Failed. Please try again later";
-
+//
 //       try {
 //         //alert the user with the message from the server
 //         if (dioError.response.data["data"] != null) {
@@ -218,26 +218,26 @@
 //       } catch (error) {
 //         print("Error Data Getting Failed:: $error");
 //       }
-
+//
 //       throw errorMessage;
 //     }
-
+//
 //     return apiResponse;
 //   }
-
+//
 //   static Future<APIResponse> sendPhone({
 //     required String refrence,
 //     required PaymentInfo paymentInfo,
 //     required String phone,
 //   }) async {
 //     APIResponse apiResponse;
-
+//
 //     //Preparing request payload
 //     final Map<String, dynamic> formDataMap = {
 //       "phone": phone,
 //       "reference": refrence,
 //     };
-
+//
 //     try {
 //       var response = await dio.post(
 //         APIs.submitPhoneUrl,
@@ -249,13 +249,13 @@
 //           },
 //         ),
 //       );
-
+//
 //       if (response.statusCode == 200) {
 //         //format the response data for system to continue operating
 //         apiResponse = APIResponse.fromObject(response.data);
 //       } else {
 //         var errorMessage = "Request Failed. Please try again later";
-
+//
 //         try {
 //           //alert the user with the message from the server
 //           if (response.data["data"] != null) {
@@ -266,13 +266,13 @@
 //         } catch (error) {
 //           print("Error Data Getting Failed:: $error");
 //         }
-
+//
 //         throw errorMessage;
 //       }
 //     } catch (error) {
 //       DioError dioError = error as DioError;
 //       var errorMessage = "Request Failed. Please try again later";
-
+//
 //       try {
 //         //alert the user with the message from the server
 //         if (dioError.response.data["data"] != null) {
@@ -283,19 +283,19 @@
 //       } catch (error) {
 //         print("Error Data Getting Failed:: $error");
 //       }
-
+//
 //       throw errorMessage;
 //     }
-
+//
 //     return apiResponse;
 //   }
-
+//
 //   static Future<APIResponse> verifyTransaction({
 //     required String refrence,
 //     required PaymentInfo paymentInfo,
 //   }) async {
 //     APIResponse apiResponse;
-
+//
 //     try {
 //       var response = await dio.get(
 //         //for reading purpose
@@ -304,13 +304,13 @@
 //       F
 //         ),
 //       );
-
+//
 //       if (response.statusCode == 200) {
 //         //format the response data for system to continue operating
 //         apiResponse = APIResponse.fromObject(response.data);
 //       } else {
 //         var errorMessage = "Request Failed. Please try again later";
-
+//
 //         try {
 //           //alert the user with the message from the server
 //           if (response.data["data"] != null) {
@@ -321,13 +321,13 @@
 //         } catch (error) {
 //           print("Error Data Getting Failed:: $error");
 //         }
-
+//
 //         throw errorMessage;
 //       }
 //     } catch (error) {
 //       DioError dioError = error as DioError;
 //       var errorMessage = "Request Failed. Please try again later";
-
+//
 //       try {
 //         //alert the user with the message from the server
 //         if (dioError.response.data["data"] != null) {
@@ -338,26 +338,26 @@
 //       } catch (error) {
 //         print("Error Data Getting Failed:: $error");
 //       }
-
+//
 //       throw errorMessage;
 //     }
-
+//
 //     return apiResponse;
 //   }
-
+//
 //   static Future<APIResponse> sendBirthday({
 //     required String refrence,
 //     required String dob,
 //     required PaymentInfo paymentInfo,
 //   }) async {
 //     APIResponse apiResponse;
-
+//
 //     //Preparing request payload
 //     final Map<String, dynamic> formDataMap = {
 //       "birthday": dob,
 //       "reference": refrence,
 //     };
-
+//
 //     try {
 //       var response = await dio.post(
 //         APIs.submitBirthDayUrl,
@@ -369,13 +369,13 @@
 //           },
 //         ),
 //       );
-
+//
 //       if (response.statusCode == 200) {
 //         //format the response data for system to continue operating
 //         apiResponse = APIResponse.fromObject(response.data);
 //       } else {
 //         var errorMessage = "Request Failed. Please try again later";
-
+//
 //         try {
 //           //alert the user with the message from the server
 //           if (response.data["data"] != null) {
@@ -386,13 +386,13 @@
 //         } catch (error) {
 //           print("Error Data Getting Failed:: $error");
 //         }
-
+//
 //         throw errorMessage;
 //       }
 //     } catch (error) {
 //       DioError dioError = error as DioError;
 //       var errorMessage = "Request Failed. Please try again later";
-
+//
 //       try {
 //         //alert the user with the message from the server
 //         if (dioError.response.data["data"] != null) {
@@ -403,13 +403,13 @@
 //       } catch (error) {
 //         print("Error Data Getting Failed:: $error");
 //       }
-
+//
 //       throw errorMessage;
 //     }
-
+//
 //     return apiResponse;
 //   }
-
+//
 //   static Future<APIResponse> sendAddress({
 //     required String refrence,
 //     required PaymentInfo paymentInfo,
@@ -419,7 +419,7 @@
 //     required String zipCode,
 //   }) async {
 //     APIResponse apiResponse;
-
+//
 //     //Preparing request payload
 //     final Map<String, dynamic> formDataMap = {
 //       "address": address,
@@ -428,7 +428,7 @@
 //       "zipcode": zipCode,
 //       "reference": refrence,
 //     };
-
+//
 //     try {
 //       var response = await dio.post(
 //         APIs.submitAddressUrl,
@@ -440,13 +440,13 @@
 //           },
 //         ),
 //       );
-
+//
 //       if (response.statusCode == 200) {
 //         //format the response data for system to continue operating
 //         apiResponse = APIResponse.fromObject(response.data);
 //       } else {
 //         var errorMessage = "Request Failed. Please try again later";
-
+//
 //         try {
 //           //alert the user with the message from the server
 //           if (response.data["data"] != null) {
@@ -457,13 +457,13 @@
 //         } catch (error) {
 //           print("Error Data Getting Failed:: $error");
 //         }
-
+//
 //         throw errorMessage;
 //       }
 //     } catch (error) {
 //       DioError dioError = error as DioError;
 //       var errorMessage = "Request Failed. Please try again later";
-
+//
 //       try {
 //         //alert the user with the message from the server
 //         if (dioError.response.data["data"] != null) {
@@ -474,20 +474,20 @@
 //       } catch (error) {
 //         print("Error Data Getting Failed:: $error");
 //       }
-
+//
 //       throw errorMessage;
 //     }
-
+//
 //     return apiResponse;
 //   }
-
+//
 //   static Future<APIResponse> mobileMoneyPayment({
 //     required PaymentInfo paymentInfo,
 //     required String provider,
 //     required String phone,
 //   }) async {
 //     APIResponse apiResponse;
-
+//
 //     //Preparing request payload
 //     final Map<String, dynamic> formDataMap = {
 //       "email": paymentInfo.email,
@@ -500,7 +500,7 @@
 //         "provider": provider,
 //       },
 //     };
-
+//
 //     try {
 //       var response = await dio.post(
 //         APIs.chargeUrl,
@@ -512,13 +512,13 @@
 //           },
 //         ),
 //       );
-
+//
 //       if (response.statusCode == 200) {
 //         //format the response data for system to continue operating
 //         apiResponse = APIResponse.fromObject(response.data);
 //       } else {
 //         var errorMessage = "Request Failed. Please try again later";
-
+//
 //         try {
 //           //alert the user with the message from the server
 //           if (response.data["data"] != null) {
@@ -529,13 +529,13 @@
 //         } catch (error) {
 //           print("Error Data Getting Failed:: $error");
 //         }
-
+//
 //         throw errorMessage;
 //       }
 //     } catch (error) {
 //       DioError dioError = error as DioError;
 //       var errorMessage = "Request Failed. Please try again later";
-
+//
 //       try {
 //         //alert the user with the message from the server
 //         if (dioError.response.data["data"] != null) {
@@ -546,20 +546,20 @@
 //       } catch (error) {
 //         print("Error Data Getting Failed:: $error");
 //       }
-
+//
 //       throw errorMessage;
 //     }
-
+//
 //     return apiResponse;
 //   }
-
+//
 //   static Future<APIResponse> bankPayment({
 //     required String code,
 //     required String accountNumber,
 //     required PaymentInfo paymentInfo,
 //   }) async {
 //     APIResponse apiResponse;
-
+//
 //     //Preparing request payload
 //     final Map<String, dynamic> formDataMap = {
 //       "email": paymentInfo.email,
@@ -572,7 +572,7 @@
 //         "account_number": accountNumber,
 //       },
 //     };
-
+//
 //     try {
 //       var response = await dio.post(
 //         APIs.chargeUrl,
@@ -584,13 +584,13 @@
 //           },
 //         ),
 //       );
-
+//
 //       if (response.statusCode == 200) {
 //         //format the response data for system to continue operating
 //         apiResponse = APIResponse.fromObject(response.data);
 //       } else {
 //         var errorMessage = "Request Failed. Please try again later";
-
+//
 //         try {
 //           //alert the user with the message from the server
 //           if (response.data["data"] != null) {
@@ -601,13 +601,13 @@
 //         } catch (error) {
 //           print("Error Data Getting Failed:: $error");
 //         }
-
+//
 //         throw errorMessage;
 //       }
 //     } catch (error) {
 //       DioError dioError = error as DioError;
 //       var errorMessage = "Request Failed. Please try again later";
-
+//
 //       try {
 //         //alert the user with the message from the server
 //         if (dioError.response.data["data"] != null) {
@@ -618,14 +618,14 @@
 //       } catch (error) {
 //         print("Error Data Getting Failed:: $error");
 //       }
-
+//
 //       throw errorMessage;
 //     }
-
+//
 //     return apiResponse;
 //   }
 // }
-
+//
 // UI.Chat(
 //         messages: [
 //           ...chat.messages.map((e) => types.TextMessage(

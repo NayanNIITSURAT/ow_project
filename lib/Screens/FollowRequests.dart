@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:owlet/Components/Button.dart';
@@ -26,7 +27,7 @@ class FollowNotificationScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // backgroundColor: Colors.grey.shade50,
+      backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Palette.primaryColorLight,
         iconTheme: IconThemeData(color: Colors.black),
@@ -186,112 +187,72 @@ class _NotificationItemState extends State<NotificationItem> {
         ));
 
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+      padding: EdgeInsets.fromLTRB(6, 10, 0, 5),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(5)),
         color: Colors.white,
-        boxShadow: [
-          BoxShadow(
-            blurRadius: 2,
-            // spreadRadius: 3,
-            color: Colors.grey.shade100,
-            offset: Offset(0, 2),
-          ),
-        ],
       ),
       child: Column(
         children: [
           Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              InkWell(
-                child: CircleAvatar(
-                  radius: 28,
-                  backgroundColor: Colors.white30,
-                  backgroundImage: AssetImage(loadingGif),
-                  foregroundImage:
-                      NetworkImage(widget.notification.requesterUser.avartar),
+              Padding(
+                padding: const EdgeInsets.only(right: 8),
+                child: InkWell(
+                  child: CircleAvatar(
+                    radius: 28,
+                    backgroundColor: Colors.white30,
+                    backgroundImage: AssetImage(loadingGif),
+                    foregroundImage:
+                        NetworkImage(widget.notification.requesterUser.avartar),
+                  ),
+                  onTap: showSeller,
                 ),
-                onTap: showSeller,
               ),
               Expanded(
                 child: InkWell(
                   onTap: showSeller,
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 15, right: 10),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Column(
-                          children: [
-                            Text(
-                              widget.notification.requesterUser.username,
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 15),
-                            ),
-                            SizedBox(
-                              height: 8,
-                            ),
-                            Text(
-                              widget.notification.requesterUser.fullName,
-                              style: TextStyle(fontSize: 15),
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 8,
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              InkWell(
-                child: Container(
-                  height: size.height * 0.050,
-                  width: size.width * 0.2,
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.centerLeft,
-                      end: Alignment(0.04, 5.5),
-                      colors: <Color>[
-                        Color(0xffee0000),
-                        Color(0xffF33909),
-                        Color(0xffFE6D0A).withOpacity(0.8)
-                      ], // red to yellow
-                    ),
-                    borderRadius: BorderRadius.circular(6),
-                  ),
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(vertical: 2, horizontal: 5),
-                    child: Center(
-                      child: Text(
-                        'Confirm',
-                        style: TextStyle(
-                            color: Palette.primaryColorLight,
-                            fontWeight: FontWeight.bold),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            widget.notification.requesterUser.username,
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 15),
+                          ),
+                          SizedBox(
+                            height: 2,
+                          ),
+                          Text(
+                            widget.notification.requesterUser.fullName,
+                            style: TextStyle(
+                                fontSize: 13,
+                                color: Colors.grey.withOpacity(0.6)),
+                          ),
+                        ],
                       ),
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(
-                width: 8,
-              ),
-              InkWell(
-                child: Container(
-                  height: size.height * 0.050,
-                  width: size.width * 0.2,
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.grey),
-                    borderRadius: BorderRadius.circular(6),
-                  ),
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(vertical: 2, horizontal: 5),
-                    child: Center(
-                      child: Text('Delete',
-                          style: TextStyle(fontWeight: FontWeight.bold)),
-                    ),
+                      Row(
+                        children: [
+                          requestButton(
+                            size,
+                            'Confirm',
+                            grade: LinearGradient(
+                              colors: <Color>[
+                                Color(0xffee0000),
+                                Color(0xffF33909),
+                                Color(0xffFE6D0A).withOpacity(0.8)
+                              ], // red to yellow
+                            ),
+                          ),
+                          requestButton(size, 'Delete',
+                              labelColor: Colors.black),
+                        ],
+                      ),
+                    ],
                   ),
                 ),
               ),
@@ -303,3 +264,41 @@ class _NotificationItemState extends State<NotificationItem> {
     );
   }
 }
+
+Widget requestButton(Size size, String label,
+    {Gradient? grade, Color? labelColor}) {
+  return Padding(
+    padding: const EdgeInsets.only(right: 6),
+    child: InkWell(
+      child: Container(
+        height: size.height * 0.050,
+        width: size.width * 0.2,
+        decoration: BoxDecoration(
+          border: Border.all(color: labelColor ?? Colors.transparent),
+          gradient: grade ??
+              LinearGradient(
+                colors: <Color>[Colors.white, Colors.white], // red to yellow
+              ),
+          borderRadius: BorderRadius.circular(6),
+        ),
+        child: Padding(
+          padding: EdgeInsets.symmetric(vertical: 2, horizontal: 5),
+          child: Center(
+            child: Text(
+              label,
+              style: TextStyle(
+                  color: labelColor ?? Palette.primaryColorLight,
+                  fontWeight: FontWeight.bold),
+            ),
+          ),
+        ),
+      ),
+    ),
+  );
+}
+
+// Widget space() {
+//   return SizedBox(
+//     height: 20,
+//   );
+// }

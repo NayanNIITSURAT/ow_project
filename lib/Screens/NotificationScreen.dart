@@ -332,7 +332,8 @@ class _NotificationItemState extends State<NotificationItem> {
                                           listing != null
                                       ? 'Liked one of your post: ${listing.caption} '
                                       : '',
-                        )
+                        ),
+
                         // Text(
                         //   '${isAccount ? "@" : "#"}$title',
                         //   style: TextStyle(fontWeight: FontWeight.bold),

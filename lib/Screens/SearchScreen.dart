@@ -277,7 +277,7 @@ class AccountList extends StatelessWidget {
                                           user.profile.id == seller.id
                                       ? null
                                       : seller.private == true
-                                          ? () => getdata(seller.id)
+                                          ? () => user.sendUserRequest(seller)
                                           : () => user.followUser(seller)
                                   : () => Navigator.of(context)
                                       .pushNamed(LoginScreen.routeName),
@@ -312,22 +312,6 @@ class AccountList extends StatelessWidget {
   }
 }
 
-callfollow(UserProvider user, User seller) {
-  print("make the flooow ");
-  user.followUser(seller);
-}
-
-getdata(int id) {
-  print("make  the private");
-}
-
-// user.isLoggedIn
-//     ? seller.iFollow ||
-//             user.profile.id == seller.id
-//         ? null
-//         : () => user.followUser(seller)
-//     : () => Navigator.of(context)
-//         .pushNamed(LoginScreen.routeName),
 class SearchItem extends StatelessWidget {
   const SearchItem({
     Key? key,
