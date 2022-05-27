@@ -223,13 +223,27 @@ class _AddListingScreenState extends State<AddListingScreen> {
     if (pickedImage!.files.length >= 3) {
       scaffoldKey.currentState?.showSnackBar(
           const SnackBar(content: Text('Please Select Only 2 item!')));
-    } else {
+    }
+    else
+    {
       if (pickedImage != null) {
         var leng = pickedImage.files.length;
         for (int i = 0; i < leng; i++) {
           PlatformFile pfile = pickedImage.files[i];
           File files = File(pfile.path!);
 
+          int sizeInBytes = files.lengthSync();
+          double sizeInMb = sizeInBytes / (1024 * 1024);
+          if (sizeInMb > 1){
+            scaffoldKey.currentState?.showSnackBar(
+                const SnackBar(content: Text('Video size too long, Please Select Video with 1 mb size only')));
+          }else
+            {
+              if (files != null)
+                setState(() {
+                  _assetList.add(files);
+                });
+            }
           // var imageFile = await ImageCropper.cropImage(
           //   maxHeight: 700,
           //   maxWidth: 700,
@@ -237,11 +251,6 @@ class _AddListingScreenState extends State<AddListingScreen> {
           //   sourcePath: files.path,
           //   aspectRatio: CropAspectRatio(ratioX: 1.0, ratioY: 1.0),
           // );
-
-          if (files != null)
-            setState(() {
-              _assetList.add(files);
-            });
         }
       } else {
         scaffoldKey.currentState?.showSnackBar(

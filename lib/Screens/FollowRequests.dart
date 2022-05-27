@@ -13,7 +13,6 @@ import 'package:owlet/constants/images.dart';
 import 'package:owlet/constants/palettes.dart';
 import 'package:owlet/modals/ProfileViewModal.dart';
 import 'package:owlet/models/HttpResponse.dart';
-import 'package:owlet/models/Notification.dart' as N;
 import 'package:owlet/models/User.dart';
 import 'package:owlet/services/utils.dart';
 import 'package:provider/provider.dart';
