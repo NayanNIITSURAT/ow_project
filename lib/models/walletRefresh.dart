@@ -6,23 +6,20 @@ import 'package:owlet/services/utils.dart';
 
 class WalletRefresh extends ChangeNotifier {
   late Map<String, dynamic> walletData;
+
   fetchData(context) async {
     walletData = await getData(context);
     notifyListeners();
   }
-
-
-
 
   Future<Map<String, dynamic>> getData(context) async {
     // late passbookmodel dataModel;
 
     final userid = await getuserid;
 
-
     try {
-      final response = await http.get(
-          Uri.parse('http://api.the-owlette.com/v4/wallet/refresh?userId=$userid'));
+      final response = await http.get(Uri.parse(
+          'http://api.the-owlette.com/v4/wallet/refresh?userId=$userid'));
       // if (response.statusCode == 200) {
       //   final data = json.decode(response.body);
       //   dataModel = passbookmodel.fromJson(data);
