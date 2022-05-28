@@ -398,24 +398,24 @@ class _WalletScreenState extends State<WalletScreen> {
                                             : bottomsheetbutton(
                                                 text:
                                                     'Proceed to add \$ ${amount == null ? "00.00" : amount.toString() + ".00"}',
-                                                press:
-                                                    () async {
-                                                  Charge charge = Charge()
-                                                    ..amount =
-                                                        int.parse(amount + "00")
-                                                    ..reference =
-                                                        _getReference()
-                                                    // or ..accessCode = _getAccessCodeFrmInitialization()
-                                                    ..email =
-                                                        'helpdesk@theowlette.com';
-                                                  CheckoutResponse response =
-                                                      await plugin.checkout(
-                                                    context,
-                                                    method: CheckoutMethod
-                                                        .card, // Defaults to CheckoutMethod.selectable
-                                                    charge: charge,
-                                                  );
-                                                },
+                                                press: doAdd
+                                                //     () async {
+                                                //   Charge charge = Charge()
+                                                //     ..amount =
+                                                //         int.parse(amount + "00")
+                                                //     ..reference =
+                                                //         _getReference()
+                                                //     // or ..accessCode = _getAccessCodeFrmInitialization()
+                                                //     ..email =
+                                                //         'helpdesk@theowlette.com';
+                                                //   CheckoutResponse response =
+                                                //       await plugin.checkout(
+                                                //     context,
+                                                //     method: CheckoutMethod
+                                                //         .card, // Defaults to CheckoutMethod.selectable
+                                                //     charge: charge,
+                                                //   );
+                                                // },
                                                 ),
                                         SizedBox(
                                           height: 80,
