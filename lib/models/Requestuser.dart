@@ -62,6 +62,26 @@ class Datum {
       };
 }
 
+class Update {
+  Update({
+    required this.success,
+    required this.message,
+  });
+
+  bool success;
+  String message;
+
+  factory Update.fromJson(Map<String, dynamic> json) => Update(
+        success: json["success"],
+        message: json["message"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "success": success,
+        "message": message,
+      };
+}
+
 class RequesteUser {
   RequesteUser({
     required this.phone,

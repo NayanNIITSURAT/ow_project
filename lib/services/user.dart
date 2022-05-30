@@ -199,6 +199,37 @@ Future<Map<String, dynamic>> sendRequest(int id) async {
   }
 }
 
+Future<Map<String, dynamic>> followrequestconfirm(int id, int confirm) async {
+  try {
+    headers
+        .addAll({HttpHeaders.authorizationHeader: 'Bearer ${await getToken}'});
+    final response = await http.get(
+        Uri.parse(
+            'https://api.the-owlette.com/v4/users/followReqHandle/$id?$confirm'),
+        headers: headers);
+    if (response.statusCode == 200) {
+      print("success");
+      var jsonResponse = jsonDecode(response.body) as Map<String, dynamic>;
+      return <String, dynamic>{
+        'isError': false,
+        'response': jsonResponse,
+      };
+    } else {
+      print('Request failed with status: ${response.statusCode}.');
+      return <String, dynamic>{
+        'isError': true,
+        'response': response,
+      };
+    }
+  } catch (e) {
+    print(e.toString());
+    return <String, dynamic>{
+      'isError': true,
+      'response': "noResponse",
+    };
+  }
+}
+
 Future<dynamic> blockUser(int userId) async {
   headers.addAll({HttpHeaders.authorizationHeader: 'Bearer ${await getToken}'});
   final response = await get(
