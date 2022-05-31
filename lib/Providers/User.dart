@@ -21,6 +21,8 @@ import 'package:owlet/services/listing.dart';
 import 'package:owlet/services/stories.dart';
 import 'package:owlet/services/user.dart';
 
+import '../models/Requestuser.dart';
+
 enum FollowType { FOLLOWERS, FOLLOWING }
 
 class UserProvider with ChangeNotifier {
@@ -156,6 +158,20 @@ class UserProvider with ChangeNotifier {
 
     notifyListeners();
     return res;
+  }
+
+  Future<dynamic> followUserReqConfirm(int user, int confirm) async {
+    notifyListeners();
+    final res = await followrequestconfirm(user, confirm);
+
+    // if (!res['success'])
+    //   user.unFollower = _profile.username;
+
+    // else
+    //   _profile.follows = u;
+    //
+    // notifyListeners();
+    // return res;
   }
 
   Future<void> _unFollow(User user) async {
@@ -408,7 +424,7 @@ class UserProvider with ChangeNotifier {
 
         if (refresh)
           userFollowingData = await fetchUserFollowing(
-              id, 0, FollowType.FOLLOWING, searchQuery); 
+              id, 0, FollowType.FOLLOWING, searchQuery);
         else
           userFollowingData.updateUsersData = await fetchUserFollowing(
               id,

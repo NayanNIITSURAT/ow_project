@@ -123,9 +123,12 @@ class _FollowNotificationListState extends State<FollowNotificationList> {
                 child: ListView.builder(
                   shrinkWrap: true,
                   itemCount: nd!.data.length,
+
                   //+ (newLen > 0 ? 1 : 0) + (oldLen > 0 ? 1 : 0),
-                  itemBuilder: (_, i) =>
-                      NotificationItem(notification: nd!.data![i]),
+                  itemBuilder: (_, i) {
+                    final seller = nd!.data[i];
+                    return NotificationItem(notification: nd!.data![i]);
+                  },
                 ),
               ));
   }
@@ -173,6 +176,7 @@ class _NotificationItemState extends State<NotificationItem> {
     final utility = Provider.of<UtilsProvider>(context, listen: false);
     final Size size = MediaQuery.of(context).size;
     final Color color, textColor;
+    final UtilsProvider data;
 
     showSeller() async {
       ProfileViewModal.show(context);
@@ -237,19 +241,33 @@ class _NotificationItemState extends State<NotificationItem> {
                       ),
                       Row(
                         children: [
-                          requestButton(
-                            size,
-                            'Confirm',
-                            grade: LinearGradient(
-                              colors: <Color>[
-                                Color(0xffee0000),
-                                Color(0xffF33909),
-                                Color(0xffFE6D0A).withOpacity(0.8)
-                              ], // red to yellow
-                            ),
-                          ),
+                          requestButton(size, 'Confirm',
+                              grade: LinearGradient(
+                                colors: <Color>[
+                                  Color(0xffee0000),
+                                  Color(0xffF33909),
+                                  Color(0xffFE6D0A).withOpacity(0.8),
+                                ], // red to yellow
+                              ), onPress: () {
+                            user.followUserReqConfirm(
+                                widget.notification.requesterId, 1);
+                            print(' ${widget.notification.userId}');
+                            final snackBar = SnackBar(
+                              content: const Text("User request approved"),
+                              backgroundColor: indicatorColor,
+                              action: SnackBarAction(
+                                label: '',
+                                onPressed: () {},
+                              ),
+                            );
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(snackBar);
+                          }),
                           requestButton(size, 'Delete',
-                              labelColor: Colors.black),
+                              labelColor: Colors.black, onPress: () {
+                            user.followUserReqConfirm(
+                                widget.notification.requesterId, 0);
+                          }),
                         ],
                       ),
                     ],
@@ -266,10 +284,11 @@ class _NotificationItemState extends State<NotificationItem> {
 }
 
 Widget requestButton(Size size, String label,
-    {Gradient? grade, Color? labelColor}) {
+    {Gradient? grade, Color? labelColor, Function()? onPress}) {
   return Padding(
     padding: const EdgeInsets.only(right: 6),
     child: InkWell(
+      onTap: onPress,
       child: Container(
         height: size.height * 0.050,
         width: size.width * 0.2,
@@ -302,3 +321,46 @@ Widget requestButton(Size size, String label,
 //     height: 20,
 //   );
 // }
+///////////////////////////////////////////////////////////////////////
+//model
+// class Update {
+//   Update({
+//     required this.success,
+//     required this.message,
+//   });
+//
+//   bool success;
+//   String message;
+//
+//   factory Update.fromJson(Map<String, dynamic> json) => Update(
+//         success: json["success"],
+//         message: json["message"],
+//       );
+//
+//   Map<String, dynamic> toJson() => {
+//         "success": success,
+//         "message": message,
+//       };
+// }
+
+//data
+// class Data extends ChangeNotifier {
+//   late Update dataModel;
+//
+//   fetchData(context) async {
+//     dataModel = await followrequestconfirm(context);
+//
+//     notifyListeners();
+//   }
+// }
+//
+// //probvider
+// @override
+// void initState() {
+//   // TODO: implement initState
+//   super.initState();
+//   final data = Provider.of<Data>(context, listen: false);
+//   data.fetchData(context);
+// }
+// //ui
+// Center(child: Container(child: Text(data.Update.success))),
