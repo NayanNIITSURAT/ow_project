@@ -134,8 +134,10 @@ class _ProfileEditState extends State<ProfileEdit> {
                         // ),
                         Align(
                             alignment: Alignment.centerLeft,
-
-                            child: Text("Enter Bio" , style: TextStyle(color: Color(0xff9E9E9E) ,fontWeight: FontWeight.bold))),
+                            child: Text("Enter Bio",
+                                style: TextStyle(
+                                    color: Color(0xff9E9E9E),
+                                    fontWeight: FontWeight.bold))),
                         SizedBox(
                           height: 10,
                         ),
@@ -146,8 +148,6 @@ class _ProfileEditState extends State<ProfileEdit> {
                             fillColor: Color(0xffEDF2F7).withOpacity(0.5),
                             // labelText: 'Description',
                           ),
-
-
 
                           scrollPadding: EdgeInsets.all(10),
                           minLines: 5,
