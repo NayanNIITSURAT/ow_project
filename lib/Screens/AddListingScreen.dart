@@ -1,5 +1,3 @@
-
-
 import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
@@ -12,7 +10,6 @@ import 'package:owlet/Components/Toast.dart';
 import 'package:owlet/Providers/Auth.dart';
 import 'package:owlet/Providers/Listing.dart';
 import 'package:owlet/Providers/User.dart';
-import 'package:owlet/Screens/Home.dart';
 import 'package:owlet/Screens/NavScreen.dart';
 import 'package:owlet/Widgets/CustomAppBar.dart';
 import 'package:owlet/Widgets/GalleryThumbnail.dart';
@@ -86,6 +83,7 @@ class _AddListingScreenState extends State<AddListingScreen> {
             .show();
       }
     }
+
     return Scaffold(
       key: scaffoldKey,
       body: Container(
@@ -223,9 +221,7 @@ class _AddListingScreenState extends State<AddListingScreen> {
     if (pickedImage!.files.length >= 3) {
       scaffoldKey.currentState?.showSnackBar(
           const SnackBar(content: Text('Please Select Only 2 item!')));
-    }
-    else
-    {
+    } else {
       if (pickedImage != null) {
         var leng = pickedImage.files.length;
         for (int i = 0; i < leng; i++) {
@@ -234,16 +230,16 @@ class _AddListingScreenState extends State<AddListingScreen> {
 
           int sizeInBytes = files.lengthSync();
           double sizeInMb = sizeInBytes / (1024 * 1024);
-          if (sizeInMb > 1){
-            scaffoldKey.currentState?.showSnackBar(
-                const SnackBar(content: Text('Video size too long, Please Select Video with 1 mb size only')));
-          }else
-            {
-              if (files != null)
-                setState(() {
-                  _assetList.add(files);
-                });
-            }
+          if (sizeInMb > 1) {
+            scaffoldKey.currentState?.showSnackBar(const SnackBar(
+                content: Text(
+                    'Video size too long, Please Select Video with 1 mb size only')));
+          } else {
+            if (files != null)
+              setState(() {
+                _assetList.add(files);
+              });
+          }
           // var imageFile = await ImageCropper.cropImage(
           //   maxHeight: 700,
           //   maxWidth: 700,
@@ -261,8 +257,7 @@ class _AddListingScreenState extends State<AddListingScreen> {
   }
 
   // void addImage(allowedImagesInt) => _assetList.length >= allowedImagesInt
-  void addImage(allowedImagesInt) =>
-      _assetList.length >= allowedImagesInt
+  void addImage(allowedImagesInt) => _assetList.length >= allowedImagesInt
       ? Toast(context, message: 'Maximum number of images reached').show()
       : _pickFile();
 }
