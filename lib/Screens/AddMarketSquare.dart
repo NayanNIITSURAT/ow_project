@@ -9,6 +9,8 @@ import 'package:owlet/constants/palettes.dart';
 import 'package:owlet/helpers/helpers.dart';
 import 'package:photo_manager/photo_manager.dart';
 
+import '../constants/images.dart';
+
 class AddMarketSquareScreen extends StatefulWidget {
   static const routeName = 'addMarketSquare';
   @override
@@ -19,6 +21,8 @@ class AddMarketSquareScreen extends StatefulWidget {
 
 class _AddMarketSquareScreenState extends State<AddMarketSquareScreen> {
   List<Map<String, dynamic>> selectedMedia = [];
+  List<Map<String, dynamic>> selectedEntity = [];
+
 
   /// Customize your own filter options.
   final FilterOptionGroup _filterOptionGroup = FilterOptionGroup(
@@ -30,6 +34,7 @@ class _AddMarketSquareScreenState extends State<AddMarketSquareScreen> {
 
   AssetPathEntity? _path;
   List<AssetEntity>? _entities;
+
   int _totalEntitiesCount = 0;
 
   int _page = 0;
@@ -57,6 +62,7 @@ class _AddMarketSquareScreenState extends State<AddMarketSquareScreen> {
     // Obtain assets using the path entity.
     final List<AssetPathEntity> paths = await PhotoManager.getAssetPathList(
       onlyAll: true,
+      type: RequestType.common,
       filterOption: _filterOptionGroup,
     );
     if (!mounted) {
@@ -173,9 +179,11 @@ class _AddMarketSquareScreenState extends State<AddMarketSquareScreen> {
                   onTap: () async {
                     if (id != -1) {
                       selectedMedia.removeAt(id);
+                      selectedEntity.removeAt(id);
                     } else {
                       final file = await entity.file;
                       selectedMedia.add({"id": entity.id, "file": file});
+                      selectedEntity.add({"id": entity.id, "entity": entity});
                     }
 
                     setState(() {});
@@ -191,6 +199,7 @@ class _AddMarketSquareScreenState extends State<AddMarketSquareScreen> {
                     ),
                   ),
                 ),
+                entity.mimeType == 'video/mp4'?Center(child: Icon(Icons.play_circle_fill_outlined,size: 50,color: Colors.white,)):SizedBox.shrink(),
                 if (selectedMedia.isNotEmpty)
                   Positioned(
                       top: 10,
@@ -352,11 +361,64 @@ class _AddMarketSquareScreenState extends State<AddMarketSquareScreen> {
           ),
         ),
         Expanded(
+          flex: 8,
           child: Padding(
             padding: const EdgeInsets.all(3.0),
             child: _buildImageGrid(context),
           ),
-        )
+        ),
+        selectedMedia.length > 0 ?Row(
+          children: [
+            SizedBox(
+              height: 80,
+              width: MediaQuery.of(context).size.width*0.8,
+              child: ListView.builder(
+
+                physics: BouncingScrollPhysics(),
+                  scrollDirection: Axis.horizontal,
+                  shrinkWrap: true,
+                  padding: EdgeInsets.only(left: 8),
+                  itemCount: selectedMedia.length,
+                  itemBuilder: (_, i) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 2),
+                      child: ClipRRect(
+                          borderRadius: BorderRadius.circular(10),
+                          //child: Image.file(selectedMedia[i]['file'],fit: BoxFit.cover,width: 50,))
+                          child: AssetEntityImage(selectedEntity[i]['entity'],
+                              width: 50,
+                    fit: BoxFit.cover,
+                    key: ValueKey<int>(i),
+                    thumbnailFormat: ThumbnailFormat.jpeg, //
+                    )
+                    ));
+                  }),
+            ),
+            Expanded(
+              child: InkWell(
+                onTap: (){
+
+                },
+                child: Container(
+                  height:60,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    gradient: LinearGradient(
+                      begin: Alignment.centerLeft,
+                      end: Alignment(
+                          0.1, 0.0), // 10% of the width, so there are ten blinds.
+                      colors:  <Color>[
+                        Color(0xffee0000),
+                        Palette.primaryColor,
+                        Color.fromARGB(255, 240, 102, 11),
+                      ]),
+                  ),
+                    child:Center(child: Icon(Icons.arrow_forward,color: Colors.white,size: 30,))
+                ),
+              ),
+            )
+          ],
+        ):SizedBox.shrink()
       ],
     );
   }

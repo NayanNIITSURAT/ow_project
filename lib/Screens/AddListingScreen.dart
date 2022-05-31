@@ -251,7 +251,9 @@ class _AddListingScreenState extends State<AddListingScreen> {
     setState(() {});
   }
 
-  void addImage(allowedImagesInt) => _assetList.length >= allowedImagesInt
+  // void addImage(allowedImagesInt) => _assetList.length >= allowedImagesInt
+  void addImage(allowedImagesInt) =>
+      _assetList.length >= allowedImagesInt
       ? Toast(context, message: 'Maximum number of images reached').show()
       : _pickFile();
 }

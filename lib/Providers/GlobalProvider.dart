@@ -51,6 +51,10 @@ class GlobalProvider with ChangeNotifier {
     Provider.of<UserProvider>(context, listen: false).toggleLike = id;
   }
 
+  set addcomments(int id) {
+    Provider.of<ListingProvider>(context, listen: false).comment = id;
+  }
+
   UserProvider get userProvider =>
       Provider.of<UserProvider>(context, listen: false);
   UtilsProvider get utilsProvider => Provider.of<UtilsProvider>(context);
