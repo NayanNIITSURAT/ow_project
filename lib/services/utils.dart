@@ -119,9 +119,11 @@ Future<Product> senderRequest(int id) async {
     Uri.parse("https://api.the-owlette.com/v4/users/followReqList/$id"),
     headers: headers,
   );
-
-  if (response.statusCode == 200)
-    return Product.fromJson(jsonDecode(response.body));
+  if (response.statusCode == 200) {
+    Product product = Product.fromJson(jsonDecode(response.body));
+    Product(data:product.data);
+    return product;
+  }
   else {
     var data = jsonDecode(response.body);
     throw HttpException(data['message']);

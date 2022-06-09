@@ -1,5 +1,7 @@
 mixin Global {
+
   static double bottomNavHeight = 60;
+  static int currentstoryindex = 0;
   static double fontSize = 12;
   static String applicationName = 'The Owlet';
   static String paystackPublicKey = 'pk_test_3eb06a4b7582e69e6f7fc55e7ee95095bcbd5916';

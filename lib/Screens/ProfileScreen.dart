@@ -238,7 +238,9 @@ class _ProfileScreenState extends State<ProfileScreen>
                   ],
                 ),
                 user.profile.bio != null && user.profile.bio!.length > 0
+
                     ? user.profile.bio!.richText.justify
+
                         .size(w * 0.040)
                         // .maxLines(5)
                         .make()
@@ -246,6 +248,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                         .padding(EdgeInsets.symmetric(vertical: h * 0.010))
                         .make()
                         .w(double.infinity)
+
                     : SizedBox.shrink(),
                 Divider(
                   color: divider.withOpacity(0.5),

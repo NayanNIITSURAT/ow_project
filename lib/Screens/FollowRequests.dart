@@ -58,7 +58,7 @@ class FollowNotificationList extends StatefulWidget {
 }
 
 class _FollowNotificationListState extends State<FollowNotificationList> {
-  Product? nd;
+  Product? nd=Product(data: []);
   // NotificationResponse nd = NotificationResponse(
   //   totalItems: 0,
   //   totalPages: 0,
@@ -77,6 +77,8 @@ class _FollowNotificationListState extends State<FollowNotificationList> {
   Future<dynamic> requestNotification(bool refresh) async {
     setState(() {
       user = Provider.of<UserProvider>(context, listen: false);
+      nd = Provider.of<Product>(context,listen: false);
+
     });
     if (!user.isLoggedIn)
       Navigator.pop(context);
@@ -108,7 +110,7 @@ class _FollowNotificationListState extends State<FollowNotificationList> {
     // final ttLen = nd.notifications.length;
     // final newLen = nd.newNotifications.length;
     // final oldLen = nd.oldNotifications.length;
-    return loading
+    return loading ||nd!.data == null
         ? Loading(
             message: 'Fetching notifications',
           )
@@ -127,7 +129,7 @@ class _FollowNotificationListState extends State<FollowNotificationList> {
                   //+ (newLen > 0 ? 1 : 0) + (oldLen > 0 ? 1 : 0),
                   itemBuilder: (_, i) {
                     final seller = nd!.data[i];
-                    return NotificationItem(notification: nd!.data![i]);
+                    return NotificationItem(notification: nd!.data![i],index:i, list: nd!.data);
                   },
                 ),
               ));
@@ -160,10 +162,12 @@ Widget title({required String text, required Color iconColor}) => Container(
 
 class NotificationItem extends StatefulWidget {
   const NotificationItem({
-    required this.notification,
+    required this.notification, required this.index, required this.list,
   });
 
   final Datum notification;
+  final List<Datum> list;
+  final int index;
 
   @override
   State<NotificationItem> createState() => _NotificationItemState();
@@ -177,17 +181,19 @@ class _NotificationItemState extends State<NotificationItem> {
     final Size size = MediaQuery.of(context).size;
     final Color color, textColor;
     final UtilsProvider data;
+    final removeData = Provider.of<Product>(context,listen: false);
+
 
     showSeller() async {
       ProfileViewModal.show(context);
       await utility.getCurrentProfileFromUsername(
-        widget.notification.requesterUser.username,
+        widget.list[widget.index].requesterUser.username,
       );
     }
 
     showListing() => Navigator.pushNamed(context, SingleListingScreen.routeName,
         arguments: SingleListingArgs(
-          id: widget.notification.requesterUser.id,
+          id: widget.list[widget.index].requesterUser.id,
         ));
 
     return Container(
@@ -208,7 +214,7 @@ class _NotificationItemState extends State<NotificationItem> {
                     backgroundColor: Colors.white30,
                     backgroundImage: AssetImage(loadingGif),
                     foregroundImage:
-                        NetworkImage(widget.notification.requesterUser.avartar),
+                        NetworkImage(widget.list[widget.index].requesterUser.avartar),
                   ),
                   onTap: showSeller,
                 ),
@@ -224,7 +230,7 @@ class _NotificationItemState extends State<NotificationItem> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            widget.notification.requesterUser.username,
+                            widget.list[widget.index].requesterUser.username,
                             style: TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 15),
                           ),
@@ -232,7 +238,7 @@ class _NotificationItemState extends State<NotificationItem> {
                             height: 2,
                           ),
                           Text(
-                            widget.notification.requesterUser.fullName,
+                            widget.list[widget.index].requesterUser.fullName,
                             style: TextStyle(
                                 fontSize: 13,
                                 color: Colors.grey.withOpacity(0.6)),
@@ -248,10 +254,16 @@ class _NotificationItemState extends State<NotificationItem> {
                                   Color(0xffF33909),
                                   Color(0xffFE6D0A).withOpacity(0.8),
                                 ], // red to yellow
-                              ), onPress: () {
-                            user.followUserReqConfirm(
-                                widget.notification.requesterId, 1);
-                            print(' ${widget.notification.userId}');
+                              ), onPress: ()  async {
+   /*                          await user.followUserReqConfirm(
+                                widget.list[widget.index].requesterId, 1);*/
+
+                            // setState(() {
+                            //   widget.list.removeAt(widget.index);
+                            // });
+
+
+                             removeData.removedata(widget.index,widget.list);
                             final snackBar = SnackBar(
                               content: const Text("User request approved"),
                               backgroundColor: indicatorColor,
@@ -262,11 +274,13 @@ class _NotificationItemState extends State<NotificationItem> {
                             );
                             ScaffoldMessenger.of(context)
                                 .showSnackBar(snackBar);
+
+                             // requestNotification(true);
                           }),
                           requestButton(size, 'Delete',
                               labelColor: Colors.black, onPress: () {
-                            user.followUserReqConfirm(
-                                widget.notification.requesterId, 0);
+                            // user.followUserReqConfirm(
+                            //     widget.list[widget.index].requesterId, 0);
                           }),
                         ],
                       ),

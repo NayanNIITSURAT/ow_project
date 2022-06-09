@@ -12,11 +12,23 @@ import 'package:owlet/helpers/helpers.dart';
 import 'package:owlet/models/User.dart';
 import 'package:provider/provider.dart';
 
-class StatusScrollView extends StatelessWidget {
+class StatusScrollView extends StatefulWidget {
+  @override
+  State<StatusScrollView> createState() => _StatusScrollViewState();
+}
+
+class _StatusScrollViewState extends State<StatusScrollView> {
   @override
   Widget build(BuildContext context) {
     final userData = Provider.of<UserProvider>(context);
+    // userData.addListener(() {
+    //   setState(() {
+    //     print("fgfggh-----------");
+    //   });
+    //
+    // });
     final users = userData.usersWithStory;
+
     return Container(
       height: screenSize(context).height * 0.1,
       width: screenSize(context).width,
@@ -30,6 +42,7 @@ class StatusScrollView extends StatelessWidget {
             final user = users.length > 0
                 ? users[index > 0 && userData.isLoggedIn ? index - 1 : index]
                 : User(id: 0, username: '');
+            print("storyyy---${user.stories.length}");
             return index == 0 && userData.isLoggedIn
                 ? Container(
                     margin: EdgeInsets.symmetric(horizontal: 10),
@@ -37,8 +50,10 @@ class StatusScrollView extends StatelessWidget {
                       overflow: Overflow.visible,
                       children: [
                         ProfileAvatar(
-                          // withBorder: true,
+                          withBorder: true,
                           storyNum: userData.storyLen,
+                          lastViewdIndex:
+                          user.stories.lastIndexWhere((_) => _.iViewed),
                           avatar: userData.profile.avartar,
                           size: 70,
                           onPressed: () async {
@@ -98,7 +113,7 @@ class StatusScrollView extends StatelessWidget {
                     storyNum: user.stories.length,
                     lastViewdIndex:
                         user.stories.lastIndexWhere((_) => _.iViewed),
-                    // withBorder: true,
+                    withBorder: true,
                     avatar: user.avartar,
                     //isOnline: user.isOnline,
                     size: 70,

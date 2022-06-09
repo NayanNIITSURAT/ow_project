@@ -4,18 +4,16 @@
 
 import 'dart:convert';
 
+import 'package:flutter/cupertino.dart';
+
 import '../services/apiUrl.dart';
+import 'HttpResponse.dart';
 
-Product productFromJson(String str) => Product.fromJson(json.decode(str));
 
-String productToJson(Product data) => json.encode(data.toJson());
 
-class Product {
-  Product({
-    required this.data,
-  });
-
+class Product with ChangeNotifier {
   List<Datum> data;
+  Product({required this.data,});
 
   factory Product.fromJson(Map<String, dynamic> json) => Product(
         data: List<Datum>.from(json["data"].map((x) => Datum.fromJson(x))),
@@ -24,6 +22,12 @@ class Product {
   Map<String, dynamic> toJson() => {
         "data": List<dynamic>.from(data.map((x) => x.toJson())),
       };
+
+  void removedata(int index,  List<Datum> list) {
+    data =list;
+    data.removeAt(index);
+    notifyListeners();
+  }
 }
 
 class Datum {
@@ -187,3 +191,7 @@ class RequesteUser {
         "countryIso": countryIso == null ? null : countryIso,
       };
 }
+
+Product productFromJson(String str) => Product.fromJson(json.decode(str));
+
+String productToJson(Product data) => json.encode(data.toJson());

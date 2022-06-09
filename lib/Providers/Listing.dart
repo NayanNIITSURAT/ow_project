@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:owlet/Providers/Auth.dart';
 import 'package:owlet/models/HttpResponse.dart';
 import 'package:owlet/models/Listing.dart';
+import 'package:owlet/models/Requestuser.dart';
 import 'package:owlet/models/User.dart';
 import 'package:owlet/services/listing.dart';
 
@@ -30,6 +31,7 @@ class ListingProvider with ChangeNotifier {
     listingData.addComment = id;
     notifyListeners();
   }
+
 
 
   set unfollowUser(User user) {
@@ -105,6 +107,7 @@ class ListingProvider with ChangeNotifier {
     }
   }
 
+  Product product = Product(data: []);
   ListingResponse listingDataForMe = ListingResponse(
     totalItems: 0,
     listings: [],

@@ -26,6 +26,8 @@ import 'package:owlet/models/Message.dart';
 import 'package:owlet/models/Story.dart';
 import 'package:owlet/models/User.dart';
 
+import '../constants/constants.dart';
+
 class StoryView extends StatefulWidget {
   final User user;
   final Function(Story)? onStoryItemView;
@@ -60,6 +62,7 @@ class _StoryViewState extends State<StoryView>
 
   @override
   void initState() {
+    Global.currentstoryindex=_currentIndex;
     _focusController = widget.focusController ?? FocusNode();
     _focusController.addListener(() {
       if (!_focusController.hasFocus) {
@@ -126,6 +129,7 @@ class _StoryViewState extends State<StoryView>
     _animController?.stop();
     if (_currentIndex + 1 < widget.user.stories.length) {
       _currentIndex += 1;
+      Global.currentstoryindex=_currentIndex;
       _loadStory(story: widget.user.stories[_currentIndex]);
     } else
       (widget.onStoryComplete ?? () => Navigator.pop(context))();

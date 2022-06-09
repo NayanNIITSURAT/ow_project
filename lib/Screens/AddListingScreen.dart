@@ -19,6 +19,9 @@ import 'package:owlet/services/listing.dart';
 import 'package:provider/provider.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';
 
+import '../Providers/GlobalProvider.dart';
+import 'Login.dart';
+
 class AddListingScreen extends StatefulWidget {
   static const routeName = '/add-listing';
   @override
@@ -57,30 +60,36 @@ class _AddListingScreenState extends State<AddListingScreen> {
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<UserProvider>(context);
+    final state = GlobalProvider(context);
     final listing = Provider.of<ListingProvider>(context);
     final bool adding = listing.listingStatus == Status.Adding;
     int allowedImagesInt = 3;
     // user.profile.subscription?.package.allowedImages ?? 0;
     void createListing() async {
-      try {
-        if (caption.length > 0 && _assetList.length > 0) {
-          if (!hasHashtag(caption))
-            throw 'You need to write caption and must contain at least one hashtag';
-          var res = await listing.addListing(NewListing(
-            images: _assetList,
-            caption: caption,
-          ));
-          if (res['status']) {
-            user.newListing = res['data'];
-            Navigator.pushReplacement(
-                context, MaterialPageRoute(builder: (context) => NavScreen()));
+      if(state.authProListenFalse.isLoggedIn) {
+        try {
+          if (caption.length > 0 && _assetList.length > 0) {
+            if (!hasHashtag(caption))
+              throw 'You need to write caption and must contain at least one hashtag';
+            var res = await listing.addListing(NewListing(
+              images: _assetList,
+              caption: caption,
+            ));
+            if (res['status']) {
+              user.newListing = res['data'];
+              Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => NavScreen()));
+            } else
+              throw res['message'];
           } else
-            throw res['message'];
-        } else
-          throw 'Caption and image required';
-      } catch (e) {
-        Toast(context, message: e.toString(), duration: Duration(seconds: 7))
-            .show();
+            throw 'Caption and image required';
+        } catch (e) {
+          Toast(context, message: e.toString(), duration: Duration(seconds: 7))
+              .show();
+        }
+      }else{
+        Navigator.pushNamed(context, LoginScreen.routeName);
       }
     }
 
@@ -170,7 +179,7 @@ class _AddListingScreenState extends State<AddListingScreen> {
                               paddingHori: 130,
                               paddingVert: 10,
                               press: () => createListing(),
-                            )
+                            ),
                           ],
                         ),
                       ),

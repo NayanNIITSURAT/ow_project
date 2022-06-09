@@ -144,6 +144,7 @@ class UserProvider with ChangeNotifier {
     return res;
   }
 
+
   Future<dynamic> sendUserRequest(User user) async {
     var u = user.username.toLowerCase();
 
@@ -160,19 +161,7 @@ class UserProvider with ChangeNotifier {
     return res;
   }
 
-  Future<dynamic> followUserReqConfirm(int user, int confirm) async {
-    notifyListeners();
-    final res = await followrequestconfirm(user, confirm);
 
-    // if (!res['success'])
-    //   user.unFollower = _profile.username;
-
-    // else
-    //   _profile.follows = u;
-    //
-    // notifyListeners();
-    // return res;
-  }
 
   Future<void> _unFollow(User user) async {
     var u = user.username.toLowerCase();
@@ -581,6 +570,7 @@ class UserProvider with ChangeNotifier {
     notifyListeners();
     try {
       final res = await deleteListing(listingId);
+
       listingData.removeListing = listingId;
       _profile.reduceTotalListing = listingId;
 
@@ -686,6 +676,23 @@ class UserProvider with ChangeNotifier {
     _chats.sort((a, b) {
       return b.messages.last.id - a.messages.last.id;
     });
+  }
+
+  Future<dynamic> deletestory(int storyID) async {
+
+    final res = await deleteStoryapi(storyID);
+
+    if (res['isError']==false){
+      _profile.removeStory = storyID;
+      notifyListeners();
+    }
+    //   user.unFollower = _profile.username;
+
+    // else
+    //   _profile.follows = u;
+    //
+    // notifyListeners();
+    // return res;
   }
 
   Future<ChatUser> getChat(ChatUser chat) async {

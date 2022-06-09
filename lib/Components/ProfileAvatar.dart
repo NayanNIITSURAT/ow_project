@@ -44,7 +44,7 @@ class ProfileAvatar extends StatelessWidget {
         margin: EdgeInsets.only(top: 2, bottom: 2),
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          border: withBorder
+          border: !withBorder
               ? Border.all(width: 1, color: Palette.primaryColor)
               : null,
           boxShadow: withShadow

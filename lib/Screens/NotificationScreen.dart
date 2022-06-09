@@ -224,13 +224,16 @@ class NotificationItem extends StatefulWidget {
 }
 
 class _NotificationItemState extends State<NotificationItem> {
+
   late bool iFollow = widget.notification.sender.iFollow;
+
   String formatISOTime(DateTime date) {
     date = date.toUtc();
     final convertedDate = date.toLocal();
     String formated_date = "";
 
-    formated_date = (DateFormat("dd MMM,h:mm a").format(convertedDate));
+
+    formated_date = (DateFormat("yyyy-MM-dd HH:mm:ss.SSS").format(convertedDate));
     return formated_date;
     // var duration = date.timeZoneOffset;
     // if (duration.isNegative) {
@@ -255,6 +258,7 @@ class _NotificationItemState extends State<NotificationItem> {
     final type = widget.notification.notifyableType;
     final isAccount = type == N.NotificationType.FOLLOW;
     final listing = widget.notification.listing;
+    var NotificationTime = DateTime.parse(widget.notification.Updatedat);
 
     showSeller() async {
       ProfileViewModal.show(context);
@@ -304,7 +308,7 @@ class _NotificationItemState extends State<NotificationItem> {
                             Container(
                               width: 40,
                               child: Center(
-                                child: timeAgo(widget.notification.Updatedat ??
+                                child: timeAgo(formatISOTime(NotificationTime) ??
                                         DateTime.now().toString())
                                     .text
                                     .size(12)

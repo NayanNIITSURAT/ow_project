@@ -53,11 +53,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     final globalProvider = GlobalProvider(context);
+    final state = GlobalProvider(context);
      auth = Provider.of<AuthProvider>(context);
 
-
-
-    Future<void> doLogout() async {
+     Future<void> doLogout() async {
+       activeUserId = await getuserid;
       var preferenceuserlist = await UserPreferences().getuserlist();
       if (preferenceuserlist != null && preferenceuserlist.isNotEmpty) {
         userspref = User.decode(preferenceuserlist);
@@ -107,7 +107,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 color: Colors.black54,
               ),
             ),
-            ListTile(
+            state.authProListenFalse.isLoggedIn ? ListTile(
                 leading: Icon(Icons.notifications_none_outlined),
                 title: Text("Notifications"),
                 trailing: Container(
@@ -125,18 +125,18 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             value: check,
                             activeColor: kPrimaryColor,
                             onChanged: (value) {
-                              setState(() {
-                                isload = true;
+                                setState(() {
+                                  isload = true;
 
-                                check = value;
-                              });
+                                  check = value;
+                                });
                               callapi();
                             }),
                       ),
                     ],
                   ),
-                )),
-            ListTile(
+                )): Container(),
+            state.authProListenFalse.isLoggedIn ? ListTile(
               leading: Icon(Icons.account_balance_wallet_outlined),
               title: Text("Wallet"),
               trailing: Icon(
@@ -144,10 +144,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 color: Colors.black54,
               ),
               onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => WalletScreen()));
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => WalletScreen()));
               },
-            ),
+            ) : Container(),
             ListTile(
               leading: SvgPicture.asset(privacy_icon),
               title: Text("Privacy"),
@@ -156,8 +156,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 color: Colors.black54,
               ),
               onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => PrivacyScreen()));
+                if(state.authProListenFalse.isLoggedIn){
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => PrivacyScreen()));
+                }else{
+                  Navigator.pushNamed(context, LoginScreen.routeName);
+                }
               },
             ),
             ListTile(
@@ -168,11 +172,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 color: Colors.black54,
               ),
               onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => Security()));
+                if(state.authProListenFalse.isLoggedIn){
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => Security()));
+                }else{
+                  Navigator.pushNamed(context, LoginScreen.routeName);
+                }
               },
             ),
-            ListTile(
+            state.authProListenFalse.isLoggedIn ?ListTile(
               leading: SvgPicture.asset(help_icon),
               title: Text("Help"),
               trailing: Icon(
@@ -180,10 +188,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 color: Colors.black54,
               ),
               onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => HelpScren()));
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => HelpScren()));
               },
-            ),
+            ): Container(),
             ListTile(
               leading: Icon(Icons.info_outline),
               title: Text("About"),
@@ -195,6 +203,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => AboutScren()));
               },
+
             ),
             Divider(),
             Padding(
@@ -210,21 +219,31 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         "Add Account",
                         style: TextStyle(fontSize: 16),
                       )),
-                  TextButton(
+                  state.authProListenFalse.isLoggedIn ?TextButton(
                       onPressed: () {
                         doLogout();
                       },
                       child: Text(
                         "Log out",
                         style: TextStyle(fontSize: 16),
-                      )),TextButton(
+                      )): Container(),
+                 !state.authProListenFalse.isLoggedIn ?TextButton(
+                      onPressed: () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) => LoginScreen()));
+                      },
+                      child: Text(
+                        "login",
+                        style: TextStyle(fontSize: 16),
+                      )): Container(),
+                  state.authProListenFalse.isLoggedIn ?TextButton(
                       onPressed: () {
                         switch_account_bottom_sheet();
                       },
                       child: Text(
                         "Switch Account",
                         style: TextStyle(fontSize: 16),
-                      )),
+                      )): Container(),
                 ],
               ),
             )
@@ -313,9 +332,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ),
         ),
         context: context,
-        builder: (context) => StatefulBuilder(
+        builder: (context) =>  StatefulBuilder(
             builder: (BuildContext context, StateSetter setState) {
-              print('photo of usrt ${userspref[0].avartar}');
+
             return Container(
                   height: 260,
                   child: Column(
@@ -338,31 +357,38 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         child: ListView.builder(
                           itemCount: userspref.length,
                           itemBuilder: (context, position) {
-                            return Card(
-                              child: Padding(
-                                padding: const EdgeInsets.only(top: 10,bottom: 10),
-                                child: ListTile(
-                                    leading: ProfileAvatar(
-                                      showStatusPainter: false,
-                                      storyNum:  userspref[position].stories.length,
-                                      size:45,
-                                      avatar:  'https://${userspref[position].avartar.toString().split('https://').last}',
-                                      // onPressed: () => _showPickOptionDialog(context),
-                                      onPressed: () => null,
+                            return InkWell(
+                              onTap: () {
+                                onClick(position);
+                                activeUserId = userspref[position].id;
+                                setState(() {});
+                              },
+                              child: Card(
+                                child: Padding(
+                                  padding: const EdgeInsets.only(top: 10,bottom: 10),
+                                  child: ListTile(
+                                      leading: ProfileAvatar(
+                                        showStatusPainter: false,
+                                        storyNum:  userspref[position].stories.length,
+                                        size:45,
+                                        avatar:  'https://${userspref[position].avartar.toString().split('https://').last}',
+                                        // onPressed: () => _showPickOptionDialog(context),
+                                        onPressed: () => null,
+                                      ),
+                                      title: Text(
+                                      userspref[position].username.toString(),
+                                      style: TextStyle(fontSize: 10 , color: Colors.black),
                                     ),
-                                    title: Text(
-                                    userspref[position].username.toString(),
-                                    style: TextStyle(fontSize: 10 , color: Colors.black),
-                                  ),
-                                  trailing: Checkbox(
-                                    value: activeUserId == userspref[position].id,
-                                    shape: CircleBorder(),
-                                    splashRadius: 20,
-                                    onChanged: (value) {
-                                      onClick(position);
-                                      activeUserId = userspref[position].id;
-                                      setState(() {});
-                                    },
+                                    trailing: Checkbox(
+                                      value: activeUserId == userspref[position].id,
+                                      shape: CircleBorder(),
+                                      splashRadius: 20,
+                                      onChanged: (value) {
+                                        onClick(position);
+                                        activeUserId = userspref[position].id;
+                                        setState(() {});
+                                      },
+                                    ),
                                   ),
                                 ),
                               ),

@@ -1,9 +1,10 @@
 import 'dart:io';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:owlet/Components/BackArrow.dart';
+import 'package:owlet/Components/CircleButton.dart';
 import 'package:owlet/Components/ProfileAvatar.dart';
 import 'package:owlet/Components/Toast.dart';
 import 'package:owlet/Providers/Auth.dart';
@@ -52,128 +53,120 @@ class _ProfileEditState extends State<ProfileEdit> {
     const white = Colors.white;
     return Scaffold(
         body: SettingsBar(
-      trailing: false,
-      isappbar: true,
-      Title: "Edit Profile",
-      child: Container(
-        height: MediaQuery.of(context).size.height,
-        width: MediaQuery.of(context).size.width,
-        child: Expanded(
-          child: ScrollConfiguration(
-            behavior: ScrollBehavior().copyWith(overscroll: false),
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(15.0),
-                    child: Container(
-                      alignment: Alignment.center,
-                      child: MyProfileImage(user: user),
-                    ),
-                  ),
-                  Center(
-                    child: SizedBox(
-                        width: screenSize(context).width * 0.9,
-                        child: Divider()),
-                  ),
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 11, vertical: 20),
-                    child: Column(
-                      children: [
-                        EditInput(
-                          onChange: (val) => onChange('username', val),
-                          label: 'Full name',
-                          initialValue: profile.username,
+          trailing: false,
+          isappbar: true,
+          Title: "Edit Profile",
+          child: Container(
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
+            child: Expanded(
+              child: ScrollConfiguration(
+                behavior: ScrollBehavior().copyWith(overscroll: false),
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(15.0),
+                        child: Container(
+                          alignment: Alignment.center,
+                          child: MyProfileImage(user: user),
                         ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        EditInput(
-                          onChange: (val) => onChange('fullName', val),
-                          label: 'User name',
-                          initialValue: profile.fullName,
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        EditInput(
-                          onChange: (val) => onChange('email', val),
-                          label: 'Email Address',
-                          initialValue: profile.email,
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        EditInput(
-                          onChange: (val) => onChange('phone', val),
-                          label: 'Phone',
-                          isMultiLine: false,
-                          maxlengh: 10,
-                          keybordtype: TextInputType.number,
-                          initialValue: profile.phone,
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        EditInput(
-                          onChange: (val) => onChange('website', val),
-                          label: 'Website Address',
-                          initialValue: profile.website,
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        // EditInput(
-                        //   onChange: (val) => onChange('bio', val),
-                        //   label: 'Bio',
-                        //   isMultiLine: true,
-                        //   keybordtype: TextInputType.multiline,
-                        //   initialValue: profile.bio,
-                        // ),
-                        Align(
-                            alignment: Alignment.centerLeft,
-                            child: Text("Enter Bio",
-                                style: TextStyle(
-                                    color: Color(0xff9E9E9E),
-                                    fontWeight: FontWeight.bold))),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        TextField(
-                          decoration: InputDecoration(
-                            filled: true,
-                            border: InputBorder.none,
-                            fillColor: Color(0xffEDF2F7).withOpacity(0.5),
-                            // labelText: 'Description',
-                          ),
+                      ),
+                      Center(
+                        child: SizedBox(
+                            width: screenSize(context).width * 0.9,
+                            child: Divider()),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 11, vertical: 20),
+                        child: Column(
+                          children: [
+                            EditInput(
+                              onChange: (val) => onChange('username', val),
+                              label: 'Full name',
+                              initialValue: profile.username,
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            EditInput(
+                              onChange: (val) => onChange('fullName', val),
+                              label: 'User name',
+                              initialValue: profile.fullName,
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            EditInput(
+                              onChange: (val) => onChange('email', val),
+                              label: 'Email Address',
+                              initialValue: profile.email,
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            EditInput(
+                              onChange: (val) => onChange('phone', val),
+                              label: 'Phone',
+                              isMultiLine: false,
+                              maxlengh: 10,
+                              keybordtype: TextInputType.number,
+                              initialValue: profile.phone,
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            EditInput(
+                              onChange: (val) => onChange('website', val),
+                              label: 'Website Address',
+                              initialValue: profile.website,
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            // EditInput(
+                            //   onChange: (val) => onChange('bio', val),
+                            //   label: 'Bio',
+                            //   isMultiLine: true,
+                            //   keybordtype: TextInputType.multiline,
+                            //   initialValue: profile.bio,
+                            // ),
+                            TextField(
+                              decoration: InputDecoration(
+                                filled: true,
+                                border: InputBorder.none,
+                                hintText: 'Enter Bio',
+                                fillColor: Color(0xffEDF2F7).withOpacity(0.5),
+                                // labelText: 'Description',
+                              ),
 
-                          scrollPadding: EdgeInsets.all(10),
-                          minLines: 5,
-                          maxLines: 15,
-                          autofocus: true,
-                          maxLength: 2200,
+                              scrollPadding: EdgeInsets.all(10),
+                              minLines: 5,
+                              maxLines: 15,
+                              autofocus: true,
+                              maxLength: 2200,
 
-                          onChanged: (value) => onChange('bio', value),
-                          // maxLengthEnforcement: ,
-                          keyboardType: TextInputType.multiline,
-                          textInputAction: TextInputAction.newline,
+                              onChanged: (value) => onChange('bio', value),
+                              // maxLengthEnforcement: ,
+                              keyboardType: TextInputType.multiline,
+                              textInputAction: TextInputAction.newline,
+                            ),
+                            SizedBox(
+                              height: 30,
+                            ),
+                            SaveButton(context, onSave, user)
+                          ],
                         ),
-                        SizedBox(
-                          height: 30,
-                        ),
-                        SaveButton(context, onSave, user)
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                ],
+                ),
               ),
             ),
           ),
-        ),
-      ),
-    ));
+        ));
   }
 
   Container SaveButton(
@@ -201,13 +194,13 @@ class _ProfileEditState extends State<ProfileEdit> {
           onPressed: onSave,
           child: user.status == Status.Processing
               ? CircularProgressIndicator(
-                  color: Colors.white,
-                )
+            color: Colors.white,
+          )
               : Text(
-                  'Done ',
-                  style: TextStyle(
-                      color: Colors.white, fontWeight: FontWeight.bold),
-                ),
+            'Done ',
+            style: TextStyle(
+                color: Colors.white, fontWeight: FontWeight.bold),
+          ),
         ),
       ),
     );
@@ -242,93 +235,93 @@ class EditInput extends StatelessWidget {
       children: [
         !isMultiLine
             ? Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  if (label != null)
-                    Text(label!,
-                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                            fontSize: 16,
-                            color: Colors.black54,
-                            fontWeight: FontWeight.w600)),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  Container(
-                    width: screenSize(context).width * 0.92,
-                    height: 45,
-                    margin: margin ?? EdgeInsets.symmetric(vertical: 8),
-                    padding: padding ??
-                        EdgeInsets.symmetric(vertical: 8, horizontal: 10),
-                    decoration: BoxDecoration(
-                      color: Color(0xffEDF2F7).withOpacity(0.5),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: TextFormField(
-                      maxLength: maxlengh,
-                      decoration: InputDecoration(
-                          border: InputBorder.none,
-                          counterText: "",
-                          enabledBorder: InputBorder.none,
-                          focusedBorder: InputBorder.none,
-                          labelStyle:
-                              TextStyle(fontSize: 20, color: Colors.black45)),
-
-                      scrollPadding: EdgeInsets.all(10),
-                      keyboardType: keybordtype,
-                      onChanged: onChange,
-                      // maxLengthEnforcement: ,
-                      textInputAction: TextInputAction.next,
-                      initialValue: initialValue,
-                    ),
-                  ),
-                ],
-              )
-            : Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  if (label != null)
-                    Text(label!,
-                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                            fontSize: 16,
-                            color: Colors.black54,
-                            fontWeight: FontWeight.w400)),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Container(
-                    constraints: BoxConstraints(maxHeight: 200),
-                    padding: EdgeInsets.only(
-                      right: 10,
-                      left: 10,
-                      bottom: 5,
-                    ),
-                    decoration: BoxDecoration(
-                      color: Color(0xffEDF2F7).withOpacity(0.5),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: TextFormField(
-                      decoration: InputDecoration(
-                        border: InputBorder.none, counterText: "",
-                        // enabledBorder: border,
-                        // focusedBorder: border,
-                      ),
-
-                      scrollPadding: EdgeInsets.all(10),
-
-                      onChanged: onChange,
-                      // maxLengthEnforcement: ,
-
-                      minLines: 5,
-                      maxLines: 15,
-                      maxLength: 200,
-
-                      keyboardType: keybordtype,
-                      textInputAction: TextInputAction.newline,
-                      initialValue: initialValue,
-                    ),
-                  ),
-                ],
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            if (label != null)
+              Text(label!,
+                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                      fontSize: 16,
+                      color: Colors.black54,
+                      fontWeight: FontWeight.w600)),
+            SizedBox(
+              height: 5,
+            ),
+            Container(
+              width: screenSize(context).width * 0.92,
+              height: 45,
+              margin: margin ?? EdgeInsets.symmetric(vertical: 8),
+              padding: padding ??
+                  EdgeInsets.symmetric(vertical: 8, horizontal: 10),
+              decoration: BoxDecoration(
+                color: Color(0xffEDF2F7).withOpacity(0.5),
+                borderRadius: BorderRadius.circular(10),
               ),
+              child: TextFormField(
+                maxLength: maxlengh,
+                decoration: InputDecoration(
+                    border: InputBorder.none,
+                    counterText: "",
+                    enabledBorder: InputBorder.none,
+                    focusedBorder: InputBorder.none,
+                    labelStyle:
+                    TextStyle(fontSize: 20, color: Colors.black45)),
+
+                scrollPadding: EdgeInsets.all(10),
+                keyboardType: keybordtype,
+                onChanged: onChange,
+                // maxLengthEnforcement: ,
+                textInputAction: TextInputAction.next,
+                initialValue: initialValue,
+              ),
+            ),
+          ],
+        )
+            : Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            if (label != null)
+              Text(label!,
+                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                      fontSize: 16,
+                      color: Colors.black54,
+                      fontWeight: FontWeight.w400)),
+            SizedBox(
+              height: 10,
+            ),
+            Container(
+              constraints: BoxConstraints(maxHeight: 200),
+              padding: EdgeInsets.only(
+                right: 10,
+                left: 10,
+                bottom: 5,
+              ),
+              decoration: BoxDecoration(
+                color: Color(0xffEDF2F7).withOpacity(0.5),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: TextFormField(
+                decoration: InputDecoration(
+                  border: InputBorder.none, counterText: "",
+                  // enabledBorder: border,
+                  // focusedBorder: border,
+                ),
+
+                scrollPadding: EdgeInsets.all(10),
+
+                onChanged: onChange,
+                // maxLengthEnforcement: ,
+
+                minLines: 5,
+                maxLines: 15,
+                maxLength: 200,
+
+                keyboardType: keybordtype,
+                textInputAction: TextInputAction.newline,
+                initialValue: initialValue,
+              ),
+            ),
+          ],
+        ),
         const SizedBox(
           height: 10,
         )
@@ -345,7 +338,7 @@ class MyProfileImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     void _cropImage(File image) async {
-      File? cropped = (await ImageCropper().cropImage(
+      File? cropped= (await ImageCropper().cropImage(
         sourcePath: image.path,
         aspectRatio: CropAspectRatio(ratioX: 1.0, ratioY: 1.0),
         maxHeight: 200,
@@ -371,37 +364,37 @@ class MyProfileImage extends StatelessWidget {
       showDialog(
           context: ctx,
           builder: (ctx) => AlertDialog(
-                backgroundColor: Colors.transparent,
-                elevation: 0,
-                contentPadding: EdgeInsets.symmetric(horizontal: 0),
-                content: Container(
-                  padding: EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(15),
-                    color: Colors.white,
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+            contentPadding: EdgeInsets.symmetric(horizontal: 0),
+            content: Container(
+              padding: EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(15),
+                color: Colors.white,
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  ListTile(
+                    title: Text(
+                      'Pick from Gallery',
+                      textAlign: TextAlign.center,
+                    ),
+                    onTap: () => _loadPicker(ImageSource.gallery),
                   ),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      ListTile(
-                        title: Text(
-                          'Pick from Gallery',
-                          textAlign: TextAlign.center,
-                        ),
-                        onTap: () => _loadPicker(ImageSource.gallery),
-                      ),
-                      Divider(),
-                      ListTile(
-                        title: Text(
-                          'Turn on Camera',
-                          textAlign: TextAlign.center,
-                        ),
-                        onTap: () => _loadPicker(ImageSource.camera),
-                      )
-                    ],
-                  ),
-                ),
-              ));
+                  Divider(),
+                  ListTile(
+                    title: Text(
+                      'Turn on Camera',
+                      textAlign: TextAlign.center,
+                    ),
+                    onTap: () => _loadPicker(ImageSource.camera),
+                  )
+                ],
+              ),
+            ),
+          ));
     }
 
     return Column(
@@ -419,7 +412,7 @@ class MyProfileImage extends StatelessWidget {
             },
             child: Text("Change profile photo",
                 style:
-                    TextStyle(color: kErrorColor, fontWeight: FontWeight.w600)))
+                TextStyle(color: kErrorColor, fontWeight: FontWeight.w600)))
       ],
     );
   }

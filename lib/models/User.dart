@@ -438,6 +438,7 @@ class User with ChangeNotifier {
 
   set removeStory(int storyId) {
     stories.removeWhere((story) => story.id == storyId);
+
     notifyListeners();
   }
 
