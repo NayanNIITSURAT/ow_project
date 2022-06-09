@@ -126,11 +126,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             value: check,
                             activeColor: kPrimaryColor,
                             onChanged: (value) {
-                              setState(() {
-                                isload = true;
+                                setState(() {
+                                  isload = true;
 
-                                check = value;
-                              });
+                                  check = value;
+                                });
                               callapi();
                             }),
                       ),
@@ -145,8 +145,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 color: Colors.black54,
               ),
               onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => WalletScreen()));
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => WalletScreen()));
               },
             ) : Container(),
             ListTile(
@@ -189,8 +189,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 color: Colors.black54,
               ),
               onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => HelpScren()));
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => HelpScren()));
               },
             ): Container(),
             ListTile(
@@ -204,6 +204,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => AboutScren()));
               },
+
             ),
             Divider(),
             Padding(
@@ -357,7 +358,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ),
         ),
         context: context,
-        builder: (context) => StatefulBuilder(
+        builder: (context) =>  StatefulBuilder(
             builder: (BuildContext context, StateSetter setState) {
               return Container(
                 height: 260,

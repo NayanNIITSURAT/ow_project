@@ -54,6 +54,7 @@ import 'package:provider/provider.dart';
 import 'package:upgrader/upgrader.dart';
 import 'package:wakelock/wakelock.dart';
 
+import 'models/Requestuser.dart';
 import 'models/passbooknotifier.dart';
 import 'models/walletRefresh.dart';
 
@@ -112,6 +113,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider<passbooknotifier>(
             create: (_) => passbooknotifier()),
         ChangeNotifierProvider<WalletRefresh>(create: (_) => WalletRefresh()),
+        ChangeNotifierProvider(create: (ctx) => Product()),
       ],
       child: DismissKeyboard(
         child: OverlaySupport.global(

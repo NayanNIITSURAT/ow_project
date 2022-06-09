@@ -15,6 +15,7 @@ import 'package:owlet/services/user.dart';
 import 'package:owlet/services/utils.dart';
 
 import '../services/auth.dart';
+import 'Requestuser.dart';
 
 class ListingResponse extends ChangeNotifier {
   int totalItems;
@@ -557,3 +558,35 @@ class StoryResponse extends ChangeNotifier {
     }).toList();
   }
 }
+
+/*class ConfirmData extends ChangeNotifier {
+
+  ConfirmData({
+    required this.data,
+  });
+  List<Datum> data;
+  Product product;
+
+  List<Datum> get items {
+    product = Product(data: data);
+    return [...data];
+  }
+
+  void removedata(int index) {
+    data.removeAt(index);
+    notifyListeners();
+  }
+}*/
+
+
+
+
+
+
+
+
+
+
+
+
+

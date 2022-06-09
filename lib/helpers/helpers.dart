@@ -173,8 +173,7 @@ ListingViewData Function(dynamic, ListingProviderType) getListingData =
         refresh: () => provider.searchListings(refresh: true),
         load: provider.searchListings,
       );
-  }
-  ;
+  };
 };
 
 String numFormatter(int num) {

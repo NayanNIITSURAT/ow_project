@@ -54,7 +54,7 @@ class _WalletScreenState extends State<WalletScreen> {
     final data = Provider.of<WalletRefresh>(context, listen: false);
     data.fetchData(context);
 
-    Timer(Duration(seconds: 3), () async {
+    Timer(Duration(seconds: 5), () async {
       setState(() {
         isloadingstate = false;
       });

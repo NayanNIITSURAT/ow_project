@@ -224,11 +224,11 @@ class _ChatScreenState extends State<ChatScreen> with RouteAware {
                         VStack(
                           [
                             chat.username.text.semiBold.size(18).make(),
-                            // chat.isOnline
-                            //     ? 'online'.text.make()
-                            //     : Text(
-                            //   'Active ${timeAgo(chat.lastSeen.toLocal().toString())}',
-                            // )
+                            chat.isOnline
+                            ? 'online'.text.make()
+                                :Text(
+                              'Active ${timeAgo(chat.lastSeen.toLocal().toString())}',
+                            )
                           ],
                           crossAlignment: CrossAxisAlignment.center,
                         ),

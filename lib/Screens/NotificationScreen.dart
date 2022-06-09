@@ -224,7 +224,9 @@ class NotificationItem extends StatefulWidget {
 }
 
 class _NotificationItemState extends State<NotificationItem> {
+
   late bool iFollow = widget.notification.sender.iFollow;
+
   String formatISOTime(DateTime date) {
     date = date.toUtc();
     final convertedDate = date.toLocal();
@@ -256,6 +258,7 @@ class _NotificationItemState extends State<NotificationItem> {
     final type = widget.notification.notifyableType;
     final isAccount = type == N.NotificationType.FOLLOW;
     final listing = widget.notification.listing;
+    var NotificationTime = DateTime.parse(widget.notification.Updatedat);
 
     showSeller() async {
       ProfileViewModal.show(context);

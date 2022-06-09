@@ -10,7 +10,6 @@ import 'package:owlet/Components/Toast.dart';
 import 'package:owlet/Providers/Auth.dart';
 import 'package:owlet/Providers/Listing.dart';
 import 'package:owlet/Providers/User.dart';
-import 'package:owlet/Screens/Home.dart';
 import 'package:owlet/Screens/NavScreen.dart';
 import 'package:owlet/Widgets/CustomAppBar.dart';
 import 'package:owlet/Widgets/GalleryThumbnail.dart';
@@ -62,6 +61,7 @@ class _AddListingScreenState extends State<AddListingScreen> {
   Widget build(BuildContext context) {
     final state = GlobalProvider(context);
     final user = Provider.of<UserProvider>(context);
+    final state = GlobalProvider(context);
     final listing = Provider.of<ListingProvider>(context);
     final bool adding = listing.listingStatus == Status.Adding;
     int allowedImagesInt = 3;
@@ -180,7 +180,7 @@ class _AddListingScreenState extends State<AddListingScreen> {
                               paddingHori: 130,
                               paddingVert: 10,
                               press: () => createListing(),
-                            )
+                            ),
                           ],
                         ),
                       ),

@@ -338,7 +338,7 @@ class MyProfileImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     void _cropImage(File image) async {
-      File? cropped = (await ImageCropper().cropImage(
+      File? cropped= (await ImageCropper().cropImage(
         sourcePath: image.path,
         aspectRatio: CropAspectRatio(ratioX: 1.0, ratioY: 1.0),
         maxHeight: 200,

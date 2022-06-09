@@ -279,7 +279,8 @@ class CommentItem extends StatefulWidget {
     required this.comment,
     this.onReply,
     required this.onLike,
-  }) : super(key: key);
+  }) : super(key
+      : key);
 
   @override
   State<CommentItem> createState() => _CommentItemState();

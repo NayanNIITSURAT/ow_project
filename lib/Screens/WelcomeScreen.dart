@@ -9,7 +9,6 @@ import 'package:owlet/constants/images.dart';
 import 'package:owlet/constants/palettes.dart';
 import 'package:owlet/modals/TermsAndCondition.dart';
 import 'package:provider/provider.dart';
-
 import '../Providers/GlobalProvider.dart';
 
 class WelcomeScreen extends StatefulWidget {

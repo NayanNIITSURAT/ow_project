@@ -86,7 +86,7 @@ class HashTagProvider with ChangeNotifier {
   }
 
   Future<Map<String, dynamic>> getListings(
-      {bool refresh: false, required String hashtag}) async {
+      {bool refresh: false, required String hashtag}) async{
     if (_hashTagStatus != Status.Processing)
       try {
         _hashTagStatus = Status.Processing;
