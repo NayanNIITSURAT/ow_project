@@ -65,7 +65,7 @@ class FlagProvider with ChangeNotifier {
         _flagStatus = Status.Processing;
         notifyListeners();
         flagData.setFlagsData =
-            await fetchFlags(refresh ? 0 : flagData.currentPage + 1);
+        await fetchFlags(refresh ? 0 : flagData.currentPage + 1);
 
         _flagStatus = Status.Completed;
         notifyListeners();

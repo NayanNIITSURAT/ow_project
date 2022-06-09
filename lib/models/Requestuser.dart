@@ -4,13 +4,16 @@
 
 import 'dart:convert';
 
+import 'package:flutter/cupertino.dart';
+
 import '../services/apiUrl.dart';
+import '../services/user.dart';
 
 Product productFromJson(String str) => Product.fromJson(json.decode(str));
 
 String productToJson(Product data) => json.encode(data.toJson());
 
-class Product {
+class Product extends ChangeNotifier {
   Product({
     required this.data,
   });
@@ -24,6 +27,8 @@ class Product {
   Map<String, dynamic> toJson() => {
         "data": List<dynamic>.from(data.map((x) => x.toJson())),
       };
+  Datum? post;
+  bool loading = false;
 }
 
 class Datum {
@@ -59,6 +64,26 @@ class Datum {
         "updatedAt": updatedAt.toIso8601String(),
         "requestedUser": requestedUser.toJson(),
         "requesterUser": requesterUser.toJson(),
+      };
+}
+
+class Update {
+  Update({
+    required this.success,
+    required this.message,
+  });
+
+  bool success;
+  String message;
+
+  factory Update.fromJson(Map<String, dynamic> json) => Update(
+        success: json["success"],
+        message: json["message"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "success": success,
+        "message": message,
       };
 }
 

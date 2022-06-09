@@ -230,7 +230,7 @@ class _NotificationItemState extends State<NotificationItem> {
     final convertedDate = date.toLocal();
     String formated_date = "";
 
-    formated_date = (DateFormat("dd MMM,h:mm a").format(convertedDate));
+    formated_date = (DateFormat("yyyy-MM-dd HH:mm:ss.SSS").format(convertedDate));
     return formated_date;
     // var duration = date.timeZoneOffset;
     // if (duration.isNegative) {
@@ -249,6 +249,7 @@ class _NotificationItemState extends State<NotificationItem> {
 
   @override
   Widget build(BuildContext context) {
+    var NotificationTime = DateTime.parse(widget.notification.Updatedat);
     final user = Provider.of<UserProvider>(context, listen: false);
     final utility = Provider.of<UtilsProvider>(context, listen: false);
     final sender = widget.notification.sender;
@@ -304,7 +305,7 @@ class _NotificationItemState extends State<NotificationItem> {
                             Container(
                               width: 40,
                               child: Center(
-                                child: timeAgo(widget.notification.Updatedat ??
+                                child: timeAgo(formatISOTime(NotificationTime) ??
                                         DateTime.now().toString())
                                     .text
                                     .size(12)

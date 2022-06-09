@@ -139,6 +139,7 @@ Future<User> createUser(NewUser newUser) async {
       "phone": newUser.phone,
       "deviceToken": (await _messaging.getToken()) ?? '',
       "deviceType": Platform.isAndroid ? 'ANDROID' : 'IOS'
+
     }),
   );
 

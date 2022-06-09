@@ -73,7 +73,7 @@ final InitializationSettings initializationSettings = InitializationSettings(
 
 Future<void> initFirebase() async {
   print('Init firebase');
-  await Firebase.initializeApp();
+  //await Firebase.initializeApp();
   FirebaseMessaging.onBackgroundMessage(backgroundFCMHandler);
 
 // initialise the plugin. app_icon needs to be a added as a drawable resource to the Android head project

@@ -7,9 +7,15 @@ import 'package:owlet/Components/Loading.dart';
 import 'package:owlet/Screens/CameraScreen.dart';
 import 'package:owlet/constants/palettes.dart';
 import 'package:owlet/helpers/helpers.dart';
+import 'package:path/path.dart ' as libpath;
 import 'package:photo_manager/photo_manager.dart';
+import 'package:provider/provider.dart' ;
 
+import '../Components/Toast.dart';
+import '../Providers/User.dart';
 import '../constants/images.dart';
+import '../enum.dart';
+import '../services/stories.dart';
 
 class AddMarketSquareScreen extends StatefulWidget {
   static const routeName = 'addMarketSquare';
@@ -20,6 +26,11 @@ class AddMarketSquareScreen extends StatefulWidget {
 }
 
 class _AddMarketSquareScreenState extends State<AddMarketSquareScreen> {
+  int current=0;
+  late File _picture;
+  double _uploadProgress = 0.0;
+  bool isloadingstate=false;
+
   List<Map<String, dynamic>> selectedMedia = [];
   List<Map<String, dynamic>> selectedEntity = [];
 
@@ -247,178 +258,295 @@ class _AddMarketSquareScreenState extends State<AddMarketSquareScreen> {
         body: _marketSquareWidget(context));
   }
 
+  _addimageStory(String? caption, File picture, int length) async {
+   final userData = Provider.of<UserProvider>(context, listen: false);
+    await userData.addSory(
+      newStory: NewStory(
+        content: '',
+        type: StoryType.IMAGE,
+        caption: caption,
+        mediaFile: _picture,
+      ),
+      onProgress: (_) => setState(() => _uploadProgress = (_)),
+      onSuccess:() {
+        current++;
+
+        if(current==length) {
+          Navigator.of(context).popUntil((route) => route.isFirst);
+          Toast(
+            context,
+            message: 'Story added $current/$length sucessfully ',
+            type: ToastType.SUCCESS,
+            duration: Duration(seconds: 5),
+          ).showTop();
+        } else {
+          Toast(
+            context,
+            message: 'Story added $current/$length sucessfully ',
+            type: ToastType.SUCCESS,
+            duration: Duration(seconds: 5),
+          ).showTop();
+        }
+      },
+      onError: (e) {
+        print(e);
+        Toast(context, message: 'Error occured while uploading your story');
+      },
+      onComplete: () => setState(() => _uploadProgress = 0.0),
+    );
+  }
+  _addvideoStory(String? caption, File picture, int length) async {
+   final userData = Provider.of<UserProvider>(context, listen: false);
+    await userData.addSory(
+      newStory: NewStory(
+        content: '',
+        type: StoryType.VIDEO,
+        caption: caption,
+        mediaFile: _picture,
+      ),
+      onProgress:(_) => setState(() => _uploadProgress = (_)),
+      onSuccess:() {
+        current++;
+        if(current==length) {
+          Navigator.of(context).popUntil((route) => route.isFirst);
+          Toast(
+            context,
+            message: 'Story added $current/$length sucessfully ',
+            type: ToastType.SUCCESS,
+            duration: Duration(seconds: 5),
+          ).showTop();
+        } else {
+          Toast(
+            context,
+            message: 'Story added $current/$length sucessfully ',
+            type: ToastType.SUCCESS,
+            duration: Duration(seconds: 5),
+          ).showTop();
+        }
+      },
+      onError:(e) {
+        print(e);
+        Toast(context, message: 'Error occured while uploading your story');
+      },
+      onComplete: () => setState(() => _uploadProgress = 0.0),
+    );
+  }
+
   _marketSquareWidget(context) {
-    return Column(
-      mainAxisSize: MainAxisSize.max,
+    return Stack(
       children: [
-        SafeArea(
-          bottom: false,
-          child: Container(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+        Column(
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            SafeArea(
+              bottom: false,
+              child: Container(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                  child: Row(
+                    children: [
+                      InkWell(
+                          onTap: () {
+                            {
+                              Navigator.pop(context);
+                            }
+                          },
+                          child: Icon(
+                            Icons.arrow_back,
+                            color: Colors.black,
+                            size: 27,
+                          )),
+                      SizedBox(
+                        width: 60,
+                      ),
+                      Text(
+                        'Add Marketsquare',
+                        style: Theme.of(context)
+                            .textTheme
+                            .headline6!
+                            .copyWith(fontWeight: FontWeight.w600, fontSize: 18),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(16.0),
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  InkWell(
-                      onTap: () {
-                        {
-                          Navigator.pop(context);
-                        }
-                      },
-                      child: Icon(
-                        Icons.arrow_back,
-                        color: Colors.black,
-                        size: 27,
-                      )),
-                  SizedBox(
-                    width: 60,
+                  Row(
+                    children: [
+                      Text(
+                        "Recents",
+                        style: TextStyle(fontSize: 16, color: Colors.grey),
+                      ),
+                      Icon(Icons.keyboard_arrow_down)
+                    ],
+                  ),
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      gradient: LinearGradient(
+                        begin: Alignment.centerLeft,
+                        end: Alignment(
+                            0.1, 0.0), // 10% of the width, so there are ten blinds.
+                        colors: selectedMedia.isNotEmpty
+                            ? <Color>[
+                                Color(0xffee0000),
+                                Palette.primaryColor,
+                                Color.fromARGB(255, 240, 102, 11),
+                              ]
+                            : [
+                                Colors.red.shade50,
+                                Colors.red.shade50
+                              ], // red to yellow
+                      ),
+                    ),
+                    child: ClipRRect(
+                      // borderRadius: BorderRadius.circular(10),
+                      child: TextButton(
+                        style: ElevatedButton.styleFrom(
+                          enableFeedback: true,
+                          padding:
+                              EdgeInsets.symmetric(vertical: 0, horizontal: 20),
+                        ),
+                        onPressed: () {},
+                        child: Text(
+                          "Select",
+                          style: TextStyle(
+                              color: selectedMedia.isNotEmpty
+                                  ? Colors.white
+                                  : Colors.black,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600),
+                        ),
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+            Divider(),
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: Text(
+                      "You have given the Owlet access to a selected number of photos and videos.",
+                      style: TextStyle(fontSize: 12, color: Colors.grey),
+                    ),
                   ),
                   Text(
-                    'Add Marketsquare',
-                    style: Theme.of(context)
-                        .textTheme
-                        .headline6!
-                        .copyWith(fontWeight: FontWeight.w600, fontSize: 18),
+                    "Manage",
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
                   ),
                 ],
               ),
             ),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                children: [
-                  Text(
-                    "Recents",
-                    style: TextStyle(fontSize: 16, color: Colors.grey),
-                  ),
-                  Icon(Icons.keyboard_arrow_down)
-                ],
+            Expanded(
+              flex: 8,
+              child: Padding(
+                padding: const EdgeInsets.all(3.0),
+                child: _buildImageGrid(context),
               ),
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  gradient: LinearGradient(
-                    begin: Alignment.centerLeft,
-                    end: Alignment(
-                        0.1, 0.0), // 10% of the width, so there are ten blinds.
-                    colors: selectedMedia.isNotEmpty
-                        ? <Color>[
+            ),
+            selectedMedia.length > 0 ?Row(
+              children: [
+                SizedBox(
+                  height: 80,
+                  width: MediaQuery.of(context).size.width*0.8,
+                  child: ListView.builder(
+                    physics: BouncingScrollPhysics(),
+                      scrollDirection: Axis.horizontal,
+                      shrinkWrap: true,
+                      padding: EdgeInsets.only(left: 8),
+                      itemCount: selectedMedia.length,
+                      itemBuilder: (_, i) {
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 2),
+                          child: ClipRRect(
+                              borderRadius: BorderRadius.circular(10),
+                              //child: Image.file(selectedMedia[i]['file'],fit: BoxFit.cover,width: 50,))
+                              child: AssetEntityImage(selectedEntity[i]['entity'],
+                                  width: 50,
+                        fit: BoxFit.cover,
+                        key: ValueKey<int>(i),
+                        thumbnailFormat: ThumbnailFormat.jpeg, //
+                        )
+                        ));
+                      }),
+                ),
+                Expanded(
+                  child: InkWell(
+                    onTap: (){
+                      for(int i=0;i<selectedMedia.length;i++) {
+                        _picture = selectedMedia[i]['file'];
+                        var filepath=File(_picture.path);
+                        final _extenion = libpath.extension(filepath.path);
+                        if(_extenion==".mp4")
+                        {
+                          _addvideoStory(" ", filepath, selectedMedia.length);
+                        }
+                        else
+                        {
+                          _addimageStory("  ", filepath, selectedMedia.length);
+                        }
+                      }
+                    },
+                    child: _uploadProgress > 0
+                        ? SizedBox(
+        height: 20, child: CupertinoActivityIndicator())
+            : Container(
+                      height:60,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        gradient: LinearGradient(
+                          begin: Alignment.centerLeft,
+                          end: Alignment(
+                              0.1, 0.0), // 10% of the width, so there are ten blinds.
+                          colors:  <Color>[
                             Color(0xffee0000),
                             Palette.primaryColor,
                             Color.fromARGB(255, 240, 102, 11),
-                          ]
-                        : [
-                            Colors.red.shade50,
-                            Colors.red.shade50
-                          ], // red to yellow
-                  ),
-                ),
-                child: ClipRRect(
-                  // borderRadius: BorderRadius.circular(10),
-                  child: TextButton(
-                    style: ElevatedButton.styleFrom(
-                      enableFeedback: true,
-                      padding:
-                          EdgeInsets.symmetric(vertical: 0, horizontal: 20),
-                    ),
-                    onPressed: () {},
-                    child: Text(
-                      "Select",
-                      style: TextStyle(
-                          color: selectedMedia.isNotEmpty
-                              ? Colors.white
-                              : Colors.black,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600),
+                          ]),
+                      ),
+                        child:Center(child: Icon(Icons.arrow_forward,color: Colors.white,size: 30,))
                     ),
                   ),
-                ),
-              )
-            ],
-          ),
-        ),
-        Divider(),
-        Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Expanded(
-                child: Text(
-                  "You have given the Owlet access to a selected number of photos and videos.",
-                  style: TextStyle(fontSize: 12, color: Colors.grey),
-                ),
-              ),
-              Text(
-                "Manage",
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-              ),
-            ],
-          ),
-        ),
-        Expanded(
-          flex: 8,
-          child: Padding(
-            padding: const EdgeInsets.all(3.0),
-            child: _buildImageGrid(context),
-          ),
-        ),
-        selectedMedia.length > 0 ?Row(
-          children: [
-            SizedBox(
-              height: 80,
-              width: MediaQuery.of(context).size.width*0.8,
-              child: ListView.builder(
-
-                physics: BouncingScrollPhysics(),
-                  scrollDirection: Axis.horizontal,
-                  shrinkWrap: true,
-                  padding: EdgeInsets.only(left: 8),
-                  itemCount: selectedMedia.length,
-                  itemBuilder: (_, i) {
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 2),
-                      child: ClipRRect(
-                          borderRadius: BorderRadius.circular(10),
-                          //child: Image.file(selectedMedia[i]['file'],fit: BoxFit.cover,width: 50,))
-                          child: AssetEntityImage(selectedEntity[i]['entity'],
-                              width: 50,
-                    fit: BoxFit.cover,
-                    key: ValueKey<int>(i),
-                    thumbnailFormat: ThumbnailFormat.jpeg, //
-                    )
-                    ));
-                  }),
-            ),
-            Expanded(
-              child: InkWell(
-                onTap: (){
-
-                },
-                child: Container(
-                  height:60,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    gradient: LinearGradient(
-                      begin: Alignment.centerLeft,
-                      end: Alignment(
-                          0.1, 0.0), // 10% of the width, so there are ten blinds.
-                      colors:  <Color>[
-                        Color(0xffee0000),
-                        Palette.primaryColor,
-                        Color.fromARGB(255, 240, 102, 11),
-                      ]),
-                  ),
-                    child:Center(child: Icon(Icons.arrow_forward,color: Colors.white,size: 30,))
-                ),
-              ),
-            )
+                )
+              ],
+            ):SizedBox.shrink()
           ],
-        ):SizedBox.shrink()
+        ),
+        if(_uploadProgress > 0)
+          Container(
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
+            color: Colors.black.withOpacity(0.5),
+            child:
+            Center(
+              child: Container(
+                  height: MediaQuery.of(context).size.height*0.14,
+                padding: EdgeInsets.all(10),
+                decoration: BoxDecoration(borderRadius: BorderRadius.circular(10) , color: Colors.white,),
+                   child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 20),
+                        child: CupertinoActivityIndicator(),
+
+                      ),
+                      Text("Please Wait....")
+                    ],
+                  )),
+            )
+          ),
+
+
       ],
     );
   }

@@ -67,10 +67,8 @@ class _VideoPreviewScreenState extends State<VideoPreviewScreen> {
       print('video Ended');
     }
   }
-
   _addStory(String? caption) async {
     final userData = Provider.of<UserProvider>(context, listen: false);
-
     await userData.addSory(
       newStory: NewStory(
         mediaFile: widget.videoFile,

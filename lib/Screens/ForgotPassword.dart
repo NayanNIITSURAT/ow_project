@@ -74,30 +74,23 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                           .copyWith(fontSize: 22, fontWeight: FontWeight.w600),
                     ),
                     SizedBox(
-                      height: 20,
-                    ),
-                    Text(
-                      "Please enter you email",
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyLarge!
-                          .copyWith(fontSize: 18, color: Colors.black54),
-                    ),
-                    SizedBox(
                       height: screenSize(context).height * 0.1,
                     ),
                     Input(
                       icon: Icons.person,
-                      label: 'Email',
+                      label: 'Please enter your email',
                       type: TextInputType.emailAddress,
+                      bgColor: Color(0xffEDF2F7).withOpacity(0.5),
+                      elevate: false,
                       validate: validateEmail,
                       onSaved: (value) => username = value ?? '',
+
                       // initialValue: 'coolprince',
                     ),
                     SizedBox(height: 10),
                     auth.resetStatus == Status.Requesting
                         ? Loading(message: 'Sending request')
-                        : AuthButton(text: 'SEND RESET LINK', press: doReset),
+                        : AuthButton(text: 'Submit', press: doReset),
                     AuthFooter(isforget: true),
                   ],
                 ),

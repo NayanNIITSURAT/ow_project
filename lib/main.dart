@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:camera/camera.dart';
 import 'package:cloudinary_public/cloudinary_public.dart';
 import 'package:connectivity/connectivity.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -62,7 +63,18 @@ Future<void> main() async {
   if (kDebugMode || kProfileMode) {
     HttpOverrides.global = MyHttpOverrides();
   }
-
+  if(Platform.isIOS) {
+    await Firebase.initializeApp(
+      options: FirebaseOptions(
+        apiKey: 'AIzaSyDrzQdClVnMZWkEVHiCH7Pr_QlEt1Q8EVQ',
+        appId: '1:248113028784:ios:1575c9a0d8328e7fc22575',
+        messagingSenderId: '248113028784',
+        projectId: 'the-owlet-mobile-app',
+      ), //This line is necessary
+    );
+  }else{
+    await Firebase.initializeApp();
+  }
   await initFirebase();
   await UserPreferences().init();
 

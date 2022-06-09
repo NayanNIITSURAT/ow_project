@@ -205,12 +205,20 @@ class HashtagList extends StatelessWidget {
                             builder: (_, userData, __) {
                           return SearchItem(
                             title: tagData.tag,
-                            press: userData.isLoggedIn
-                                ? tagData.iFollow
-                                    ? null
-                                    : () => tagData.toggleHashTagFollow()
-                                : () => Navigator.of(context)
-                                    .pushNamed(LoginScreen.routeName),
+                            press: () {
+                              if (userData.isLoggedIn) {
+                                tagData.toggleHashTagFollow();
+                              } else {
+                                Navigator.of(context)
+                                    .pushNamed(LoginScreen.routeName);
+                              }
+                              // userData.isLoggedIn
+                              //     ? tagData.iFollow
+                              //     ? null
+                              //     : () => tagData.toggleHashTagFollow()
+                              //     : () => Navigator.of(context)
+                              //     .pushNamed(LoginScreen.routeName);
+                            },
                             subtitle: tagData.totalListings.toString(),
                             imageUrl:
                                 AppUrl.listingImageBaseUrl + 'hashtag.jpeg',
@@ -233,7 +241,7 @@ class HashtagList extends StatelessWidget {
   }
 }
 
-class AccountList extends StatelessWidget {
+class AccountList extends StatefulWidget {
   final UtilsProvider data;
   final bool isChat;
   final Function(User)? callBack;
@@ -245,60 +253,80 @@ class AccountList extends StatelessWidget {
   });
 
   @override
+  State<AccountList> createState() => _AccountListState();
+}
+
+class _AccountListState extends State<AccountList> {
+  @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 5),
-      child: data.userSearchResult.totalItems == 0
+      child: widget.data.userSearchResult.totalItems == 0
           ? Center(
               child: Text('No result for your search'),
             )
           : Column(
               children: [
-                if (data.userStatus == Status.Processing)
+                if (widget.data.userStatus == Status.Processing)
                   Loading(
                     message: 'Loading',
                   ),
                 Flexible(
                   child: PullToLoad(
-                    refresh: () => data.searchUsers(refresh: true),
-                    load: () => data.searchUsers(),
+                    refresh: () => widget.data.searchUsers(refresh: true),
+                    load: () => widget.data.searchUsers(),
                     child: ListView.builder(
                       shrinkWrap: true,
-                      itemCount: data.users.length,
+                      itemCount: widget.data.users.length,
                       itemBuilder: (_, i) {
-                        final seller = data.users[i];
+                        final seller = widget.data.users[i];
                         return Consumer<UserProvider>(
                           builder: (_, user, __) {
                             return SearchItem(
                               seller: seller,
                               title: seller.username,
-                              press: user.isLoggedIn
-                                  ? seller.iFollow ||
-                                          user.profile.id == seller.id
-                                      ? null
-                                      : seller.private == true
-                                          ? () => user.sendUserRequest(seller)
-                                          : () => user.followUser(seller)
-                                  : () => Navigator.of(context)
-                                      .pushNamed(LoginScreen.routeName),
+                              press: () {
+                                if (user.isLoggedIn) {
+                                  if ((seller.iFollow ||
+                                      user.profile.id == seller.id)) {
+                                    seller.iFollow = false;
+                                    setState(() {});
+                                    user.unFollowUser(seller);
+                                  } else if (seller.private == true) {
+                                    user.sendUserRequest(seller);
+                                  } else {
+                                    user.followUser(seller);
+                                  }
+                                } else {
+                                  Navigator.of(context)
+                                      .pushNamed(LoginScreen.routeName);
+                                }
+
+                                /*           user.isLoggedIn ? seller.iFollow || user.profile.id == seller.id
+                                    ? null: seller.private == true
+                                    ? () => user.sendUserRequest(seller)
+                                    : () => user.followUser(seller)
+                                    : () => Navigator.of(context)
+                                    .pushNamed(LoginScreen.routeName);*/
+                              },
                               subtitle: seller.fullName,
                               imageUrl: seller.avartar,
-                              view: callBack != null
-                                  ? () => callBack!(seller)
-                                  : isChat
+                              view: widget.callBack != null
+                                  ? () => widget.callBack!(seller)
+                                  : widget.isChat
                                       ? () {
                                           user.curChatUser = seller.chat;
                                           Navigator.of(context)
                                               .pushNamed(ChatScreen.routeName);
                                         }
                                       : () async {
-                                          await data
+                                          await widget.data
                                               .getCurrentSellerProfile(seller);
                                           ProfileViewModal.show(context);
                                           dismissKeyBoard(context);
                                         },
                               isAccount: true,
-                              isChat: isChat,
+                              isChat: widget.isChat,
                             );
                           },
                         );
@@ -350,19 +378,22 @@ class SearchItem extends StatelessWidget {
         subtitle: Text(subtitle),
         trailing: isChat
             ? Icon(Icons.chevron_right)
-            : press == null
-                ? Container(
-                    height: 40,
-                    width: 105,
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey),
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Center(
-                      child: Text(
-                        seller?.private == true ? 'Requested' : 'Following',
-                        style: TextStyle(
-                            color: Colors.grey, fontWeight: FontWeight.bold),
+            : seller != null && seller!.iFollow
+                ? InkWell(
+                    onTap: press,
+                    child: Container(
+                      height: 40,
+                      width: 105,
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Colors.grey),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Center(
+                        child: Text(
+                          seller?.private == true ? 'Requested' : 'Following',
+                          style: TextStyle(
+                              color: Colors.grey, fontWeight: FontWeight.bold),
+                        ),
                       ),
                     ),
                   )

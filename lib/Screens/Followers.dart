@@ -313,8 +313,8 @@ class AccountList extends StatelessWidget {
                                             padding: const EdgeInsets.symmetric(
                                                 horizontal: 8),
                                             child: Text(
-                                              "Owlet Wont's tell me"
-                                              '  ${seller.username} that they have been removed from your followers.',
+                                              "Are you sure you want to remove "
+                                              '  ${seller.username} ?',
                                               textAlign: TextAlign.center,
                                               style: GoogleFonts.poppins(
                                                 textStyle: TextStyle(

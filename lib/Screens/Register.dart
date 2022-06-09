@@ -26,7 +26,8 @@ class RegisterScreen extends StatefulWidget {
 
 class _RegisterScreenState extends State<RegisterScreen> {
   final formKey = new GlobalKey<FormState>();
-  bool hidepassword=false;
+  bool hidepassword=true;
+
   // String phone = '08107539186',
   //     email = 'ebukanwosu45@gmail.com',
   //     username = 'coolprince',
@@ -76,7 +77,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             password: password,
           ))
               .then(
-            (response) {
+                (response) {
               if (response['status']) {
                 Toast(context, message: response['message']).show();
 
@@ -126,7 +127,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               .textTheme
                               .headlineSmall!
                               .copyWith(
-                                  fontSize: 22, fontWeight: FontWeight.w600),
+                              fontSize: 22, fontWeight: FontWeight.w600),
                         ),
                         Text(
                           "it's free and easy",
@@ -179,7 +180,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           label: 'Password',
                           isrightimage: false,
                           isPassword: hidepassword,
-                          rightIcon:  hidepassword==false?Icons.remove_red_eye:Icons.visibility_off,
+                          rightIcon:  hidepassword==true?Icons.remove_red_eye:Icons.visibility_off,
                           righticonTap: (){
                             setState(() {
                               hidepassword==true?hidepassword=false:hidepassword=true;
@@ -222,37 +223,37 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 width: screenSize(context).width * 0.6,
                                 child: RichText(
                                     text: TextSpan(children: [
-                                  TextSpan(
-                                      text:
+                                      TextSpan(
+                                          text:
                                           "By creating an account means you agree to the ",
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .labelLarge!
-                                          .copyWith(color: Colors.black54)),
-                                  TextSpan(
-                                      recognizer: new TapGestureRecognizer()
-                                        ..onTap = () => _launchURL(),
-                                      text: "Terms and Conditions",
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .labelLarge!
-                                          .copyWith(
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .labelLarge!
+                                              .copyWith(color: Colors.black54)),
+                                      TextSpan(
+                                          recognizer: new TapGestureRecognizer()
+                                            ..onTap = () => _launchURL(),
+                                          text: "Terms and Conditions",
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .labelLarge!
+                                              .copyWith(
                                             fontWeight: FontWeight.w800,
                                           )),
-                                  TextSpan(
-                                      text: ", and our ",
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .labelLarge!
-                                          .copyWith(color: Colors.black54)),
-                                  TextSpan(
-                                      text: "Privacy Policy",
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .labelLarge!
-                                          .copyWith(
+                                      TextSpan(
+                                          text: ", and our ",
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .labelLarge!
+                                              .copyWith(color: Colors.black54)),
+                                      TextSpan(
+                                          text: "Privacy Policy",
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .labelLarge!
+                                              .copyWith(
                                               fontWeight: FontWeight.w800))
-                                ])),
+                                    ])),
                               ),
                             )
                           ],
@@ -260,12 +261,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         SizedBox(height: 20),
                         auth.registeredStatus == Status.Registering
                             ? Loading(
-                                message: 'Creating account',
-                              )
+                          message: 'Creating account',
+                        )
                             : AuthButton(
-                                text: 'Register',
-                                press: doRegister,
-                              ),
+                          text: 'Register',
+                          press: doRegister,
+                        ),
                         AuthFooter(isRegister: true),
                       ],
                     ),

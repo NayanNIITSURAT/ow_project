@@ -109,9 +109,17 @@ class _CameraScreenState extends State<CameraScreen> {
                   SafeArea(
                     child: VStack(
                       [
+                        CloseBtn(),
+
+                        CircleButton(
+                          iconSize: 22,
+                          onPressed: () => Navigator.pushReplacementNamed(
+                              context, TextStoryScreen.routeName),
+                          icon: Icons.edit,
+                        ).centered(),
                         HStack(
                           [
-                            CloseBtn(),
+
                             if (isRecording)
                               CountDown(
                                 from: 1,
@@ -156,29 +164,27 @@ class _CameraScreenState extends State<CameraScreen> {
                           axisSize: MainAxisSize.max,
                           crossAlignment: CrossAxisAlignment.start,
                         ).expand(),
-                        CircleButton(
-                          iconSize: 22,
-                          onPressed: () => Navigator.pushReplacementNamed(
-                              context, TextStoryScreen.routeName),
-                          icon: Icons.edit,
-                        ).centered(),
+
                         HStack(
                           [
-                            IconBtn(
-                              color: Vx.white,
-                              icon: _fm == FlashMode.auto
-                                  ? Icons.flash_auto_rounded
-                                  : _fm == FlashMode.always
-                                      ? Icons.flash_on_rounded
-                                      : Icons.flash_off,
-                              onPressed: () => setState(() {
-                                final _ = _fm == FlashMode.auto
-                                    ? FlashMode.always
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 30, left: 10),
+                              child: IconBtn(
+                                color: Vx.white,
+                                icon: _fm == FlashMode.auto
+                                    ? Icons.flash_auto_rounded
                                     : _fm == FlashMode.always
-                                        ? FlashMode.off
-                                        : FlashMode.auto;
-                                _cameraController.setFlashMode(_);
-                              }),
+                                        ? Icons.flash_on_rounded
+                                        : Icons.flash_off,
+                                onPressed: () => setState(() {
+                                  final _ = _fm == FlashMode.auto
+                                      ? FlashMode.always
+                                      : _fm == FlashMode.always
+                                          ? FlashMode.off
+                                          : FlashMode.auto;
+                                  _cameraController.setFlashMode(_);
+                                }),
+                              ),
                             ),
                             Column(
                               children: [
@@ -200,13 +206,16 @@ class _CameraScreenState extends State<CameraScreen> {
                                 ),
                               ],
                             ),
-                            IconBtn(
-                              color: Vx.white,
-                              icon: Icons.cameraswitch_outlined,
-                              onPressed: () => setState(() {
-                                isFrontCamera = !isFrontCamera;
-                                initCamera(isFrontCamera ? 1 : 0);
-                              }),
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 30, right: 10),
+                              child: IconBtn(
+                                color: Vx.white,
+                                icon: Icons.cameraswitch_outlined,
+                                onPressed: () => setState(() {
+                                  isFrontCamera = !isFrontCamera;
+                                  initCamera(isFrontCamera ? 1 : 0);
+                                }),
+                              ),
                             ),
                           ],
                           alignment: MainAxisAlignment.spaceBetween,

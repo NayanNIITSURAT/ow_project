@@ -12,14 +12,14 @@ import 'package:provider/provider.dart';
 class FlagModal extends StatelessWidget {
   static var show =
       (BuildContext ctx, Listing post) => showCupertinoModalBottomSheet(
-            context: ctx,
-            builder: (context) => Container(
-              child: FlagModal(post: post),
-            ),
-            duration: Duration(milliseconds: 400),
-            expand: false,
-            barrierColor: Colors.black.withOpacity(0.4),
-          );
+    context: ctx,
+    builder: (context) => Container(
+      child: FlagModal(post: post),
+    ),
+    duration: Duration(milliseconds: 400),
+    expand: false,
+    barrierColor: Colors.black.withOpacity(0.4),
+  );
   final Listing post;
   const FlagModal({required this.post});
 
@@ -57,19 +57,19 @@ class FlagModal extends StatelessWidget {
       ),
       flagProvider.flagingStatus == Status.Processing
           ? Center(
-              child: CupertinoActivityIndicator(),
-            )
+        child: CupertinoActivityIndicator(),
+      )
           : Column(),
       ...(flagProvider.flagStatus == Status.Processing
           ? [
-              Center(
-                child: CupertinoActivityIndicator(),
-              )
-            ]
+        Center(
+          child: CupertinoActivityIndicator(),
+        )
+      ]
           : flagProvider.items.map((flag) => FlagBtn(
-                text: flag.name,
-                onPressed: () async => await onFlag(flag.id),
-              ))),
+        text: flag.name,
+        onPressed: () async => await onFlag(flag.id),
+      ))),
     ]);
   }
 }

@@ -119,18 +119,21 @@ class ListingItemHeader extends StatelessWidget {
                                 onPressed: userData.isLoggedIn
                                     ? () {
                                         userData.curChatUser = owner.chat;
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) => ChatScreen(
-                                              onPageEnter: () => Chatable(
-                                                //chatableId: product.id,
-                                                type: ChatableType.LISTING,
-                                                listing: product,
-                                              ),
-                                            ),
-                                          ),
-                                        );
+                                        Navigator.pushNamed(
+                                            context, ChatScreen.routeName);
+
+                                        // Navigator.push(
+                                        //   context,
+                                        //   MaterialPageRoute(
+                                        //     builder: (context) => ChatScreen(
+                                        //       onPageEnter: () => Chatable(
+                                        //         //chatableId: product.id,
+                                        //         type: ChatableType.LISTING,
+                                        //         listing: product,
+                                        //       ),
+                                        //     ),
+                                        //   ),
+                                        // );
                                       }
                                     : () => Navigator.pushNamed(
                                         context, LoginScreen.routeName)),

@@ -35,76 +35,74 @@ class _ListingGridViewState extends State<ListingGridView> {
 
   @override
   Widget build(BuildContext context) {
-    return Flexible(
-      child: SmartRefresher(
-          enablePullDown: true,
-          enablePullUp: true,
-          header: WaterDropHeader(),
-          footer: CustomFooter(
-            builder: (BuildContext context, LoadStatus? mode) {
-              Widget body;
-              // if (mode == LoadStatus.idle) {
-              //   body = Text("Pull up to load more");
-              // } else
-              if (mode == LoadStatus.loading) {
-                body = CupertinoActivityIndicator();
-                // } else if (mode == LoadStatus.failed) {
-                //   body = Text("Load Failed!Click retry!");
-                // } else if (mode == LoadStatus.canLoading) {
-                //   body = Text("release to load more");
-              } else {
-                body = Text("No more Data");
-              }
-              return Container(
-                height: 70.0,
-                child: Center(child: body),
-              );
-            },
-          ),
-          controller: _refreshController,
-          onRefresh: () async {
-            await widget.refresh();
-            _refreshController.refreshCompleted();
+    return SmartRefresher(
+        enablePullDown: true,
+        enablePullUp: true,
+        header: WaterDropHeader(),
+        footer: CustomFooter(
+          builder: (BuildContext context, LoadStatus? mode) {
+            Widget body;
+            // if (mode == LoadStatus.idle) {
+            //   body = Text("Pull up to load more");
+            // } else
+            if (mode == LoadStatus.loading) {
+              body = CupertinoActivityIndicator();
+              // } else if (mode == LoadStatus.failed) {
+              //   body = Text("Load Failed!Click retry!");
+              // } else if (mode == LoadStatus.canLoading) {
+              //   body = Text("release to load more");
+            } else {
+              body = Text("No more Data");
+            }
+            return Container(
+              height: 70.0,
+              child: Center(child: body),
+            );
           },
-          onLoading: () async {
-            await widget.load();
-            _refreshController.loadComplete();
-          },
-          child: widget.isLoading
-              ? Center(
-                  child: Loading(
-                    message: 'Fetching data',
-                  ),
-                )
-              : widget.listings.length < 1
-                  ? Center(
-                      child: Text('No listing yet'),
-                    )
-                  : GridView.builder(
-                      itemBuilder: (_, i) => ChangeNotifierProvider.value(
-                        value: widget.listings[i],
-                        child: GestureDetector(
-                          child: ListingGridItem(),
-                          onTap: () => Navigator.of(context)
-                              .pushNamed(ListingsScreen.routeName,
-                                  arguments: ListingsArgs(
-                                    initialIndex: i,
-                                    providerType: widget.providerType,
-                                  )),
-                        ),
+        ),
+        controller: _refreshController,
+        onRefresh: () async {
+          await widget.refresh();
+          _refreshController.refreshCompleted();
+        },
+        onLoading: () async {
+          await widget.load();
+          _refreshController.loadComplete();
+        },
+        child: widget.isLoading
+            ? Center(
+                child: Loading(
+                  message: 'Fetching data',
+                ),
+              )
+            : widget.listings.length < 1
+                ? Center(
+                    child: Text('No listing yet'),
+                  )
+                : GridView.builder(
+                    itemBuilder: (_, i) => ChangeNotifierProvider.value(
+                      value: widget.listings[i],
+                      child: GestureDetector(
+                        child: ListingGridItem(),
+                        onTap: () => Navigator.of(context)
+                            .pushNamed(ListingsScreen.routeName,
+                                arguments: ListingsArgs(
+                                  initialIndex: i,
+                                  providerType: widget.providerType,
+                                )),
                       ),
-                      itemCount: widget.listings.length,
-                      shrinkWrap: true,
-                      padding: EdgeInsets.all(0),
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: widget.column,
-                        childAspectRatio: 1.1,
-                        crossAxisSpacing: 3,
-                        mainAxisSpacing: 3,
-                      ),
-                    )
-          // ),
-          ),
-    );
+                    ),
+                    itemCount: widget.listings.length,
+                    shrinkWrap: true,
+                    padding: EdgeInsets.all(0),
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: widget.column,
+                      childAspectRatio: 1.1,
+                      crossAxisSpacing: 3,
+                      mainAxisSpacing: 3,
+                    ),
+                  )
+        // ),
+        );
   }
 }

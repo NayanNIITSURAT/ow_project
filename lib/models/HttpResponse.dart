@@ -47,14 +47,14 @@ class ListingResponse extends ChangeNotifier {
         listings = newData.currentPage == 0
             ? newData.listings
             : [
-                ...listings,
-                ...(totalNewListings > 0 && listings.length > 0
-                        ? newData.listings.skip(totalNewListings)
-                        : newData.listings)
-                    .where(
-                  (element) => !hiddenListings.contains(element.id.toString()),
-                )
-              ];
+          ...listings,
+          ...(totalNewListings > 0 && listings.length > 0
+              ? newData.listings.skip(totalNewListings)
+              : newData.listings)
+              .where(
+                (element) => !hiddenListings.contains(element.id.toString()),
+          )
+        ];
         totalItems = newData.totalItems;
         totalPages = newData.totalPages;
         currentPage = newData.currentPage;
@@ -309,6 +309,8 @@ class NotificationResponse extends ChangeNotifier {
       notifications.where((n) => n.isOpened).toList();
 }
 
+
+
 class CommentResponse extends ChangeNotifier {
   int totalItems;
   List<Comment> comments;
@@ -340,7 +342,7 @@ class CommentResponse extends ChangeNotifier {
     return CommentResponse(
       totalItems: map['totalItems']?.toInt() ?? 0,
       comments:
-          List<Comment>.from(map['comments']?.map((x) => Comment.fromMap(x))),
+      List<Comment>.from(map['comments']?.map((x) => Comment.fromMap(x))),
       totalPages: map['totalPages']?.toInt() ?? 0,
       currentPage: map['currentPage']?.toInt() ?? 0,
     );
@@ -361,11 +363,11 @@ class CommentResponse extends ChangeNotifier {
     comments = newData.currentPage == 0
         ? newData.comments
         : [
-            ...comments,
-            ...(totalNewComments > 0 && comments.length > 0
-                ? newData.comments.skip(totalNewComments)
-                : newData.comments)
-          ];
+      ...comments,
+      ...(totalNewComments > 0 && comments.length > 0
+          ? newData.comments.skip(totalNewComments)
+          : newData.comments)
+    ];
     totalItems = newData.totalItems;
     totalPages = newData.totalPages;
     currentPage = newData.currentPage;
@@ -509,9 +511,9 @@ class StoryResponse extends ChangeNotifier {
   @override
   int get hashCode {
     return totalItems.hashCode ^
-        stories.hashCode ^
-        totalPages.hashCode ^
-        currentPage.hashCode;
+    stories.hashCode ^
+    totalPages.hashCode ^
+    currentPage.hashCode;
   }
 
   set setStoriesData(StoryResponse newData) {
@@ -521,11 +523,11 @@ class StoryResponse extends ChangeNotifier {
     stories = newData.currentPage == 0
         ? newData.stories
         : [
-            ...stories,
-            ...(totalNewStories > 0 && stories.length > 0
-                ? newData.stories.skip(totalNewStories)
-                : newData.stories)
-          ];
+      ...stories,
+      ...(totalNewStories > 0 && stories.length > 0
+          ? newData.stories.skip(totalNewStories)
+          : newData.stories)
+    ];
     totalItems = newData.totalItems;
     totalPages = newData.totalPages;
     currentPage = newData.currentPage;
@@ -549,7 +551,6 @@ class StoryResponse extends ChangeNotifier {
   set viewStory(int id) {
     stories = stories.map((story) {
       if (story.id == id && !story.iViewed) {
-        story.iViewed = true;
         story.totalView += 1;
       }
       return story;

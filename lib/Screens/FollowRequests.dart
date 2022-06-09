@@ -1,25 +1,19 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'package:owlet/Components/Button.dart';
+
 import 'package:owlet/Components/Loading.dart';
-import 'package:owlet/Components/ReadMore.dart';
 import 'package:owlet/Components/Toast.dart';
 import 'package:owlet/Providers/User.dart';
 import 'package:owlet/Providers/UtilsProvider.dart';
-import 'package:owlet/Screens/Login.dart';
+
 import 'package:owlet/Screens/SingleListingScreen.dart';
 import 'package:owlet/Widgets/PullToRefresh.dart';
 import 'package:owlet/constants/images.dart';
 import 'package:owlet/constants/palettes.dart';
 import 'package:owlet/modals/ProfileViewModal.dart';
-import 'package:owlet/models/HttpResponse.dart';
-import 'package:owlet/models/User.dart';
+
 import 'package:owlet/services/utils.dart';
 import 'package:provider/provider.dart';
-import 'package:velocity_x/velocity_x.dart';
-
-import '../Components/bottomsheetbutton.dart';
 import '../models/Requestuser.dart';
 
 class FollowNotificationScreen extends StatelessWidget {
@@ -123,9 +117,12 @@ class _FollowNotificationListState extends State<FollowNotificationList> {
                 child: ListView.builder(
                   shrinkWrap: true,
                   itemCount: nd!.data.length,
+
                   //+ (newLen > 0 ? 1 : 0) + (oldLen > 0 ? 1 : 0),
-                  itemBuilder: (_, i) =>
-                      NotificationItem(notification: nd!.data![i]),
+                  itemBuilder: (_, i) {
+                    final seller = nd!.data[i];
+                    return NotificationItem(notification: nd!.data![i]);
+                  },
                 ),
               ));
   }
@@ -173,6 +170,8 @@ class _NotificationItemState extends State<NotificationItem> {
     final utility = Provider.of<UtilsProvider>(context, listen: false);
     final Size size = MediaQuery.of(context).size;
     final Color color, textColor;
+    final UtilsProvider data;
+    final update = Provider.of<UserProvider>(context, listen: false);
 
     showSeller() async {
       ProfileViewModal.show(context);
@@ -237,19 +236,43 @@ class _NotificationItemState extends State<NotificationItem> {
                       ),
                       Row(
                         children: [
-                          requestButton(
-                            size,
-                            'Confirm',
-                            grade: LinearGradient(
-                              colors: <Color>[
-                                Color(0xffee0000),
-                                Color(0xffF33909),
-                                Color(0xffFE6D0A).withOpacity(0.8)
-                              ], // red to yellow
-                            ),
-                          ),
+                          requestButton(size, 'Confirm',
+                              grade: LinearGradient(
+                                colors: <Color>[
+                                  Color(0xffee0000),
+                                  Color(0xffF33909),
+                                  Color(0xffFE6D0A).withOpacity(0.8),
+                                ], // red to yellow
+                              ), onPress: () {
+                            user.followUserReqConfirm(
+                                widget.notification.requesterId, 1);
+                            print(' ${widget.notification.userId}');
+                            final snackBar = SnackBar(
+                              content: Text('User request approved'),
+                              backgroundColor: indicatorColor,
+                              action: SnackBarAction(
+                                label: '',
+                                onPressed: () {},
+                              ),
+                            );
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(snackBar);
+                          }),
                           requestButton(size, 'Delete',
-                              labelColor: Colors.black),
+                              labelColor: Colors.black, onPress: () {
+                            user.followUserReqConfirm(
+                                widget.notification.requesterId, 0);
+                            final snackBar = SnackBar(
+                              content: Text('User request decline'),
+                              backgroundColor: indicatorColor,
+                              action: SnackBarAction(
+                                label: '',
+                                onPressed: () {},
+                              ),
+                            );
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(snackBar);
+                          }),
                         ],
                       ),
                     ],
@@ -266,10 +289,11 @@ class _NotificationItemState extends State<NotificationItem> {
 }
 
 Widget requestButton(Size size, String label,
-    {Gradient? grade, Color? labelColor}) {
+    {Gradient? grade, Color? labelColor, Function()? onPress}) {
   return Padding(
     padding: const EdgeInsets.only(right: 6),
     child: InkWell(
+      onTap: onPress,
       child: Container(
         height: size.height * 0.050,
         width: size.width * 0.2,
@@ -302,3 +326,46 @@ Widget requestButton(Size size, String label,
 //     height: 20,
 //   );
 // }
+///////////////////////////////////////////////////////////////////////
+//model
+// class Update {
+//   Update({
+//     required this.success,
+//     required this.message,
+//   });
+//
+//   bool success;
+//   String message;
+//
+//   factory Update.fromJson(Map<String, dynamic> json) => Update(
+//         success: json["success"],
+//         message: json["message"],
+//       );
+//
+//   Map<String, dynamic> toJson() => {
+//         "success": success,
+//         "message": message,
+//       };
+// }
+
+//data
+// class Data extends ChangeNotifier {
+//   late Update dataModel;
+//
+//   fetchData(context) async {
+//     dataModel = await followrequestconfirm(context);
+//
+//     notifyListeners();
+//   }
+// }
+//
+// //probvider
+// @override
+// void initState() {
+//   // TODO: implement initState
+//   super.initState();
+//   final data = Provider.of<Data>(context, listen: false);
+//   data.fetchData(context);
+// }
+// //ui
+// Center(child: Container(child: Text(data.Update.success))),

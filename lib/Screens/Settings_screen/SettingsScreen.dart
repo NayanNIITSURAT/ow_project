@@ -1,6 +1,3 @@
-import 'dart:convert';
-import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -47,23 +44,23 @@ class _SettingsScreenState extends State<SettingsScreen> {
   bool check = false;
   bool _bigBox = false;
   var activeUserId = 0;
-  List<User> userspref=[];
+  List<User> userspref = [];
   late var auth;
 
   @override
   Widget build(BuildContext context) {
+    final state = GlobalProvider(context);
     final globalProvider = GlobalProvider(context);
-     auth = Provider.of<AuthProvider>(context);
-
-
+    auth = Provider.of<AuthProvider>(context);
 
     Future<void> doLogout() async {
+      activeUserId = await getuserid;
       var preferenceuserlist = await UserPreferences().getuserlist();
       if (preferenceuserlist != null && preferenceuserlist.isNotEmpty) {
         userspref = User.decode(preferenceuserlist);
-        if(userspref.length > 1){
-          for(int i = 0; i < userspref.length; i++){
-            if(activeUserId == userspref[i].id){
+        if (userspref.length > 1) {
+          for (int i = 0; i < userspref.length; i++) {
+            if (activeUserId == userspref[i].id) {
               int index = userspref.indexOf(userspref[i]);
               userspref.removeAt(index);
             }
@@ -73,15 +70,19 @@ class _SettingsScreenState extends State<SettingsScreen> {
           SharedPreferences? _prefs = await SharedPreferences.getInstance();
           await _prefs.setString('user_details', updateduserlist);
           await UserPreferences().changeUser(userspref[0]);
-          userspref[0].avartar = 'https://${userspref[0].avartar.toString().split('https://').last}';
-          await GlobalProvider(context).authProListenFalse.updateAuth(userspref[0]);
-          Navigator.pushNamedAndRemoveUntil(context, NavScreen.routeName, (route) => false);
-        }else {
+          userspref[0].avartar =
+          'https://${userspref[0].avartar.toString().split('https://').last}';
+          await GlobalProvider(context)
+              .authProListenFalse
+              .updateAuth(userspref[0]);
+          Navigator.pushNamedAndRemoveUntil(
+              context, NavScreen.routeName, (route) => false);
+        } else {
           socket.dispose();
           globalProvider.logOut();
         }
-        print("settings data"+userspref.length.toString());
-      }else{
+        print("settings data" + userspref.length.toString());
+      } else {
         socket.dispose();
         globalProvider.logOut();
       }
@@ -107,7 +108,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 color: Colors.black54,
               ),
             ),
-            ListTile(
+            state.authProListenFalse.isLoggedIn ? ListTile(
                 leading: Icon(Icons.notifications_none_outlined),
                 title: Text("Notifications"),
                 trailing: Container(
@@ -117,7 +118,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     children: [
                       isload == true
                           ? SizedBox(
-                              height: 20, child: CupertinoActivityIndicator())
+                          height: 20, child: CupertinoActivityIndicator())
                           : SizedBox.shrink(),
                       Container(
                         child: CupertinoSwitch(
@@ -135,8 +136,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       ),
                     ],
                   ),
-                )),
-            ListTile(
+                )): Container(),
+            state.authProListenFalse.isLoggedIn ? ListTile(
               leading: Icon(Icons.account_balance_wallet_outlined),
               title: Text("Wallet"),
               trailing: Icon(
@@ -147,7 +148,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => WalletScreen()));
               },
-            ),
+            ) : Container(),
             ListTile(
               leading: SvgPicture.asset(privacy_icon),
               title: Text("Privacy"),
@@ -156,8 +157,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 color: Colors.black54,
               ),
               onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => PrivacyScreen()));
+                if(state.authProListenFalse.isLoggedIn){
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => PrivacyScreen()));
+                }else{
+                  Navigator.pushNamed(context, LoginScreen.routeName);
+                }
               },
             ),
             ListTile(
@@ -168,11 +173,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 color: Colors.black54,
               ),
               onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => Security()));
+                if(state.authProListenFalse.isLoggedIn){
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => Security()));
+                }else{
+                  Navigator.pushNamed(context, LoginScreen.routeName);
+                }
               },
             ),
-            ListTile(
+            state.authProListenFalse.isLoggedIn ?ListTile(
               leading: SvgPicture.asset(help_icon),
               title: Text("Help"),
               trailing: Icon(
@@ -183,7 +192,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => HelpScren()));
               },
-            ),
+            ): Container(),
             ListTile(
               leading: Icon(Icons.info_outline),
               title: Text("About"),
@@ -202,29 +211,66 @@ class _SettingsScreenState extends State<SettingsScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  TextButton(
-                      onPressed: () {
-                        _modalBottomSheetMenu();
-                      },
-                      child: Text(
-                        "Add Account",
-                        style: TextStyle(fontSize: 16),
-                      )),
-                  TextButton(
-                      onPressed: () {
-                        doLogout();
-                      },
-                      child: Text(
-                        "Log out",
-                        style: TextStyle(fontSize: 16),
-                      )),TextButton(
-                      onPressed: () {
-                        switch_account_bottom_sheet();
-                      },
-                      child: Text(
-                        "Switch Account",
-                        style: TextStyle(fontSize: 16),
-                      )),
+                  // TextButton(
+                  //     onPressed: () {
+                  //       _modalBottomSheetMenu();
+                  //     },
+                  //     child: Text(
+                  //       "Add Account",
+                  //       style: TextStyle(fontSize: 16),
+                  //     )),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
+                    children: [
+                      state.authProListenFalse.isLoggedIn ?TextButton(
+                          onPressed: () {
+                            switch_account_bottom_sheet();
+                          },
+                          child: Text(
+                            "Switch Account",
+                            style: TextStyle(fontSize: 16),
+                          )): Container(),
+                      state.authProListenFalse.isLoggedIn ? TextButton(
+                          onPressed: () {
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return new AlertDialog(
+                                    title: const Text('Please confirm'),
+                                    content: const Text('Do you want to logout?'),
+                                    actions: <Widget>[
+                                      TextButton(
+                                        onPressed: () =>
+                                            Navigator.of(context).pop(false),
+                                        child: Text('No'),
+                                      ),
+                                      TextButton(
+                                        onPressed: () {
+                                          doLogout();
+                                        },
+                                        child: Text('Yes'),
+                                      ),
+                                    ],
+                                  );
+                                });
+                          },
+                          child: Text(
+                            "Log out",
+                            style: TextStyle(fontSize: 16),
+                          )):TextButton(
+                          onPressed: () {
+                            Navigator.push(context,
+                                MaterialPageRoute(builder: (context) => LoginScreen()));
+                          },
+                          child: Text(
+                            "Login",
+                            style: TextStyle(fontSize: 16),
+                          )),
+
+                    ],
+                  ),
+
                 ],
               ),
             )
@@ -243,57 +289,55 @@ class _SettingsScreenState extends State<SettingsScreen> {
         ),
         context: context,
         builder: (context) => Container(
-              height: 230,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                        color: Colors.grey.withOpacity(0.3),
-                        borderRadius: BorderRadius.circular(20)),
-                    height: 3,
-                    width: 80,
-                  ),
-                  Text(
-                    "Add Account",
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                  ),
-                  bottomsheetbutton(
-                    text: 'Log in to Existing Account',
-                    press: () {
-                      Navigator.pushNamedAndRemoveUntil(
-                          context, LoginScreen.routeName, (r) => false);
-                    },
-                  ),
-                  InkWell(
-                    onTap: () {
-                      Navigator.pushNamedAndRemoveUntil(
-                          context, RegisterScreen.routeName, (r) => false);
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(5.0),
-                      child: Text(
-                        "Create New Account",
-                        style: TextStyle(
-                          color: Colors.red,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
+          height: 230,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                    color: Colors.grey.withOpacity(0.3),
+                    borderRadius: BorderRadius.circular(20)),
+                height: 3,
+                width: 80,
+              ),
+              Text(
+                "Add Account",
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+              ),
+              bottomsheetbutton(
+                text: 'Log in to Existing Account',
+                press: () {
+                  Navigator.pushNamed(context, LoginScreen.routeName);
+                },
+              ),
+              InkWell(
+                onTap: () {
+                  Navigator.pushNamed(context, RegisterScreen.routeName);
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(5.0),
+                  child: Text(
+                    "Create New Account",
+                    style: TextStyle(
+                      color: Colors.red,
+                      fontWeight: FontWeight.w500,
                     ),
                   ),
-                ],
+                ),
               ),
-            ));
+            ],
+          ),
+        ));
   }
-  Future<void> switch_account_bottom_sheet() async {
 
+  Future<void> switch_account_bottom_sheet() async {
     activeUserId = await getuserid;
     var preferenceuserlist = await UserPreferences().getuserlist();
 
     if (preferenceuserlist != null && preferenceuserlist.isNotEmpty) {
-       userspref = User.decode(preferenceuserlist);
-      print("settings data"+userspref.length.toString());
+      userspref = User.decode(preferenceuserlist);
+      print("settings data" + userspref.length.toString());
       // for (int i = 0; i < userspref.length; i++) {
       //   if (userspref[i].id == user.id) {
       //     userspref[i] = user;
@@ -315,44 +359,70 @@ class _SettingsScreenState extends State<SettingsScreen> {
         context: context,
         builder: (context) => StatefulBuilder(
             builder: (BuildContext context, StateSetter setState) {
-              print('photo of usrt ${userspref[0].avartar}');
-            return Container(
-                  height: 260,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Container(
-                        decoration: BoxDecoration(
-                            color: Colors.grey.withOpacity(0.3),
-                            borderRadius: BorderRadius.circular(20)),
-                        height: 2,
-                        width: 80,
+              return Container(
+                height: 260,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(
+                          color: Colors.grey.withOpacity(0.3),
+                          borderRadius: BorderRadius.circular(20)),
+                      height: 2,
+                      width: 80,
+                    ),
+                    Text(
+                      "Switch account", style:
+                    TextStyle(fontWeight: FontWeight.bold, fontSize: 16),),
+                    Card(
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 5, right: 5),
+                        child: Container(
+                          width: MediaQuery.of(context).size.width,
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 8, bottom: 8, left: 10, right: 10),
+                            child: TextButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                  _modalBottomSheetMenu();
+                                },
+                                child: Text(
+                                  "Add Account",
+                                  style: TextStyle(fontSize: 16),
+                                )),
+                          ),
+                        ),
                       ),
-                      Text(
-                        "switch Account",
-                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                      ),
-                      Container(
-                        height: 150,
-                        child: ListView.builder(
-                          itemCount: userspref.length,
-                          itemBuilder: (context, position) {
-                            return Card(
+                    ),
+                    Container(
+                      height: 150,
+                      child: ListView.builder(
+                        itemCount: userspref.length,
+                        itemBuilder: (context, position) {
+                          return InkWell(
+                            onTap: (){
+                              onClick(position);
+                              activeUserId = userspref[position].id;
+                              setState(() {});
+                            },
+                            child: Card(
                               child: Padding(
-                                padding: const EdgeInsets.only(top: 10,bottom: 10),
+                                padding: const EdgeInsets.only(top: 10, bottom: 10),
                                 child: ListTile(
-                                    leading: ProfileAvatar(
-                                      showStatusPainter: false,
-                                      storyNum:  userspref[position].stories.length,
-                                      size:45,
-                                      avatar:  'https://${userspref[position].avartar.toString().split('https://').last}',
-                                      // onPressed: () => _showPickOptionDialog(context),
-                                      onPressed: () => null,
-                                    ),
-                                    title: Text(
+                                  leading: ProfileAvatar(
+                                    showStatusPainter: false,
+                                    storyNum: userspref[position].stories.length,
+                                    size: 45,
+                                    avatar:
+                                    'https://${userspref[position].avartar.toString().split('https://').last}',
+                                    // onPressed: () => _showPickOptionDialog(context),
+                                    onPressed: () => null,
+                                  ),
+                                  title: Text(
                                     userspref[position].username.toString(),
-                                    style: TextStyle(fontSize: 10 , color: Colors.black),
+                                    style: TextStyle(
+                                        fontSize: 10, color: Colors.black),
                                   ),
                                   trailing: Checkbox(
                                     value: activeUserId == userspref[position].id,
@@ -366,47 +436,45 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                   ),
                                 ),
                               ),
-                            );
-                          },
-                        ),
+                            ),
+                          );
+                        },
                       ),
-                      // bottomsheetbutton(
-                      //   text: 'Log in to Existing Account',
-                      //   press: () {
-                      //     // Navigator.pushNamedAndRemoveUntil(context, LoginScreen.routeName, (r) => false);
-                      //     Navigator.pushNamed(context, LoginScreen.routeName);
-                      //   },
-                      // ),
-                      // InkWell(
-                      //   onTap: () {
-                      //     Navigator.pushNamedAndRemoveUntil(
-                      //         context, RegisterScreen.routeName, (r) => false);
-                      //   },
-                      //   child: Padding(
-                      //     padding: const EdgeInsets.all(5.0),
-                      //     child: Text(
-                      //       "Create New Account",
-                      //       style: TextStyle(
-                      //         color: Colors.red,
-                      //         fontWeight: FontWeight.w500,
-                      //       ),
-                      //     ),
-                      //   ),
-                      // ),
-                    ],
-                  ),
-                );
-          }
-        ));
+                    ),
+                    // bottomsheetbutton(
+                    //   text: 'Log in to Existing Account',
+                    //   press: () {
+                    //     // Navigator.pushNamedAndRemoveUntil(context, LoginScreen.routeName, (r) => false);
+                    //     Navigator.pushNamed(context, LoginScreen.routeName);
+                    //   },
+                    // ),
+                    // InkWell(
+                    //   onTap: () {
+                    //     Navigator.pushNamedAndRemoveUntil(
+                    //         context, RegisterScreen.routeName, (r) => false);
+                    //   },
+                    //   child: Padding(
+                    //     padding: const EdgeInsets.all(5.0),
+                    //     child: Text(
+                    //       "Create New Account",
+                    //       style: TextStyle(
+                    //         color: Colors.red,
+                    //         fontWeight: FontWeight.w500,
+                    //       ),
+                    //     ),
+                    //   ),
+                    // ),
+                  ],
+                ),
+              );
+            }));
   }
 
   callapi() async {
     var onoff = "";
     if (check) {
       onoff = "on";
-    }
-    else
-    {
+    } else {
       onoff = "off";
     }
 
@@ -434,15 +502,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
         type: ToastType.ERROR,
       ).showTop();
       setState(() {
-        isload = false;});
+        isload = false;
+      });
       // throw HttpException(data['message']);
     }
   }
-
-
-
-
-
 
   // new
   // callapi() async {
@@ -492,15 +556,17 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   Future<void> onClick([int position = 0]) async {
     try {
-     print('click on change---'+position.toString());
-     await UserPreferences().changeUser(userspref[position]);
-     userspref[position].avartar = 'https://${userspref[position].avartar.toString().split('https://').last}';
-     await GlobalProvider(context).authProListenFalse.updateAuth(userspref[position]);
-     Navigator.pushNamedAndRemoveUntil(context, NavScreen.routeName, (route) => false);
-
+      print('click on change---' + position.toString());
+      await UserPreferences().changeUser(userspref[position]);
+      userspref[position].avartar =
+      'https://${userspref[position].avartar.toString().split('https://').last}';
+      await GlobalProvider(context)
+          .authProListenFalse
+          .updateAuth(userspref[position]);
+      Navigator.pushNamedAndRemoveUntil(
+          context, NavScreen.routeName, (route) => false);
     } catch (error) {
       print("the error is $error .detail");
-
     }
   }
 }

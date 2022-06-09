@@ -24,6 +24,8 @@ import 'package:owlet/models/User.dart';
 import 'package:provider/provider.dart';
 import 'package:velocity_x/velocity_x.dart';
 
+import '../Components/ReadMore.dart';
+
 enum MenuOptions { Logout, Verify, Loan }
 
 class ProfileScreen extends StatefulWidget {
@@ -238,14 +240,21 @@ class _ProfileScreenState extends State<ProfileScreen>
                   ],
                 ),
                 user.profile.bio != null && user.profile.bio!.length > 0
-                    ? user.profile.bio!.richText.justify
-                        .size(w * 0.040)
-                        // .maxLines(5)
-                        .make()
-                        .box
-                        .padding(EdgeInsets.symmetric(vertical: h * 0.010))
-                        .make()
-                        .w(double.infinity)
+                    ?
+                ReadMore(
+                  caption:user.profile.bio!.toString(),
+                  style: TextStyle(fontSize: 13, color: Colors.black54),
+                  showReadmore: true,
+                  maxLength: 30,
+                )
+                // user.profile.bio!.richText.justify
+                //         .size(w * 0.040)
+                //         // .maxLines(2)
+                //         .make()
+                //         .box
+                //         .padding(EdgeInsets.symmetric(vertical: h * 0.010))
+                //         .make()
+                //         .w(double.infinity)
                     : SizedBox.shrink(),
                 Divider(
                   color: divider.withOpacity(0.5),
@@ -408,6 +417,49 @@ class MyProfileImage extends StatelessWidget {
 
   final UserProvider? _user;
 
+  Widget imageDialog(text, path, context) {
+    return Dialog(
+      // backgroundColor: Colors.transparent,
+      // elevation: 0,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(left: 8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  '$text',
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                IconButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  icon: Icon(Icons.close_rounded),
+                  color: Colors.redAccent,
+                ),
+              ],
+            ),
+          ),
+          Container(
+
+            child:
+
+                Image.network(
+                  '$path',
+                  width: 220,
+
+                  height: 200,
+                  fit: BoxFit.cover,
+                ),
+
+          ),
+        ],
+      ),
+    );}
   @override
   Widget build(BuildContext context) {
     // void _cropImage(File image) async {
@@ -438,7 +490,14 @@ class MyProfileImage extends StatelessWidget {
       size: h * 0.12,
       avatar: _user!.profile.avartar,
       // onPressed: () => _showPickOptionDialog(context),
-      onPressed: () => Toast(context, message: 'Feature coming soon...').show(),
+      onPressed: () async {
+        await showDialog(
+            context: context,
+            builder: (_) => imageDialog("Profile picture", _user!.profile.avartar, context));
+
+      }
+
+          // Toast(context, message: 'Feature coming soon...').show(),
     );
   }
 }

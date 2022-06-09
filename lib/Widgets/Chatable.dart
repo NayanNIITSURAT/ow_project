@@ -33,7 +33,8 @@ class Chatable {
         return () => Navigator.pushNamed(context, SingleListingScreen.routeName,
             arguments: SingleListingArgs(
               id: listing!.id,
-            ));
+            )
+        );
       case ChatableType.STORY:
         return () => print(story.toString());
       // case ChatableType.LISTING:
@@ -128,7 +129,11 @@ class Chatable {
               child: onChatableClose == null
                   ? null
                   : VxBadge(
-                      optionalWidget: Icon(Icons.close,size: 15,color: Colors.black,),
+                      optionalWidget: Icon(
+                        Icons.close,
+                        size: 15,
+                        color: Colors.black,
+                      ),
                       child: SizedBox(),
                       color: Colors.white.withOpacity(0.8),
                       size: 18,
@@ -151,7 +156,8 @@ class Chatable {
     )
         .withConstraints(
             BoxConstraints(minWidth: context.screenSize.width * 0.4))
-        .color(Colors.white).border(width: 0.5,color: Colors.grey)
+        .color(Colors.white)
+        .border(width: 0.5, color: Colors.grey)
         .rounded
         // .alignTopLeft
         .clip(Clip.hardEdge)

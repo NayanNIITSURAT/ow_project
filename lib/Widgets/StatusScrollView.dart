@@ -1,3 +1,131 @@
+// import 'package:flutter/cupertino.dart';
+// import 'package:flutter/material.dart';
+// import 'package:owlet/Components/ProfileAvatar.dart';
+// import 'package:owlet/Providers/User.dart';
+// import 'package:owlet/Screens/AddListingScreen.dart';
+// import 'package:owlet/Screens/AddMarketSquare.dart';
+// import 'package:owlet/Screens/CameraScreen.dart';
+// import 'package:owlet/Screens/PicturePreviewScreen.dart';
+// import 'package:owlet/Screens/Stories.dart';
+// import 'package:owlet/constants/images.dart';
+// import 'package:owlet/constants/palettes.dart';
+// import 'package:owlet/helpers/helpers.dart';
+// import 'package:owlet/models/User.dart';
+// import 'package:provider/provider.dart';
+//
+// class StatusScrollView extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     final userData = Provider.of<UserProvider>(context);
+//     final users = userData.usersWithStory;
+//     return Container(
+//       height: screenSize(context).height * 0.1,
+//       width: screenSize(context).width,
+//       child: SingleChildScrollView(
+//         scrollDirection: Axis.horizontal,
+//         child: Padding(
+//           padding: const EdgeInsets.only(left: 18, top: 10),
+//           child: Row(
+//               children: List.generate(
+//                   users.length + (userData.isLoggedIn ? 1 : 0), (index) {
+//                 final user = users.length > 0
+//                     ? users[index > 0 && userData.isLoggedIn ? index - 1 : index]
+//                     : User(id: 0, username: '');
+//                 return index == 0 && userData.isLoggedIn
+//                     ? Container(
+//                   margin: EdgeInsets.symmetric(horizontal: 10),
+//                   child: Stack(
+//                     overflow: Overflow.visible,
+//                     children: [
+//                       ProfileAvatar(
+//                         withBorder: true,
+//                         storyNum: userData.storyLen,
+//                         // lastViewdIndex: user.stories.lastIndexWhere((_) => _.iViewed),
+//                         avatar: userData.profile.avartar,
+//                         size: 70,
+//                         onPressed: () async {
+//                           Navigator.push(
+//                               context,
+//                               PageRouteBuilder(
+//                                   opaque: false, // set to false
+//                                   pageBuilder: (_, __, ___) =>
+//                                   userData.hasStory
+//                                       ? Stories(isUserStory: true)
+//                                       : AddMarketSquareScreen()));
+//                           // ProfileViewModal.show(context);
+//                           // await Provider.of<UtilsProvider>(context,
+//                           //         listen: false)
+//                           //     .getCurrentSellerProfile(user);
+//                         },
+//                       ),
+//                       Positioned(
+//                         bottom: 0.5,
+//                         right: -1.5,
+//                         child: InkWell(
+//                           onTap: () {
+//                             Navigator.pushNamed(
+//                                 context, CameraScreen.routeName);
+//                           },
+//                           child: Container(
+//                             height: 30,
+//                             width: 30,
+//                             decoration: BoxDecoration(
+//                                 border:
+//                                 Border.all(color: Colors.white, width: 3),
+//                                 gradient: LinearGradient(
+//                                   begin: Alignment.centerLeft,
+//                                   end: Alignment(0.1,
+//                                       0.0), // 10% of the width, so there are ten blinds.
+//                                   colors: [
+//                                     Color(0xffee0000),
+//                                     Palette.primaryColor,
+//                                     Color.fromARGB(255, 240, 102, 11),
+//                                   ], // red to yellow
+//                                 ),
+//                                 shape: BoxShape.circle),
+//                             child: Center(
+//                               child: Icon(
+//                                 Icons.add,
+//                                 size: 20,
+//                                 color: Colors.white,
+//                               ),
+//                             ),
+//                           ),
+//                         ),
+//                       )
+//                     ],
+//                   ),
+//                 )
+//                     : ProfileAvatar(
+//                   storyNum: user.stories.length,
+//                   lastViewdIndex:
+//                   user.stories.lastIndexWhere((_) => _.iViewed),
+//                   withBorder: true,
+//                   avatar: user.avartar,
+//                   //isOnline: user.isOnline,
+//                   size: 70,
+//                   onPressed: () async {
+//                     Navigator.push(
+//                         context,
+//                         PageRouteBuilder(
+//                           opaque: false, // set to false
+//                           pageBuilder: (_, __, ___) => Stories(
+//                             initialPage: index - 1,
+//                           ),
+//                         ));
+//                     // ProfileViewModal.show(context);
+//                     // await Provider.of<UtilsProvider>(context,
+//                     //         listen: false)
+//                     //     .getCurrentSellerProfile(user);
+//                   },
+//                 );
+//               })),
+//         ),
+//       ),
+//     );
+//   }
+// }
+
 import 'package:flutter/material.dart';
 import 'package:owlet/Components/ProfileAvatar.dart';
 import 'package:owlet/Providers/User.dart';
@@ -11,7 +139,6 @@ import 'package:owlet/constants/palettes.dart';
 import 'package:owlet/helpers/helpers.dart';
 import 'package:owlet/models/User.dart';
 import 'package:provider/provider.dart';
-
 class StatusScrollView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -23,82 +150,90 @@ class StatusScrollView extends StatelessWidget {
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: Padding(
-          padding: const EdgeInsets.only(left: 18, top: 10),
+
+
+        padding: const EdgeInsets.only(left: 10, top: 10),
           child: Row(
               children: List.generate(
                   users.length + (userData.isLoggedIn ? 1 : 0), (index) {
-            final user = users.length > 0
-                ? users[index > 0 && userData.isLoggedIn ? index - 1 : index]
-                : User(id: 0, username: '');
-            return index == 0 && userData.isLoggedIn
-                ? Container(
-                    margin: EdgeInsets.symmetric(horizontal: 10),
-                    child: Stack(
-                      overflow: Overflow.visible,
-                      children: [
-                        ProfileAvatar(
-                          // withBorder: true,
-                          storyNum: userData.storyLen,
-                          avatar: userData.profile.avartar,
-                          size: 70,
-                          onPressed: () async {
-                            Navigator.push(
-                                context,
-                                PageRouteBuilder(
-                                    opaque: false, // set to false
-                                    pageBuilder: (_, __, ___) =>
-                                        userData.hasStory
-                                            ? Stories(isUserStory: true)
-                                            : AddMarketSquareScreen()));
-                            // ProfileViewModal.show(context);
-                            // await Provider.of<UtilsProvider>(context,
-                            //         listen: false)
-                            //     .getCurrentSellerProfile(user);
+                final user = users.length > 0
+                    ? users[index > 0 && userData.isLoggedIn ? index - 1 : index]
+                    : User(id: 0, username: '');
+                // print("other Story :-* ${users}");
+                //  print('Its Me :-${userData.profile.stories}');
+                return index == 0 && userData.isLoggedIn
+                    ? Container(
+                  margin: EdgeInsets.symmetric(horizontal: 15),
+                  child: Stack(
+                    overflow: Overflow.visible,
+                    children: [
+                      ProfileAvatar(
+                        withBorder: true,
+                        storyNum: userData.storyLen,
+                        avatar: userData.profile.avartar,
+                        // lastViewdIndex: userData.profile.stories
+                        //     .lastIndexWhere((_) => _.iViewed),
+                        size: 70,
+                        onPressed: () async {
+                          Navigator.push(
+                              context,
+                              PageRouteBuilder(
+                                  opaque: false, // set to false
+                                  pageBuilder: (_, __, ___) =>
+                                  userData.hasStory
+                                      ? Stories(isUserStory: true)
+                                      : AddMarketSquareScreen()));
+                          // ProfileViewModal.show(context);
+                          // await Provider.of<UtilsProvider>(context,
+                          //         listen: false)
+                          //     .getCurrentSellerProfile(user);
+                        },
+                      ),
+                      Positioned(
+                        bottom: 0.5,
+                        right: -1.5,
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.pushNamed(
+                                context, CameraScreen.routeName);
                           },
-                        ),
-                        Positioned(
-                          bottom: 0.5,
-                          right: -1.5,
-                          child: InkWell(
-                            onTap: () {
-                              Navigator.pushNamed(
-                                  context, CameraScreen.routeName);
-                            },
-                            child: Container(
-                              height: 30,
-                              width: 30,
-                              decoration: BoxDecoration(
-                                  border:
-                                      Border.all(color: Colors.white, width: 3),
-                                  gradient: LinearGradient(
-                                    begin: Alignment.centerLeft,
-                                    end: Alignment(0.1,
-                                        0.0), // 10% of the width, so there are ten blinds.
-                                    colors: [
-                                      Color(0xffee0000),
-                                      Palette.primaryColor,
-                                      Color.fromARGB(255, 240, 102, 11),
-                                    ], // red to yellow
-                                  ),
-                                  shape: BoxShape.circle),
-                              child: Center(
-                                child: Icon(
-                                  Icons.add,
-                                  size: 20,
-                                  color: Colors.white,
+                          child: Container(
+                            height: 30,
+                            width: 30,
+                            decoration: BoxDecoration(
+                                border:
+                                Border.all(color: Colors.white, width: 3),
+                                gradient: LinearGradient(
+                                  begin: Alignment.centerLeft,
+                                  end: Alignment(0.1, 0.0),
+                                  // 10% of the width, so there are ten blinds.
+                                  colors: [
+                                    Color(0xffee0000),
+                                    Palette.primaryColor,
+                                    Color.fromARGB(255, 240, 102, 11),
+                                  ], // red to yellow
                                 ),
+                                shape: BoxShape.circle),
+                            child: Center(
+                              child: Icon(
+                                Icons.add,
+                                size: 20,
+                                color: Colors.white,
                               ),
                             ),
                           ),
-                        )
-                      ],
-                    ),
-                  )
-                : ProfileAvatar(
+                        ),
+                      )
+                    ],
+                  ),
+                )
+                    : Padding(
+                  padding: const EdgeInsets.only(right: 15),
+                  child: ProfileAvatar(
                     storyNum: user.stories.length,
                     lastViewdIndex:
-                        user.stories.lastIndexWhere((_) => _.iViewed),
-                    // withBorder: true,
+                    user.stories.lastIndexWhere((_) => _.iViewed),
+                    withBorder: true,
                     avatar: user.avartar,
                     //isOnline: user.isOnline,
                     size: 70,
@@ -116,8 +251,9 @@ class StatusScrollView extends StatelessWidget {
                       //         listen: false)
                       //     .getCurrentSellerProfile(user);
                     },
-                  );
-          })),
+                  ),
+                );
+              })),
         ),
       ),
     );

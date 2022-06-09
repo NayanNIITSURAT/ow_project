@@ -10,6 +10,7 @@ import 'package:owlet/Widgets/StatusScrollView.dart';
 import 'package:owlet/constants/palettes.dart';
 import 'package:owlet/helpers/helpers.dart';
 import 'package:provider/provider.dart';
+import '../Providers/GlobalProvider.dart';
 import '../Widgets/customindicator.dart';
 import 'FollowingScreen.dart';
 
@@ -77,6 +78,7 @@ class _BodyState extends State<Body> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    final state = GlobalProvider(context);
     final listing = Provider.of<ListingProvider>(context);
     final user = Provider.of<UserProvider>(context);
     return user.initStatus == Status.Processing ||
@@ -101,7 +103,7 @@ class _BodyState extends State<Body> with SingleTickerProviderStateMixin {
                             SliverList(
                               delegate: SliverChildListDelegate(
                                 [
-                                  buildContainer(context),
+                                  state.authProListenFalse.isLoggedIn ? buildContainer(context) : Container(),
                                 ],
                               ),
                             ),

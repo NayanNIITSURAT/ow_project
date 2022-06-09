@@ -49,6 +49,7 @@ class User with ChangeNotifier {
   bool private;
   bool confirmed;
   bool iFollow;
+
   dynamic whatsapp;
   bool isOnline;
   bool isAdmin;
@@ -70,7 +71,6 @@ class User with ChangeNotifier {
   String? lastSeen;
   String joinedAt;
   List<Message> messages;
-
 
   User({
     required this.id,
@@ -112,15 +112,12 @@ class User with ChangeNotifier {
     token = token;
   }
 
-
-
-
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
       id: json['id'],
       fullName: json['fullName'],
       avartar:
-          AppUrl.profileImageBaseUrl + (json['avartar'] ?? 'avatar_2.jpeg'),
+      AppUrl.profileImageBaseUrl + (json['avartar'] ?? 'avatar_2.jpeg'),
       username: json['username'],
       email: json['email'] ?? '',
       phone: json['phone'] ?? '',
@@ -135,11 +132,11 @@ class User with ChangeNotifier {
       subscription: json['subscription'] != null
           ? Subscription.fromJson(json['subscription'])
           : Subscription(
-              id: 1,
-              status: 'Active',
-              autorenew: true,
-              createdAT: DateTime.now(),
-              package: Package(id: 1, name: 'Basic', price: 0, features: [''])),
+          id: 1,
+          status: 'Active',
+          autorenew: true,
+          createdAT: DateTime.now(),
+          package: Package(id: 1, name: 'Basic', price: 0, features: [''])),
       // // type: json['type'],
       listings: json['listings'] != null
           ? List.from(json['listings']).map((e) => Listing.fromJson(e)).toList()
@@ -159,20 +156,21 @@ class User with ChangeNotifier {
       token: json['token'],
       isAdmin: json['isAdmin'],
       iFollow: json['iFollow'] == 1 ? true : false,
+
       hasPendingLoan: json['hasPendingLoan'] == 1 ? true : false,
       hasVerifiedCompany: json['company'] == null
           ? false
           : json['company']['verifiedAt'] != null,
       company:
-          json['company'] == null ? null : Company.fromMap(json['company']),
+      json['company'] == null ? null : Company.fromMap(json['company']),
 
       joinedAt: json['createdAt'] != null
           ? DateFormat('yyyy-MM-dd kk:mm:ss')
-              .format(DateTime.parse(json['createdAt']).toLocal())
+          .format(DateTime.parse(json['createdAt']).toLocal())
           : DateTime.now().toString(),
       lastSeen: json['lastQueryAT'] != null
           ? DateFormat('yyyy-MM-dd kk:mm:ss')
-              .format(DateTime.parse(json['lastSeenAT']).toLocal())
+          .format(DateTime.parse(json['lastSeenAT']).toLocal())
           : DateTime.now().toString(),
       // chatBuddies: List<User>.from(
       //     (json['chatBuddies'] ?? []).map((x) => User.fromJson(x))),
@@ -333,17 +331,14 @@ class User with ChangeNotifier {
     };
   }
 
-    String encode(List<User> user) => json.encode(
-     user
-        .map<Map<String, dynamic>>((user) =>toJason(user))
-        .toList(),
+  String encode(List<User> user) => json.encode(
+    user.map<Map<String, dynamic>>((user) => toJason(user)).toList(),
   );
 
   static List<User> decode(String musics) =>
       (json.decode(musics) as List<dynamic>)
           .map<User>((item) => User.fromJson(item))
           .toList();
-
 
   factory User.fromMap(Map<String, dynamic> map) {
     return User(
@@ -371,9 +366,9 @@ class User with ChangeNotifier {
       listings: map['listings'] == null
           ? []
           : List<Listing>.from(
-              map['listings']?.map((x) => Listing.fromJson(x))),
+          map['listings']?.map((x) => Listing.fromJson(x))),
       stories:
-          List<Story>.from((map['stories'] ?? []).map((x) => Story.fromMap(x))),
+      List<Story>.from((map['stories'] ?? []).map((x) => Story.fromMap(x))),
       subscription: map['subscription'] != null
           ? Subscription.fromJson(map['subscription'])
           : null,
@@ -397,15 +392,15 @@ class User with ChangeNotifier {
   }
 
   ChatUser get chat => ChatUser(
-        id: id,
-        username: username,
-        avartar: avartar,
-        confirmed: confirmed,
-        iFollow: iFollow,
-        isOnline: isOnline,
-        hasVerifiedCompany: hasVerifiedCompany,
-        lastSeen: DateTime.parse(lastSeen ?? DateTime.now().toString()),
-      );
+    id: id,
+    username: username,
+    avartar: avartar,
+    confirmed: confirmed,
+    iFollow: iFollow,
+    isOnline: isOnline,
+    hasVerifiedCompany: hasVerifiedCompany,
+    lastSeen: DateTime.parse(lastSeen ?? DateTime.now().toString()),
+  );
 
   set follower(String follower) {
     if (totalFollowers != null) totalFollowers += 1;

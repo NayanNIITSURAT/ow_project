@@ -3,7 +3,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 
-
 class _ControlsOverlay extends StatelessWidget {
   const _ControlsOverlay({Key? key, required this.controller})
       : super(key: key);
@@ -29,9 +28,7 @@ class _ControlsOverlay extends StatelessWidget {
     5.0,
     10.0,
   ];
-
   final VideoPlayerController controller;
-
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -55,9 +52,6 @@ class _ControlsOverlay extends StatelessWidget {
         ),
         GestureDetector(
           onTap: () {
-
-
-
             if(controller.value.isInitialized)
             controller.value.isPlaying ? controller.pause() : controller.play();
             else
@@ -182,7 +176,9 @@ class _CachedImageState extends State<CachedImage> {
 
   @override
   void dispose() {
-    _controller.dispose();
+    if (_controller.value.isInitialized) {
+      _controller.dispose();
+    }
     super.dispose();
   }
 
